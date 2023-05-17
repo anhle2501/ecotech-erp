@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<div th:replace="~{component/head-tag::head-tag}"></div>
+<body>
+		<div th:replace="~{component/header :: header}"></div>
+		<main>
+				<div class="container-md text-left">
+						<div class="row">
+								<div class="col">
+										<div th:replace="~{component/navbar::navbar}"></div>
+								</div>
+						</div>
+						<div class="row">
+								<div class="col">
+										<div th:if="${isNewCustomer != true}">
+												<div th:replace="~{component/content::customer}"></div>
+										</div>
+										<div th:if="${isNewCustomer == true}">
+												<div th:replace="~{component/detail::new-customer}"></div>
+										</div>
+								</div>
+						</div>
+
+				</div>
+
+		</main>
+
+		<div th:replace="~{component/footer::footer}"></div>
+</body>
+</html>

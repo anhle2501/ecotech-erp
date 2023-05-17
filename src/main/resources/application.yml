@@ -1,0 +1,14 @@
+server:
+ port: 9090
+
+
+spring:
+ datasource:
+  username: softwaredev
+  password: Lenhutanh2501
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/ecotechgroup_erp
+ jpa:
+  show-sql: true 
+ thymeleaf:
+  cache: false
