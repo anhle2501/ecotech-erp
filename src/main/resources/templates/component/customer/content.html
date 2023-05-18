@@ -1,0 +1,45 @@
+<div th:fragment="customer">
+		<br>
+		<div style="text-align: right;">
+				<button type="button" class="btn btn-success w-25"
+						th:onclick="window.location.href='/customer/new-customer'">Thêm</button>
+		</div>
+		<br>
+		<table class="table table-striped">
+				<thead>
+						<tr>
+								<th scope="col">#</th>
+								<th scope="col">Tên</th>
+								<th scope="col">Mô tả</th>
+								<th scope="col">Hành động</th>
+
+						</tr>
+				</thead>
+				<tbody>
+						<h3>Danh sách khách hàng</h3>
+						<tr th:each="c, iterator : ${customer}" th:with="count=0">
+								<td scope="row" th:text="${iterator.index + 1}"></td>
+								<td th:text="${c.name}"></td>
+								<td th:text="${c.description}"></td>
+								<td>
+										<div class="btn-group" role="group" aria-label="Basic example">
+
+												<button
+														th:onclick="@{|window.location.href='/customer/${c.id}/show'|}"
+														type="button" class="btn btn-info">Xem</button>
+
+												<button type="button"
+														th:onclick="@{|window.location.href='/customer/${c.id}'|}"
+														class="btn btn-warning">Sửa</button>
+
+												
+														<button 
+														th:onclick="@{|window.location.href='/customer/delete/${c.id}'|}"
+														type="submit" class="btn btn-danger">Xoá</button>
+												
+										</div>
+								</td>
+						</tr>
+				</tbody>
+		</table>
+</div>
