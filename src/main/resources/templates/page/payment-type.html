@@ -14,17 +14,17 @@
 								<div class="col">
 								
 										<div th:if="${isList == true}">
-												<div th:replace="~{component/customer/content::customer}"></div>
+												<div th:replace="~{component/payment-type/content::payment-type}"></div>
 										</div>
 										<div th:if="${isNew == true}">
-												<div th:replace="~{component/customer/detail::new-customer}"></div>
+												<div th:replace="~{component/payment-type/detail::new-payment-type}"></div>
 										</div>
 										<div th:if="${isDetail == true}">
-												<div th:replace="~{component/customer/detail::customer-detail}"></div>
+												<div th:replace="~{component/payment-type/detail::payment-type-detail}"></div>
 										</div>
 										<div th:if="${isUpdate == true}">
-												<div th:replace="~{component/customer/detail::update-customer}"></div>
-										</div> 
+												<div th:replace="~{component/payment-type/detail::update-payment-type}"></div>
+										</div>
 								</div>
 						</div>
 

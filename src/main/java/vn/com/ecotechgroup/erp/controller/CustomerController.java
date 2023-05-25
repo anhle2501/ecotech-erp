@@ -23,7 +23,7 @@ import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 public class CustomerController {
 
 	@Autowired
-	CustomerRepository customerRepo;
+	private CustomerRepository customerRepo;
 
 	@ModelAttribute(name = "customer")
 	public Customer customer() {
@@ -71,8 +71,7 @@ public class CustomerController {
 			return "page/customer";
 		} else {
 			customerRepo.save(customer);
-			model.addAttribute("isUpdate", true);
-			return "page/customer";
+			return showCustomerList(model);
 		}
 	}
 	
@@ -84,7 +83,7 @@ public class CustomerController {
 
 	@GetMapping("/new-customer")
 	public String showCustomerForm(Model model) {
-		model.addAttribute("isNewCustomer", true);
+		model.addAttribute("isNew", true);
 		return "page/customer";
 	}
 
@@ -93,7 +92,7 @@ public class CustomerController {
 			@Valid @ModelAttribute("customer") Customer customer, Errors errors,
 			Model model) {
 		if (errors.hasErrors()) {
-			model.addAttribute("isNewCustomer", true);
+			model.addAttribute("isNew", true);
 			return "page/customer";
 		} else {
 			customerRepo.save(customer);

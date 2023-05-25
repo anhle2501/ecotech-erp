@@ -1,6 +1,6 @@
-<div th:fragment="customer-detail">
-		<h3>Thông tin khách hàng</h3>
-		<form th:action="@{|/customer/${id}|}" th:object="${customer}"
+<div th:fragment="payment-type-detail">
+		<h3>Thông tin phương thức thanh </h3>
+		<form th:action="@{|/payment-type/${id}|}" th:object="${paymentType}"
 				method="POST">
 				
 				  <label class="form-label" for="*{name}">Tên *</label> 
@@ -17,10 +17,10 @@
 </div>
 
 
-<div th:fragment="new-customer">
-		<h3>Thêm khách hàng</h3>
+<div th:fragment="new-payment-type">
+		<h3>Thêm phương thức thanh toán</h3>
 	
-		<form th:action="@{/customer/new-customer}" th:object="${customer}"
+		<form th:action="@{/payment-type/new-payment}" th:object="${paymentType}"
 				method="POST">
 				
 				  <label class="form-label" for="*{name}">Tên *</label> 
@@ -41,9 +41,9 @@
 		
 </div>
 
-<div th:fragment="update-customer">
-		<h3>Cập nhật khách hàng</h3>
-		<form th:action="@{|/customer/${id}|}" th:object="${customer}"
+<div th:fragment="update-payment-type">
+		<h3>Cập nhật phương thức thanh toán</h3>
+		<form th:action="@{|/payment-type/${id}|}" th:object="${paymentType}"
 				method="POST">
 				  <input class="form-control" type="hidden" th:field="*{id}" >
 				  <label class="form-label" for="*{name}">Tên *</label> 
