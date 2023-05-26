@@ -49,7 +49,7 @@ public class PaymentTypeController {
 	public String showPaymentType(@PathVariable("id") int id, Model model) {
 		Optional<PaymentType> paymentTypeObj = paymentTypeRepo.findById(id);
 		if (paymentTypeObj.isPresent()) {
-			model.addAttribute(NAME_ATTRIBUTE, paymentTypeObj);
+			model.addAttribute(NAME_ATTRIBUTE, paymentTypeObj.get());
 			model.addAttribute("isDetail", true);
 			return RETURN_PAGE;
 		} else {
@@ -61,7 +61,7 @@ public class PaymentTypeController {
 	public String getPaymentType(@PathVariable("id") int id, Model model) {
 		Optional<PaymentType> paymentTypeObj = paymentTypeRepo.findById(id);
 		if (paymentTypeObj.isPresent()) {
-			model.addAttribute(NAME_ATTRIBUTE, paymentTypeObj);
+			model.addAttribute(NAME_ATTRIBUTE, paymentTypeObj.get());
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
 		} else {
@@ -73,6 +73,7 @@ public class PaymentTypeController {
 	public String updatePaymentType(@PathVariable("id") int id,
 			@Valid @ModelAttribute(NAME_ATTRIBUTE) PaymentType paymentType, Errors errors,
 			Model model) {
+		System.out.println(paymentType);
 		if (errors.hasErrors()) {
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;

@@ -1,31 +1,29 @@
 package vn.com.ecotechgroup.erp.entity;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+
+import org.springframework.data.annotation.CreatedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "productsList")
 @Entity
 @Table(name="`order`")
 public class Order {
@@ -36,15 +34,19 @@ public class Order {
 	private int id;
 
 	@Column
+	@CreatedDate
 	private LocalDateTime createAt;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "order_product",
-			joinColumns = @JoinColumn(name = "order_id"),
-			inverseJoinColumns = @JoinColumn(name = "product_id")
-			)
-	private List<Product> productsList;
+//	@ManyToMany(fetch = FetchType.LAZY)
+//	@JoinTable(
+//			name = "order_product",
+//			joinColumns = @JoinColumn(name = "order_id"),
+//			inverseJoinColumns = @JoinColumn(name = "product_id")
+//			)
+//	private List<Product> productsList;
+	
+	@OneToMany(mappedBy = "order")
+	private List<OrderProduct> orderProduct;
 
 	@OneToOne
 	@JoinColumn(name="customer_id")
@@ -58,4 +60,6 @@ public class Order {
 	@Column(length=1000)
 	private String description;
 	
+	@Column
+	private BigInteger totalPrice;
 }

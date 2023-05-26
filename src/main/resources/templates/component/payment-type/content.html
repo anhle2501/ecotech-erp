@@ -12,6 +12,7 @@
 						<tr>
 								<th scope="col">#</th>
 								<th scope="col">Tên</th>
+								<th scope="col">Số ngày nợ</th>
 								<th scope="col">Mô tả</th>
 								<th scope="col">Hành động</th>
 
@@ -23,6 +24,7 @@
 						<tr th:each="c, iterator : ${paymentType}" th:with="count=0">
 								<td scope="row" th:text="${iterator.index + 1}"></td>
 								<td th:text="${c.name}"></td>
+								<td th:text="${c.day}"></td>
 								<td th:text="${c.description}"></td>
 								<td>
 										<div class="btn-group" role="group" aria-label="Basic example">

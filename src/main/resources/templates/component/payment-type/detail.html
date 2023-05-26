@@ -2,9 +2,11 @@
 		<h3>Thông tin phương thức thanh </h3>
 		<form th:action="@{|/payment-type/${id}|}" th:object="${paymentType}"
 				method="POST">
-				
 				  <label class="form-label" for="*{name}">Tên *</label> 
 				  <input th:readonly="true" class="form-control" type="text" th:field="*{name}" > 
+				  <br/> 
+				  <label class="form-label" for="*{day}">Số ngày nợ</label> 
+				  <input th:readonly="true" class="form-control" type="text" th:field="*{day}" >
 				   
 				  <br/> 
 				  <label class="form-label" for="*{description}">Ghi chú</label> 
@@ -20,7 +22,7 @@
 <div th:fragment="new-payment-type">
 		<h3>Thêm phương thức thanh toán</h3>
 	
-		<form th:action="@{/payment-type/new-payment}" th:object="${paymentType}"
+		<form th:action="@{/payment-type/new-payment-type}" th:object="${paymentType}"
 				method="POST">
 				
 				  <label class="form-label" for="*{name}">Tên *</label> 
@@ -28,7 +30,13 @@
 			          th:if="${#fields.hasErrors('name')}"
 			          th:errors="*{name}"></span>
 				  <input class="form-control" type="text" th:field="*{name}" > 
-				   
+				   <br/> 
+				   <label class="form-label" for="*{day}">Số ngày nợ</label> 
+				   <span class="validationError"
+			          th:if="${#fields.hasErrors('day')}"
+			          th:errors="*{day}"></span>
+				  
+				  <input class="form-control" type="text" th:field="*{day}" >
 				  <br/> 
 				  <label class="form-label" for="*{description}">Ghi chú</label> 
 				  <input class="form-control" type="text" th:field="*{description}" >
@@ -51,7 +59,13 @@
 			          th:if="${#fields.hasErrors('name')}"
 			          th:errors="*{name}"></span>
 				  <input class="form-control" type="text" th:field="*{name}" > 
-				   
+				    <br/> 
+				  <label class="form-label" for="*{day}">Số ngày nợ</label> 
+				   <span class="validationError"
+			          th:if="${#fields.hasErrors('day')}"
+			          th:errors="*{day}"></span>
+				  
+				  <input class="form-control" type="text" th:field="*{day}" >
 				  <br/> 
 				  <label class="form-label" for="*{description}">Ghi chú</label> 
 				  <input class="form-control" type="text" th:field="*{description}" >

@@ -14,78 +14,79 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
-import vn.com.ecotechgroup.erp.entity.Product;
-import vn.com.ecotechgroup.erp.repository.ProductRepository;
+import vn.com.ecotechgroup.erp.entity.Order;
+import vn.com.ecotechgroup.erp.repository.OrderRepository;
 
 @Controller
-@RequestMapping("/product")
-public class ProductController {
+@RequestMapping("/order")
+public class OrderController {
 
-	private final String RETURN_PAGE = "page/product";
+	private final String RETURN_PAGE = "page/order";
 	private final String SHOW_PATH = "/{id}/show";
-	private final String NEW_PATH = "/new-product";
+	private final String NEW_PATH = "/new-order";
 	private final String ADD_PATH = "/{id}";
 	private final String UPDATE_PATH = "/{id}";
 	private final String DELETE_PATH = "/delete/{id}";
-	private final String NAME_ATTRIBUTE = "product";
+	private final String NAME_ATTRIBUTE = "order";
 	
 	@Autowired
-	private ProductRepository productRepo;	
+	private OrderRepository orderRepo;	
 	
 	@ModelAttribute(name = NAME_ATTRIBUTE)
-	public Product product() {
-		return new Product();
+	public Order order() {
+		return new Order();
 	}
 	
 	@GetMapping
-	public String showProductList(Model model) {
-		List<Product> paymentTypeList = productRepo.findAll();
-		model.addAttribute(NAME_ATTRIBUTE, paymentTypeList );
+	public String showOrderList(Model model) {
+		List<Order> orderList = orderRepo.findAll();
+		model.addAttribute(NAME_ATTRIBUTE, orderList );
 		model.addAttribute("isList", true);
+		System.out.println(model);
 		return RETURN_PAGE;
 	}
 	
 	@GetMapping(SHOW_PATH)
 	public String showPaymentType(@PathVariable("id") int id, Model model) {
-		Optional<Product> productObj = productRepo.findById(id);
-		if (productObj.isPresent()) {
-			model.addAttribute(NAME_ATTRIBUTE, productObj.get());
+		Optional<Order> orderObj = orderRepo.findById(id);
+		if (orderObj.isPresent()) {
+			model.addAttribute(NAME_ATTRIBUTE, orderObj.get());
 			model.addAttribute("isDetail", true);
 			return RETURN_PAGE;
 		} else {
-			return showProductList(model);
+			return showOrderList(model);
 		}
 	}
 	
 	@GetMapping(ADD_PATH)
 	public String getPaymentType(@PathVariable("id") int id, Model model) {
-		Optional<Product> productObj = productRepo.findById(id);
-		if (productObj.isPresent()) {
-			model.addAttribute(NAME_ATTRIBUTE, productObj.get());
+		Optional<Order> orderObj = orderRepo.findById(id);
+		if (orderObj.isPresent()) {
+			model.addAttribute(NAME_ATTRIBUTE, orderObj.get());
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
 		} else {
-			return showProductList(model);
+			return showOrderList(model);
 		}
 	}
 
 	@PostMapping(UPDATE_PATH)
 	public String updatePaymentType(@PathVariable("id") int id,
-			@Valid @ModelAttribute(NAME_ATTRIBUTE) Product paymentType, Errors errors,
+			@Valid @ModelAttribute(NAME_ATTRIBUTE) Order order, Errors errors,
 			Model model) {
 		if (errors.hasErrors()) {
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
 		} else {
-			productRepo.save(paymentType);
-			return showProductList(model);
+			orderRepo.save(order);
+			return showOrderList(model);
 		}
 	}
 	
 	@GetMapping(DELETE_PATH)
 	public String deletePaymentType(@PathVariable("id") int id, Model model) {
-		productRepo.deleteById(id);
-		return showProductList(model);
+		orderRepo.deleteById(id);
+		return showOrderList(model);
 	}
 
 	@GetMapping(NEW_PATH)
@@ -96,14 +97,14 @@ public class ProductController {
 
 	@PostMapping(NEW_PATH)
 	public String createPaymentType(
-			@Valid @ModelAttribute(NAME_ATTRIBUTE) Product paymentType, Errors errors,
+			@Valid @ModelAttribute(NAME_ATTRIBUTE) Order order, Errors errors,
 			Model model) {
 		if (errors.hasErrors()) {
 			model.addAttribute("isNew", true);
 			return RETURN_PAGE;
 		} else {
-			productRepo.save(paymentType);
-			return showProductList(model);
+			orderRepo.save(order);
+			return showOrderList(model);
 		}
 	}
 }

@@ -1,20 +1,20 @@
 <nav th:fragment="navbar"
 		class="navbar navbar-expand-lg navbar-dark bg-primary">
-		<a class="navbar-brand" href="#">Ecotech</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
+		<a class="navbar-brand" th:href="@{/}">Ecotech</a>
+<!-- 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarColor02" aria-controls="navbarColor02"
 				aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
-		</button>
+		</button> -->
 
-		<div class="collapse navbar-collapse" id="navbarColor02">
+		<div class="" id="navbarColor02">
 				<ul class="navbar-nav mr-auto">
 						<li class="nav-item"><a class="nav-link" th:href="@{/customer}">Khách hàng <span class="sr-only">(current)</span> </a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Đặt hàng </a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/order}">Đặt hàng </a></li>
 						<li class="nav-item"><a class="nav-link" th:href="@{/product}">Sản phẩm </a></li>
 						<li class="nav-item"><a class="nav-link" th:href="@{/payment-type}">PTTT</a></li>
 				</ul>
-				<form class="form-inline ">
+			<!-- 	<form class="form-inline ">
 						<div style="display: inline-block">
 								<input class="form-control mr-sm-2" type="search"
 										placeholder="Tìm kiếm" aria-label="Tìm kiếm">
@@ -22,7 +22,7 @@
 						<div style="display: inline-block">
 								<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Tìm kiếm</button>
 						</div>
-				</form>
+				</form> -->
 		</div>
 
 </nav>

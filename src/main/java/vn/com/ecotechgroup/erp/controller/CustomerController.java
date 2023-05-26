@@ -42,7 +42,7 @@ public class CustomerController {
 	public String showCustomer(@PathVariable("id") int id, Model model) {
 		Optional<Customer> customerObj = customerRepo.findById(id);
 		if (customerObj.isPresent()) {
-			model.addAttribute("customer", customerObj);
+			model.addAttribute("customer", customerObj.get());
 			model.addAttribute("isDetail", true);
 			return "page/customer";
 		} else {
@@ -54,7 +54,7 @@ public class CustomerController {
 	public String getCustomer(@PathVariable("id") int id, Model model) {
 		Optional<Customer> customerObj = customerRepo.findById(id);
 		if (customerObj.isPresent()) {
-			model.addAttribute("customer", customerObj);
+			model.addAttribute("customer", customerObj.get());
 			model.addAttribute("isUpdate", true);
 			return "page/customer";
 		} else {
