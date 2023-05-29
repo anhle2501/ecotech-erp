@@ -3,11 +3,9 @@
 		<form th:action="@{|/order/${id}|}" th:object="${order}" method="POST">
 
 				<label class="form-label" for="*{customerOrder.name}">Khách
-						hàng</label> 
-				<input th:readonly="true" class="form-control" type="text"
-						th:field="*{customerOrder.name}"> 
-				<br /> 
-				<label class="form-label" for="*{orderProduct}">Sản phẩm</label>
+						hàng</label> <input th:readonly="true" class="form-control" type="text"
+						th:field="*{customerOrder.name}"> <br /> <label
+						class="form-label" for="*{orderProduct}">Sản phẩm</label>
 				<table class="table table-striped ">
 						<thead>
 								<tr>
@@ -77,22 +75,67 @@
 		<form th:action="@{/order/new-order}" th:object="${order}"
 				method="POST">
 
+				<label class="form-label" for="*{customerOrder.name}">Khách
+						hàng</label> 
+				<input class="form-control" type="text"
+						th:field="*{customerOrder.name}"> <br /> <label
+						class="form-label" for="*{orderProduct}">Sản phẩm</label>
+				<table class="table table-striped ">
+						<thead>
+								<tr>
+										<th scope="col">#</th>
+										<th scope="col">Mã hàng</th>
+										<th scope="col">Sản phẩm</th>
+										<th scope="col">Đơn giá</th>
+										<th scope="col">Mô tả</th>
+										<!-- <th scope="col">Hành động</th> -->
 
-				<label class="form-label" for="*{customerOrder}">Khách hàng</label>
-				<span class="validationError"
-						th:if="${#fields.hasErrors('customerOrder')}"
-						th:errors="*{customerOrder}"></span> <input class="form-control"
-						type="text" th:field="*{paymentType.getName()}"> <br /> <label
-						class="form-label" for="*{paymentType}">Phương thức thanh
-						toán*</label> <span class="validationError"
-						th:if="${#fields.hasErrors('paymentType')}"
-						th:errors="*{paymentType}"></span> <input class="form-control"
-						type="text" th:field="*{paymentType.getName()}"> <br /> <label
-						class="form-label" for="*{description}">Ghi chú</label> <input
+								</tr>
+						</thead>
+						<tbody>
+								<tr th:each="c, iterator : ${order.orderProduct}"
+										th:with="count=0">
+										<td scope="row" th:text="${iterator.index + 1}"></td>
+										<td th:if="${order.orderProduct.size() > 0}"
+												th:text="${c.product.code}"></td>
+										<td th:if="${order.orderProduct.size() == 0}"
+												th:text="Không có sản phẩm"></td>
+										<td th:text="${c.product.name}"></td>
+										<td th:text="${c.price}"></td>
+										<td th:text="${c.product.description}"></td>
+
+
+										<!-- 	<td>
+										<div class="btn-group" role="group" aria-label="Basic example">
+												<button
+														th:onclick="@{|window.location.href='/order/${c.id}/show'|}"
+														type="button" class="btn btn-info">Xem</button>
+												<button type="button"
+														th:onclick="@{|window.location.href='/order/${c.id}'|}"
+														class="btn btn-warning">Sửa</button>
+												<button
+														th:onclick="@{|window.location.href='/order/delete/${c.id}'|}"
+														type="submit" class="btn btn-danger">Xoá</button>
+										</div>
+								</td> -->
+								</tr>
+								<tr>
+										<td colspan="2"></td>
+										<td>Tổng:</td>
+										<td th:text="${totalPrice}"></td>
+								</tr>
+						</tbody>
+				</table>
+
+				<label class="form-label" for="*{description}">PTTT</label> <input
+						th:readonly="true" class="form-control" type="text"
+						th:field="*{paymentType.name}"> <br /> <label
+						class="form-label" for="*{createAt}">Ngày tạo</label> <input
+						th:readonly="true" class="form-control" type="date"
+						th:field="*{createAt}"> <label class="form-label"
+						for="*{description}">Ghi chú</label> <input th:readonly="true"
 						class="form-control" type="text" th:field="*{description}">
-
 				<br />
-				<button type="submit" class="btn btn-success w-25">Tạo</button>
 				<button type="button" class="btn btn-secondary w-25"
 						th:onclick="window.history.back()">Quay lại</button>
 

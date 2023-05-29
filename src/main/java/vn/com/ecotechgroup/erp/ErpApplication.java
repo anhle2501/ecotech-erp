@@ -1,6 +1,8 @@
 package vn.com.ecotechgroup.erp;
 
-import java.util.Iterator;
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -8,6 +10,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import vn.com.ecotechgroup.erp.entity.Order;
+import vn.com.ecotechgroup.erp.entity.OrderProduct;
+import vn.com.ecotechgroup.erp.entity.Product;
 import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 import vn.com.ecotechgroup.erp.repository.OrderRepository;
 import vn.com.ecotechgroup.erp.repository.PaymentTypeRepository;
@@ -31,27 +36,26 @@ public class ErpApplication {
 	public CommandLineRunner cmd() {
 		return arg -> {
 			System.out.println("test");
-//			System.out.println("repo.count()"+ repo.count()); 
-//			Iterator x = repo.findAll().iterator();
-//			while (x.hasNext()) {
-//				System.out.println(x.next());
-//			}
-//			Iterator x1 = repo1.findAll().iterator();
-//			while (x1.hasNext()) {
-//				System.out.println(x1.next());
-//			}
 			
-//			Iterator x3 = repo3.findAll().iterator();
-//			while (x3.hasNext()) {
-//				System.out.println(x3.next());
-//			}
+			// order object
+			
+			// product object
+			
+			// payment object
+			
+			// 
+			
+//			Order order = new Order();
+//			order.setOrderProduct(new ArrayList<>());
+//			Product product = new Product(1, "test2", "test3", "test2", null);
 //			
-//			Iterator x2 = repo2.findAll().iterator();
-//			while (x2.hasNext()) {
-//				System.out.println(x2.next().toString());
-//			}
-			
-
+//			OrderProduct orderProduct = new OrderProduct();
+//			orderProduct.setOrder(order);
+//			orderProduct.setProduct(product);
+//			orderProduct.setPrice(0);
+//			
+//			order.addOrderProduct(orderProduct);
+//			System.out.println(order);
 		};
 	}
 

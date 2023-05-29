@@ -2,8 +2,8 @@ package vn.com.ecotechgroup.erp.entity;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 
@@ -34,7 +34,7 @@ public class Order {
 	private int id;
 
 	@Column
-	@CreatedDate
+	@CreatedDate // phai dung jpa auditing 
 	private LocalDateTime createAt;
 
 //	@ManyToMany(fetch = FetchType.LAZY)
@@ -44,9 +44,9 @@ public class Order {
 //			inverseJoinColumns = @JoinColumn(name = "product_id")
 //			)
 //	private List<Product> productsList;
-	
+	 
 	@OneToMany(mappedBy = "order")
-	private List<OrderProduct> orderProduct;
+	private List<OrderProduct> orderProduct = new ArrayList<>();
 
 	@OneToOne
 	@JoinColumn(name="customer_id")
@@ -62,4 +62,5 @@ public class Order {
 	
 	@Column
 	private BigInteger totalPrice;
+	
 }

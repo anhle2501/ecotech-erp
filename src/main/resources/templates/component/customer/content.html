@@ -19,7 +19,7 @@
 				</thead>
 				<tbody>
 						<h3>Danh sách khách hàng</h3>
-						<tr th:each="c, iterator : ${customer}" th:with="count=0">
+						<tr th:each="c, iterator : ${customer}">
 								<td scope="row" th:text="${iterator.index + 1}"></td>
 								<td th:text="${c.name}"></td>
 								<td th:text="${c.description}"></td>
@@ -39,4 +39,36 @@
 						</tr>
 				</tbody>
 		</table>
+		
+		<div class="d-inline">
+			Trang
+			<br/>
+			<nav aria-label="Pagination">
+				<span>
+						<ul th:if="${customer.totalPages > 0}" class="pagination">
+								<div
+										th:each="pageNumber, i : ${#numbers.sequence(customer.getPageable().pageNumber - 2 < 0 ? 0 : customer.getPageable().pageNumber - 2,customer.getPageable().pageNumber + 2 > customer.totalPages - 1 ? customer.totalPages - 1  : customer.getPageable().pageNumber + 2 )}">
+
+										<li
+												th:class="${pageNumber == customer.getPageable().pageNumber}? 'active page-item'">
+												<span class="page-link d-inline"> <a
+														th:href="${'/customer/' + {pageNumber} + '/' + {customer.getPageable().getPageSize()}}"
+														th:text="${pageNumber + 1}"></a>
+										</span>
+										</li>
+
+								</div>
+
+						</ul>
+				</span>
+		</nav>
+		</div>
+		
 </div>
+<!-- 
+								<span class="m-1"
+										
+										
+										
+										
+								</span> -->

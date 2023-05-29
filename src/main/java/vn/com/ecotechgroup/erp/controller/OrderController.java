@@ -1,5 +1,6 @@
 package vn.com.ecotechgroup.erp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
+import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.entity.Order;
+import vn.com.ecotechgroup.erp.entity.OrderProduct;
+import vn.com.ecotechgroup.erp.entity.PaymentType;
+import vn.com.ecotechgroup.erp.entity.Product;
 import vn.com.ecotechgroup.erp.repository.OrderRepository;
 
 @Controller
@@ -35,6 +40,21 @@ public class OrderController {
 	@ModelAttribute(name = NAME_ATTRIBUTE)
 	public Order order() {
 		return new Order();
+	}
+	
+	@ModelAttribute(name = "customer")
+	public Customer customer() {
+		return new Customer();
+	}
+	
+	@ModelAttribute(name = "paymentType")
+	public PaymentType paymentType() {
+		return new PaymentType();
+	}
+	
+	@ModelAttribute(name = "productList")
+	public List<Product> productrList() {
+		return new ArrayList<Product>();
 	}
 	
 	@GetMapping
@@ -97,7 +117,11 @@ public class OrderController {
 
 	@PostMapping(NEW_PATH)
 	public String createPaymentType(
-			@Valid @ModelAttribute(NAME_ATTRIBUTE) Order order, Errors errors,
+			@Valid @ModelAttribute(NAME_ATTRIBUTE) Order order,
+			@Valid @ModelAttribute("customer") Customer customer,
+			@Valid @ModelAttribute("productList") List<Product> productList, 
+			@Valid @ModelAttribute("paymentType") PaymentType paymentType,
+			Errors errors,
 			Model model) {
 		if (errors.hasErrors()) {
 			model.addAttribute("isNew", true);

@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 public class OrderProductKey implements Serializable {
 
 	@Column(name = "order_id")
-	int orderId;
+	private int orderId;
 	
 	@Column(name = "product_id")
-	int productId;
+	private int productId;
 
 }

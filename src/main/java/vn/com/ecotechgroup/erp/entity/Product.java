@@ -3,6 +3,7 @@ package vn.com.ecotechgroup.erp.entity;
 import java.util.List;
 import java.util.Set;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,4 +45,5 @@ public class Product {
 	@ToString.Exclude
 	@OneToMany(mappedBy = "product")
 	private List<OrderProduct> orderProduct;
+	
 }

@@ -21,21 +21,21 @@ import lombok.ToString;
 public class OrderProduct {
 
 	@EmbeddedId
-	OrderProductKey id;
+	private OrderProductKey id;
 	
 	// prevent toString recursive
 	@ToString.Exclude
 	@ManyToOne
 	@MapsId("orderId")
 	@JoinColumn(name = "order_id")
-	Order order;
+	private Order order;
 	
 
 	@ManyToOne
 	@MapsId("productId")
 	@JoinColumn(name = "product_id")
-	Product product;
+	private Product product;
 	
 	@Column
-	int price;
+	private int price;
 }
