@@ -1,0 +1,13 @@
+<div th:fragment="searchBox">
+		<div class="form-floating">
+				<form th:action="@{|/${name}/${pageNumber}/${pageSize}|}"
+						method="GET">
+						<input type="search" class="form-control w-75 d-inline"
+								id="search" placeholder="Thông tin tìm kiếm" name="search"
+								th:value="${search != null ? search : null}"> <label
+								for="search">Thông tin tìm kiếm</label>
+						<button for="search" type="submit" class="btn btn-light"
+								style="height: 60px">Tìm kiếm</button>
+				</form>
+		</div>
+</div>

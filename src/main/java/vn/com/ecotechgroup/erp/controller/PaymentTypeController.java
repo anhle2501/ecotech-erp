@@ -1,9 +1,10 @@
 package vn.com.ecotechgroup.erp.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -12,8 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.entity.PaymentType;
 import vn.com.ecotechgroup.erp.repository.PaymentTypeRepository;
 
@@ -28,6 +32,8 @@ public class PaymentTypeController {
 	private final String UPDATE_PATH = "/{id}";
 	private final String DELETE_PATH = "/delete/{id}";
 	private final String NAME_ATTRIBUTE = "paymentType";
+	private int default_page = 0;
+	private int default_page_size = 50;
 	
 	@Autowired
 	private PaymentTypeRepository paymentTypeRepo;	
@@ -37,11 +43,27 @@ public class PaymentTypeController {
 		return new PaymentType();
 	}
 	
-	@GetMapping
-	public String showPaymentTypeList(Model model) {
-		List<PaymentType> paymentTypeList = paymentTypeRepo.findAll();
+	@GetMapping("/{pageNumber}/{pageSize}")
+	public String showPaymentTypeList(Model model,
+			@Valid @PathVariable("pageNumber") @Min(0) Integer pageNumber,
+			@Valid @PathVariable("pageSize") @Min(0) Integer pageSize,
+			@RequestParam(name = "search", required = false) String searchTerm
+			) {
+
+		Page<PaymentType> paymentTypeList;
+		if (searchTerm != null) {
+			paymentTypeList = paymentTypeRepo
+					.paymentTypeSearchList(
+							PageRequest.of(pageNumber, pageSize), searchTerm);
+		} else {
+			paymentTypeList = paymentTypeRepo
+					.findAll(PageRequest.of(pageNumber, pageSize));
+		}
 		model.addAttribute(NAME_ATTRIBUTE, paymentTypeList );
 		model.addAttribute("isList", true);
+		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("search", searchTerm);
 		return RETURN_PAGE;
 	}
 	
@@ -53,7 +75,7 @@ public class PaymentTypeController {
 			model.addAttribute("isDetail", true);
 			return RETURN_PAGE;
 		} else {
-			return showPaymentTypeList(model);
+			return showPaymentTypeList(model, default_page, default_page_size, null);
 		}
 	}
 	
@@ -65,7 +87,7 @@ public class PaymentTypeController {
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
 		} else {
-			return showPaymentTypeList(model);
+			return showPaymentTypeList(model, default_page, default_page_size, null);
 		}
 	}
 
@@ -79,14 +101,14 @@ public class PaymentTypeController {
 			return RETURN_PAGE;
 		} else {
 			paymentTypeRepo.save(paymentType);
-			return showPaymentTypeList(model);
+			return showPaymentTypeList(model, default_page, default_page_size, null);
 		}
 	}
 	
 	@GetMapping(DELETE_PATH)
 	public String deletePaymentType(@PathVariable("id") int id, Model model) {
 		paymentTypeRepo.deleteById(id);
-		return showPaymentTypeList(model);
+		return showPaymentTypeList(model, default_page, default_page_size, null);
 	}
 
 	@GetMapping(NEW_PATH)
@@ -104,7 +126,7 @@ public class PaymentTypeController {
 			return RETURN_PAGE;
 		} else {
 			paymentTypeRepo.save(paymentType);
-			return showPaymentTypeList(model);
+			return showPaymentTypeList(model, default_page, default_page_size, null);
 		}
 	}
 }

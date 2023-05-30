@@ -1,18 +1,13 @@
 package vn.com.ecotechgroup.erp;
 
-import java.math.BigInteger;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.function.RouterFunction;
+import org.springframework.web.servlet.function.ServerResponse;
 
-import vn.com.ecotechgroup.erp.entity.Order;
-import vn.com.ecotechgroup.erp.entity.OrderProduct;
-import vn.com.ecotechgroup.erp.entity.Product;
 import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 import vn.com.ecotechgroup.erp.repository.OrderRepository;
 import vn.com.ecotechgroup.erp.repository.PaymentTypeRepository;

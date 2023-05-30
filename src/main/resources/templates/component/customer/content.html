@@ -1,11 +1,5 @@
 <div th:fragment="customer">
-		<br>
-		<div style="text-align: right;">
-				<button type="button" class="btn btn-secondary w-25"
-						th:onclick="window.history.back()">Quay lại</button>
-				<button type="button" class="btn btn-success w-25"
-						th:onclick="window.location.href='/customer/new-customer'">Thêm</button>
-		</div>
+
 		<br>
 		<table class="table table-striped">
 				<thead>
@@ -19,56 +13,39 @@
 				</thead>
 				<tbody>
 						<h3>Danh sách khách hàng</h3>
-						<tr th:each="c, iterator : ${customer}">
-								<td scope="row" th:text="${iterator.index + 1}"></td>
-								<td th:text="${c.name}"></td>
-								<td th:text="${c.description}"></td>
-								<td>
-										<div class="btn-group" role="group" aria-label="Basic example">
-												<button
-														th:onclick="@{|window.location.href='/customer/${c.id}/show'|}"
-														type="button" class="btn btn-info">Xem</button>
-												<button type="button"
-														th:onclick="@{|window.location.href='/customer/${c.id}'|}"
-														class="btn btn-warning">Sửa</button>
-												<button
-														th:onclick="@{|window.location.href='/customer/delete/${c.id}'|}"
-														type="submit" class="btn btn-danger">Xoá</button>
+						<div >
+								<div class="row">
+										<div class="col ">
+											<div th:replace="~{component/search-box::searchBox(name=customer)}"></div>
 										</div>
-								</td>
-						</tr>
+										<div class="col">
+												<button type="button" class="btn btn-secondary w-50" style="margin-right:-5px; height:60px"
+														th:onclick="window.history.back()">Quay lại</button>
+												<button type="button" class="btn btn-success w-50" style="margin-left:0px; height:60px"
+														th:onclick="window.location.href='/customer/new-customer'">Thêm</button>
+										</div>
+								</div>
+								<tr th:each="c, iterator : ${customer}">
+										<td scope="row" th:text="${iterator.index + 1}"></td>
+										<td th:text="${c.name}"></td>
+										<td th:text="${c.description}"></td>
+										<td>
+												<div class="btn-group" role="group"
+														aria-label="Basic example">
+														<button
+																th:onclick="@{|window.location.href='/customer/${c.id}/show'|}"
+																type="button" class="btn btn-info">Xem</button>
+														<button type="button"
+																th:onclick="@{|window.location.href='/customer/${c.id}'|}"
+																class="btn btn-warning">Sửa</button>
+														<button
+																th:onclick="@{|window.location.href='/customer/delete/${c.id}'|}"
+																type="submit" class="btn btn-danger">Xoá</button>
+												</div>
+										</td>
+								</tr>
 				</tbody>
 		</table>
-		
-		<div class="d-inline">
-			Trang
-			<br/>
-			<nav aria-label="Pagination">
-				<span>
-						<ul th:if="${customer.totalPages > 0}" class="pagination">
-								<div
-										th:each="pageNumber, i : ${#numbers.sequence(customer.getPageable().pageNumber - 2 < 0 ? 0 : customer.getPageable().pageNumber - 2,customer.getPageable().pageNumber + 2 > customer.totalPages - 1 ? customer.totalPages - 1  : customer.getPageable().pageNumber + 2 )}">
-
-										<li
-												th:class="${pageNumber == customer.getPageable().pageNumber}? 'active page-item'">
-												<span class="page-link d-inline"> <a
-														th:href="${'/customer/' + {pageNumber} + '/' + {customer.getPageable().getPageSize()}}"
-														th:text="${pageNumber + 1}"></a>
-										</span>
-										</li>
-
-								</div>
-
-						</ul>
-				</span>
-		</nav>
-		</div>
-		
+		<div
+				th:replace="~{component/pagination::page(name=${customer}, link=customer, pageRange=3)}"></div>
 </div>
-<!-- 
-								<span class="m-1"
-										
-										
-										
-										
-								</span> -->

@@ -1,9 +1,10 @@
 package vn.com.ecotechgroup.erp.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -12,8 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import vn.com.ecotechgroup.erp.entity.PaymentType;
 import vn.com.ecotechgroup.erp.entity.Product;
 import vn.com.ecotechgroup.erp.repository.ProductRepository;
 
@@ -28,6 +32,8 @@ public class ProductController {
 	private final String UPDATE_PATH = "/{id}";
 	private final String DELETE_PATH = "/delete/{id}";
 	private final String NAME_ATTRIBUTE = "product";
+	private int default_page = 0;
+	private int default_page_size = 50;
 	
 	@Autowired
 	private ProductRepository productRepo;	
@@ -37,11 +43,26 @@ public class ProductController {
 		return new Product();
 	}
 	
-	@GetMapping
-	public String showProductList(Model model) {
-		List<Product> paymentTypeList = productRepo.findAll();
-		model.addAttribute(NAME_ATTRIBUTE, paymentTypeList );
+	@GetMapping("/{pageNumber}/{pageSize}")
+	public String showProductList(Model model, 
+			@Valid @PathVariable("pageNumber") @Min(0) Integer pageNumber,
+			@Valid @PathVariable("pageSize") @Min(0) Integer pageSize,
+			@RequestParam(name = "search", required = false) String searchTerm
+			) {
+		Page<Product> productList;
+		if (searchTerm != null) {
+			productList = productRepo
+					.productSearchList(
+							PageRequest.of(pageNumber, pageSize), searchTerm);
+		} else {
+			productList = productRepo
+					.findAll(PageRequest.of(pageNumber, pageSize));
+		}
+		model.addAttribute(NAME_ATTRIBUTE, productList );
 		model.addAttribute("isList", true);
+		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("search", searchTerm);
 		return RETURN_PAGE;
 	}
 	
@@ -53,7 +74,7 @@ public class ProductController {
 			model.addAttribute("isDetail", true);
 			return RETURN_PAGE;
 		} else {
-			return showProductList(model);
+			return showProductList(model, default_page, default_page_size, null);
 		}
 	}
 	
@@ -65,7 +86,7 @@ public class ProductController {
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
 		} else {
-			return showProductList(model);
+			return showProductList(model, default_page, default_page_size, null);
 		}
 	}
 
@@ -78,14 +99,14 @@ public class ProductController {
 			return RETURN_PAGE;
 		} else {
 			productRepo.save(paymentType);
-			return showProductList(model);
+			return showProductList(model, default_page, default_page_size, null);
 		}
 	}
 	
 	@GetMapping(DELETE_PATH)
 	public String deletePaymentType(@PathVariable("id") int id, Model model) {
 		productRepo.deleteById(id);
-		return showProductList(model);
+		return showProductList(model, default_page, default_page_size, null);
 	}
 
 	@GetMapping(NEW_PATH)
@@ -103,7 +124,7 @@ public class ProductController {
 			return RETURN_PAGE;
 		} else {
 			productRepo.save(paymentType);
-			return showProductList(model);
+			return showProductList(model, default_page, default_page_size, null);
 		}
 	}
 }

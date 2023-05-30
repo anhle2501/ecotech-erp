@@ -1,6 +1,5 @@
 package vn.com.ecotechgroup.erp.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -32,15 +32,31 @@ public class CustomerController {
 		return new Customer();
 	}
 
+	private int default_page = 0;
+	private int default_page_size = 50;
+
 	@GetMapping("/{pageNumber}/{pageSize}")
 	public String showCustomerList(Model model,
 			@Valid @PathVariable("pageNumber") @Min(0) Integer pageNumber,
-			@Valid @PathVariable("pageSize") @Min(0) Integer pageSize
-			) {
-				Page<Customer> customerList = customerRepo.findAll(PageRequest.of(pageNumber, pageSize));
-				model.addAttribute("customer", customerList);
-				model.addAttribute("isList", true);
-				return "page/customer";
+			@Valid @PathVariable("pageSize") @Min(0) Integer pageSize,
+			@RequestParam(name = "search", required = false) String searchTerm
+						) {
+		Page<Customer> customerList;
+		if (searchTerm != null) {
+			customerList = customerRepo
+					.findCustomerByNameContainsOrDescriptionContains(
+							PageRequest.of(pageNumber, pageSize), searchTerm,
+							searchTerm);
+		} else {
+			customerList = customerRepo
+					.findAll(PageRequest.of(pageNumber, pageSize));
+		}
+		model.addAttribute("customer", customerList);
+		model.addAttribute("isList", true);
+		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("search", searchTerm);
+		return "page/customer";
 	}
 
 	@GetMapping("/{id}/show")
@@ -51,10 +67,10 @@ public class CustomerController {
 			model.addAttribute("isDetail", true);
 			return "page/customer";
 		} else {
-			return showCustomerList(model, 1, 50);
+			return showCustomerList(model, default_page, default_page_size, null);
 		}
 	}
-	
+
 	@GetMapping("/{id}")
 	public String getCustomer(@PathVariable("id") int id, Model model) {
 		Optional<Customer> customerObj = customerRepo.findById(id);
@@ -63,7 +79,7 @@ public class CustomerController {
 			model.addAttribute("isUpdate", true);
 			return "page/customer";
 		} else {
-			return showCustomerList(model, 1, 50);
+			return showCustomerList(model, default_page, default_page_size, null);
 		}
 	}
 
@@ -76,14 +92,14 @@ public class CustomerController {
 			return "page/customer";
 		} else {
 			customerRepo.save(customer);
-			return showCustomerList(model, 1, 50);
+			return showCustomerList(model, default_page, default_page_size, null);
 		}
 	}
-	
+
 	@GetMapping("/delete/{id}")
 	public String deleteCustomer(@PathVariable("id") int id, Model model) {
 		customerRepo.deleteById(id);
-		return showCustomerList(model, 1, 50);
+		return showCustomerList(model, default_page, default_page_size, null);
 	}
 
 	@GetMapping("/new-customer")
@@ -101,7 +117,7 @@ public class CustomerController {
 			return "page/customer";
 		} else {
 			customerRepo.save(customer);
-			return showCustomerList(model, 1, 50);
+			return showCustomerList(model, default_page, default_page_size, null);
 		}
 	}
 }

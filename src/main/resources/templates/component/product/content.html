@@ -1,12 +1,4 @@
 <div th:fragment="product">
-		<br>
-		<div style="text-align: right;">
-				<button type="button" class="btn btn-secondary w-25"
-						th:onclick="window.history.back()">Quay lại</button>
-				<button type="button" class="btn btn-success w-25"
-						th:onclick="window.location.href='/product/new-product'">Thêm</button>
-		</div>
-		<br>
 		<table class="table table-striped">
 				<thead>
 						<tr>
@@ -19,6 +11,24 @@
 				</thead>
 				<tbody>
 						<h3>Danh sách sản phẩm</h3>
+						<div class="row">
+								<div class="col ">
+										<div
+												th:replace="~{component/search-box::searchBox(name=product)}"></div>
+								</div>
+								<div class="col">
+
+										<div style="text-align: right;">
+												<button type="button" class="btn btn-secondary w-50"
+														style="margin-right: -5px; height: 60px"
+														th:onclick="window.history.back()">Quay lại</button>
+												<button type="button" class="btn btn-success w-50"
+														style="margin-left: 0px; height: 60px"
+														th:onclick="window.location.href='/product/new-product'">Thêm</button>
+										</div>
+								</div>
+						</div>
+
 						<tr th:each="c, iterator : ${product}" th:with="count=0">
 								<td scope="row" th:text="${iterator.index + 1}"></td>
 								<td th:text="${c.name}"></td>
@@ -39,4 +49,6 @@
 						</tr>
 				</tbody>
 		</table>
+		<div
+				th:replace="~{component/pagination::page(name=${product}, link=product, pageRange=3)}"></div>
 </div>

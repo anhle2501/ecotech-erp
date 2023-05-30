@@ -1,0 +1,31 @@
+<div th:fragment="page">
+
+		<div class="d-flex justify-content-start">
+				<div class="row">
+
+						<div class="col">Trang</div>
+						<div class="col">
+								<nav aria-label="Pagination">
+										<span>
+												<ul th:if="${name.totalPages > 0}" class="pagination">
+														<div
+																th:each="pageNumber, i : ${#numbers.sequence(name.getPageable().pageNumber - pageRange < 0 ? 0 : name.getPageable().pageNumber - pageRange,name.getPageable().pageNumber + pageRange > name.totalPages - 1 ? name.totalPages - 1  : name.getPageable().pageNumber + pageRange )}">
+
+																<li
+																		th:class="${pageNumber == name.getPageable().pageNumber}? 'active page-item'">
+																		<span class="page-link d-inline"> <a
+																				th:href="${'/'+ link + '/' + {pageNumber} + '/' + {name.getPageable().getPageSize()}}"
+																				th:text="${pageNumber + 1}"></a>
+																</span>
+																</li>
+
+														</div>
+
+												</ul>
+										</span>
+								</nav>
+						</div>
+
+				</div>
+		</div>
+</div>
