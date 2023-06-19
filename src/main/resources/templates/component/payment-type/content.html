@@ -18,11 +18,12 @@
 												th:replace="~{component/search-box::searchBox(name=payment-type)}"></div>
 								</div>
 								<div class="col ">
-										<div style="text-align: right;">
+									<div class="btn-group w-100">
 												<button type="button" class="btn btn-secondary w-50" style="margin-right:-5px; height:60px"
 														th:onclick="window.history.back()">Quay lại</button>
 												<button type="button" class="btn btn-success w-50" style="margin-left:0px; height:60px"
 														th:onclick="window.location.href='/payment-type/new-payment-type'">Thêm</button>
+								
 										</div>
 								</div>
 						</div>

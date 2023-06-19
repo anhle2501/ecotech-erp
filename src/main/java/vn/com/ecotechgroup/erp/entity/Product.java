@@ -2,8 +2,10 @@ package vn.com.ecotechgroup.erp.entity;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import jakarta.annotation.Nullable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,7 +45,25 @@ public class Product {
 //	private List<Order> orders;
 
 	@ToString.Exclude
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "product",
+			cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE}
+			)
 	private List<OrderProduct> orderProduct;
 	
+	
+	public void addOrder(Order order, int price, int quantity) {
+		OrderProduct newOrderProduct = new OrderProduct();
+		newOrderProduct.setOrder(order);
+		newOrderProduct.setProduct(this);
+		newOrderProduct.setPrice(price);
+		newOrderProduct.setQuantity(quantity);
+		orderProduct.add(newOrderProduct);
+	}
+	
+	public void removeOrder(int orderId) {
+		orderProduct = 
+			orderProduct.stream()
+				.filter(op -> op.getOrder().getId() != orderId)
+				.collect(Collectors.toList());
+	}
 }

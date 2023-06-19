@@ -57,7 +57,7 @@ public class PaymentTypeController {
 							PageRequest.of(pageNumber, pageSize), searchTerm);
 		} else {
 			paymentTypeList = paymentTypeRepo
-					.findAll(PageRequest.of(pageNumber, pageSize));
+					.paymentTypeSearchList(PageRequest.of(pageNumber, pageSize), "");
 		}
 		model.addAttribute(NAME_ATTRIBUTE, paymentTypeList );
 		model.addAttribute("isList", true);

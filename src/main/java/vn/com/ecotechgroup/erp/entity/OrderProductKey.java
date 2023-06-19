@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class OrderProductKey implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "order_id")
 	private int orderId;
 	

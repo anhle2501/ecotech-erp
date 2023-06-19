@@ -1,12 +1,14 @@
 package vn.com.ecotechgroup.erp.entity;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,16 +18,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="`order`")
+@Table(name = "an_order")
 public class Order {
 
 	@Id
@@ -34,7 +36,8 @@ public class Order {
 	private int id;
 
 	@Column
-	@CreatedDate // phai dung jpa auditing 
+	@CreationTimestamp
+	@CreatedDate // phai dung jpa auditing
 	private LocalDateTime createAt;
 
 //	@ManyToMany(fetch = FetchType.LAZY)
@@ -44,23 +47,49 @@ public class Order {
 //			inverseJoinColumns = @JoinColumn(name = "product_id")
 //			)
 //	private List<Product> productsList;
-	 
-	@OneToMany(mappedBy = "order")
+
+	@ToString.Exclude
+	@OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE})
 	private List<OrderProduct> orderProduct = new ArrayList<>();
 
-	@OneToOne
-	@JoinColumn(name="customer_id")
-	private Customer customerOrder;
-	
-	@OneToOne
-	@JoinColumn(name="payment_type_id")
-	@NotNull(message="Không được để trống !")
-	private PaymentType paymentType;
-	
-	@Column(length=1000)
+	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE})
+	@JoinColumn(name = "customer_id")
+	private Customer customer = new Customer();
+
+	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE})
+	@JoinColumn(name = "payment_type_id")
+//	@NotNull(message="Không được để trống !")
+	private PaymentType paymentType = new PaymentType();
+
+	@Column(length = 1000)
 	private String description;
-	
+
 	@Column
-	private BigInteger totalPrice;
-	
+	private long totalPrice;
+
+	public void addProduct(Product product, int price, int quantity) {
+		OrderProduct newOrderProduct = new OrderProduct();
+		newOrderProduct.setOrder(this);
+		newOrderProduct.setProduct(product);
+		newOrderProduct.setPrice(price);
+		newOrderProduct.setQuantity(quantity);
+		orderProduct.add(newOrderProduct);
+	}
+
+	public void removeProduct(int productId) {
+		orderProduct = 
+			orderProduct.stream()
+				.filter(op -> op.getProduct().getId() != productId)
+				.collect(Collectors.toList());
+	}
+
+	public Order(List<OrderProduct> orderProduct,
+			Customer customer, PaymentType paymentType, String description,
+			long totalPrice) {
+		this.orderProduct = orderProduct;
+		this.customer = customer;
+		this.paymentType = paymentType;
+		this.description = description;
+		this.totalPrice = totalPrice;
+	}
 }

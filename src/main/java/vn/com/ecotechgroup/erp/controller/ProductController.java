@@ -56,7 +56,7 @@ public class ProductController {
 							PageRequest.of(pageNumber, pageSize), searchTerm);
 		} else {
 			productList = productRepo
-					.findAll(PageRequest.of(pageNumber, pageSize));
+					.productSearchList(PageRequest.of(pageNumber, pageSize), "");
 		}
 		model.addAttribute(NAME_ATTRIBUTE, productList );
 		model.addAttribute("isList", true);

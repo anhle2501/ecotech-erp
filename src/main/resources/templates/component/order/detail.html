@@ -1,167 +1,336 @@
 <div th:fragment="order-detail">
 		<h3>Thông tin đơn hàng</h3>
-		<form th:action="@{|/order/${id}|}" th:object="${order}" method="POST">
 
-				<label class="form-label" for="*{customerOrder.name}">Khách
-						hàng</label> <input th:readonly="true" class="form-control" type="text"
-						th:field="*{customerOrder.name}"> <br /> <label
-						class="form-label" for="*{orderProduct}">Sản phẩm</label>
-				<table class="table table-striped ">
-						<thead>
-								<tr>
-										<th scope="col">#</th>
-										<th scope="col">Mã hàng</th>
-										<th scope="col">Sản phẩm</th>
-										<th scope="col">Đơn giá</th>
-										<th scope="col">Mô tả</th>
-										<!-- <th scope="col">Hành động</th> -->
+		<div class="input-group mb-3">
+				<span class="input-group-text">Khách hàng</span> <select
+						th:readonly="true" class="form-select">
 
-								</tr>
-						</thead>
-						<tbody>
-								<tr th:each="c, iterator : ${order.orderProduct}"
-										th:with="count=0">
-										<td scope="row" th:text="${iterator.index + 1}"></td>
-										<td th:if="${order.orderProduct.size() > 0}"
-												th:text="${c.product.code}"></td>
-										<td th:if="${order.orderProduct.size() == 0}"
-												th:text="Không có sản phẩm"></td>
-										<td th:text="${c.product.name}"></td>
-										<td th:text="${c.price}"></td>
-										<td th:text="${c.product.description}"></td>
+						<option th:selected="true" th:text="${order.customer.name}"></option>
+
+				</select>
+		</div>
+
+		<table class="table table-striped ">
+				<thead>
+						<tr>
+								<th scope="col">#</th>
+								<th scope="col">Mã hàng</th>
+								<th scope="col">Sản phẩm</th>
+								<th scope="col">Đơn giá</th>
+								<th scope="col">Số lượng</th>
+								<th scope="col">Tổng</th>
+								<!-- <th scope="col">Mô tả</th> -->
+								<!-- <th scope="col">Hành động</th> -->
+
+						</tr>
+				</thead>
+
+				<tbody>
+						<tr th:each="c, iterator : ${order.orderProduct}">
+
+								<td scope="row" th:text="${iterator.index + 1}"></td>
+								<td th:if="${order.orderProduct.size() > 0}"
+										th:text="${c.product.code}"></td>
+								<td th:if="${order.orderProduct.size() == 0}"
+										th:text="Không có sản phẩm"></td>
+								<td th:text="${c.product.name}"></td>
+								<td th:class="right" th:text="${c.price}"></td>
+								<td th:class="right" th:text="${c.quantity}"></td>
+								<td th:class="right" th:text="${c.price * c.quantity}"></td>
+								<!--  <td th:text="${c.product.description}"></td>-->
+
+						</tr>
+
+						<td colspan="4"></td>
+						<td>Tổng:</td>
+						<td th:class="right" th:text="${order.totalPrice}"></td>
+						</tr>
+				</tbody>
+		</table>
 
 
-										<!-- 	<td>
-										<div class="btn-group" role="group" aria-label="Basic example">
-												<button
-														th:onclick="@{|window.location.href='/order/${c.id}/show'|}"
-														type="button" class="btn btn-info">Xem</button>
-												<button type="button"
-														th:onclick="@{|window.location.href='/order/${c.id}'|}"
-														class="btn btn-warning">Sửa</button>
-												<button
-														th:onclick="@{|window.location.href='/order/delete/${c.id}'|}"
-														type="submit" class="btn btn-danger">Xoá</button>
-										</div>
-								</td> -->
-								</tr>
-								<tr>
-										<td colspan="2"></td>
-										<td>Tổng:</td>
-										<td th:text="${totalPrice}"></td>
-								</tr>
-						</tbody>
-				</table>
 
-				<label class="form-label" for="*{description}">PTTT</label> <input
-						th:readonly="true" class="form-control" type="text"
-						th:field="*{paymentType.name}"> <br /> <label
-						class="form-label" for="*{createAt}">Ngày tạo</label> <input
-						th:readonly="true" class="form-control" type="date"
-						th:field="*{createAt}"> <label class="form-label"
-						for="*{description}">Ghi chú</label> <input th:readonly="true"
-						class="form-control" type="text" th:field="*{description}">
-				<br />
-				<button type="button" class="btn btn-secondary w-25"
-						th:onclick="window.history.back()">Quay lại</button>
-		</form>
+		<div class="d-md-flex flex-column">
 
+				<div class="input-group mb-3">
+						<span class="input-group-text">PTTT</span> <select
+								th:readonly="true" class="form-select">
+
+								<option th:selected="true" th:text="${order.paymentType.name}"></option>
+
+						</select>
+				</div>
+
+				<div class="input-group mb-3">
+						<span class="input-group-text">Ghi chú</span>
+						<textarea th:readonly="true" class="form-control" type="text"
+								th:value="${order.description}" > </textarea>
+
+				</div>
+
+				<a th:href="@{/order/0/50}"><button type="button" class="btn btn-secondary w-25">
+						Quay lại
+				</button></a>
+
+
+		</div>
 </div>
-
 
 <div th:fragment="new-order">
-		<h3>Thêm đơn hàng</h3>
+				<h3>Thêm đơn hàng</h3>
 
-		<form th:action="@{/order/new-order}" th:object="${order}"
-				method="POST">
-
-				<label class="form-label" for="*{customerOrder.name}">Khách
-						hàng</label> 
-				<input class="form-control" type="text"
-						th:field="*{customerOrder.name}"> <br /> <label
-						class="form-label" for="*{orderProduct}">Sản phẩm</label>
-				<table class="table table-striped ">
-						<thead>
-								<tr>
-										<th scope="col">#</th>
-										<th scope="col">Mã hàng</th>
-										<th scope="col">Sản phẩm</th>
-										<th scope="col">Đơn giá</th>
-										<th scope="col">Mô tả</th>
-										<!-- <th scope="col">Hành động</th> -->
-
-								</tr>
-						</thead>
-						<tbody>
-								<tr th:each="c, iterator : ${order.orderProduct}"
-										th:with="count=0">
-										<td scope="row" th:text="${iterator.index + 1}"></td>
-										<td th:if="${order.orderProduct.size() > 0}"
-												th:text="${c.product.code}"></td>
-										<td th:if="${order.orderProduct.size() == 0}"
-												th:text="Không có sản phẩm"></td>
-										<td th:text="${c.product.name}"></td>
-										<td th:text="${c.price}"></td>
-										<td th:text="${c.product.description}"></td>
-
-
-										<!-- 	<td>
-										<div class="btn-group" role="group" aria-label="Basic example">
-												<button
-														th:onclick="@{|window.location.href='/order/${c.id}/show'|}"
-														type="button" class="btn btn-info">Xem</button>
-												<button type="button"
-														th:onclick="@{|window.location.href='/order/${c.id}'|}"
-														class="btn btn-warning">Sửa</button>
-												<button
-														th:onclick="@{|window.location.href='/order/delete/${c.id}'|}"
-														type="submit" class="btn btn-danger">Xoá</button>
+				<form th:action="@{/order/new-order}" method="POST"
+						th:object="${newOrder}">
+						<div class="input-group mb-3">
+								<span class="input-group-text">Khách hàng</span> <select
+										class="form-select" th:field="${newOrder.customer}">
+										<div th:each="p: ${customerList}">
+												<option
+														th:selected="${#arrays.contains(p.id, newOrder.customer.id)}"
+														th:value="${p.id}" th:text="${p.name}"></option>
 										</div>
-								</td> -->
-								</tr>
-								<tr>
-										<td colspan="2"></td>
+								</select>
+						</div>
+						<div class="input-group mb-3">
+								<span class="input-group-text">Sản phẩm</span> <select
+										class="form-select w-50" id="product" name="product">
+										<option value="0" selected>Chọn sản phẩm</option>
+										<div th:each="p: ${productListShow}">
+												<option th:value="${p.id}" th:text="${p.name}"></option>
+										</div>
+								</select>
+						</div>
+
+						<div class="d-md-flex gap-3">
+
+								<div class="input-group mb-3">
+										<span class="input-group-text">Giá</span> <input name="price"
+												id="price" type="number" class="form-control" min="0"
+												max="2000000000" lang="vn" value="0" required> <span
+												class="input-group-text">đồng</span>
+								</div>
+								<div></div>
+								<div class="input-group mb-3">
+										<span class="input-group-text">Số lượng</span> <input
+												name="quantity" id="quantity" type="number"
+												class="form-control" min="0" max="2000000000" lang="vn"
+												value="0" required> <span class="input-group-text">đồng</span>
+								</div>
+
+						</div>
+						</span>
+						<button type="submit" name="addProduct" id="addProduct"
+								class="btn btn-success">Thêm sản phẩm</button>
+
+
+
+						<table class="table table-striped ">
+								<thead>
+										<tr>
+												<th scope="col">#</th>
+												<th scope="col">Mã hàng</th>
+												<th scope="col">Sản phẩm</th>
+												<th scope="col">Đơn giá</th>
+												<th scope="col">Số lượng</th>
+												<th scope="col">Tổng</th>
+												<!-- <th scope="col">Mô tả</th> -->
+												<th scope="col">Hành động</th>
+
+										</tr>
+								</thead>
+
+								<tbody>
+										<tr th:each="c, iterator : ${newOrder.orderProduct}">
+
+												<td scope="row" th:text="${iterator.index + 1}"></td>
+												<td th:if="${newOrder.orderProduct.size() > 0}"
+														th:text="${c.product.code}"></td>
+												<td th:if="${newOrder.orderProduct.size() == 0}"
+														th:text="Không có sản phẩm"></td>
+												<td th:text="${c.product.name}"></td>
+												<td th:class="right" th:text="${c.price}"></td>
+												<td th:class="right" th:text="${c.quantity}"></td>
+												<td th:class="right" th:text="${c.price * c.quantity}"></td>
+												<!--  <td th:text="${c.product.description}"></td>-->
+												<td>
+														<div class="btn-group" role="group"
+																aria-label="Basic example">
+																<!-- <button
+																th:onclick="@{|window.location.href='/order/${c.id}/show'|}"
+																type="button" class="btn btn-info">Xem</button> -->
+																<button type="button"
+																		th:onclick="@{|window.location.href='/order/${c.id}'|}"
+																		class="btn btn-warning">Sửa</button>
+																<button th:value="${iterator.index + 1}"
+																		id="productIndex" name="productIndex" type="submit"
+																		class="btn btn-danger">Xoá</button>
+														</div>
+												</td>
+										</tr>
+
+										<td colspan="4"></td>
 										<td>Tổng:</td>
-										<td th:text="${totalPrice}"></td>
-								</tr>
-						</tbody>
-				</table>
+										<td th:class="right" th:text="${newOrder.totalPrice}"></td>
+										</tr>
+								</tbody>
+						</table>
 
-				<label class="form-label" for="*{description}">PTTT</label> <input
-						th:readonly="true" class="form-control" type="text"
-						th:field="*{paymentType.name}"> <br /> <label
-						class="form-label" for="*{createAt}">Ngày tạo</label> <input
-						th:readonly="true" class="form-control" type="date"
-						th:field="*{createAt}"> <label class="form-label"
-						for="*{description}">Ghi chú</label> <input th:readonly="true"
-						class="form-control" type="text" th:field="*{description}">
-				<br />
-				<button type="button" class="btn btn-secondary w-25"
-						th:onclick="window.history.back()">Quay lại</button>
 
-		</form>
 
-</div>
+						<div class="d-md-flex flex-column">
 
-<div th:fragment="update-order">
-		<h3>Cập nhật khách hàng</h3>
-		<form th:action="@{|/order/${id}|}" th:object="${order}" method="POST">
-				  <input class="form-control" type="hidden" th:field="*{id}">
+								<div class="input-group mb-3">
+										<span class="input-group-text">PTTT</span> <select
+												class="form-select" th:field="${newOrder.paymentType}">
+												<div th:each="p: ${paymentTypeList}">
+														<option
+																th:selected="${#arrays.contains(p.id, newOrder.paymentType.id)}"
+																th:value="${p.id}" th:text="${p.name}"></option>
+												</div>
+										</select>
+								</div>
+								<div></div>
+								<div class="input-group mb-3">
+										<span class="input-group-text">Ghi chú</span>
+										<textarea class="form-control" type="text"
+												th:field="${newOrder.description}" />
+								</div>
 
-				<label class="form-label" for="*{paymentType}">Phương thức
-						thanh toán*</label> <span class="validationError"
-						th:if="${#fields.hasErrors('paymentType')}"
-						th:errors="*{paymentType}"></span> <input class="form-control"
-						type="text" th:field="*{paymentType.getName()}"> <br /> <label
-						class="form-label" for="*{description}">Ghi chú</label> <input
-						class="form-control" type="text" th:field="*{description}">
-				<br /> <span class="">
-						<button type="submit" class="btn btn-success w-25">Cập
-								nhật</button>
-						<button type="button" class="btn btn-secondary w-25"
-								th:onclick="window.history.back()">Quay lại</button>
-				</span>
+						</div>
+						<button type="submit" name="save" id="save"
+								class="btn btn-success w-25">Tạo</button>
+						<a th:href="@{/order/0/50}"><button type="button" class="btn btn-secondary w-25">
+								Quay lại
+						</button></a>
+				</form>
 
-		</form>
+		</div>
 
-</div>
+		<div th:fragment="update-order">
+				<h3>Cập nhật khách hàng</h3>
+				<form th:action="@{/order/update-order}" method="POST"
+						th:object="${order}">
+						<div class="input-group mb-3">
+								<span class="input-group-text">Khách hàng</span> <select
+										class="form-select" th:field="${order.customer}">
+										<div th:each="p: ${customerList}">
+												<option
+														th:selected="${#arrays.contains(p.id, order.customer.id)}"
+														th:value="${p.id}" th:text="${p.name}"></option>
+										</div>
+								</select>
+						</div>
+						<div class="input-group mb-3">
+								<span class="input-group-text">Sản phẩm</span> <select
+										class="form-select w-50" id="product" name="product">
+										<option value="0" selected>Chọn sản phẩm</option>
+										<div th:each="p: ${productListShow}">
+												<option th:value="${p.id}" th:text="${p.name}"></option>
+										</div>
+								</select>
+						</div>
+
+						<div class="d-md-flex gap-3">
+
+								<div class="input-group mb-3">
+										<span class="input-group-text">Giá</span> <input name="price"
+												id="price" type="number" class="form-control" min="0"
+												max="2000000000" lang="vn" value="0" required> <span
+												class="input-group-text">đồng</span>
+								</div>
+								<div></div>
+								<div class="input-group mb-3">
+										<span class="input-group-text">Số lượng</span> <input
+												name="quantity" id="quantity" type="number"
+												class="form-control" min="0" max="2000000000" lang="vn"
+												value="0" required> <span class="input-group-text">đồng</span>
+								</div>
+
+						</div>
+						</span>
+						<button type="submit" name="addProduct" id="addProduct"
+								class="btn btn-success">Thêm sản phẩm</button>
+
+
+
+						<table class="table table-striped ">
+								<thead>
+										<tr>
+												<th scope="col">#</th>
+												<th scope="col">Mã hàng</th>
+												<th scope="col">Sản phẩm</th>
+												<th scope="col">Đơn giá</th>
+												<th scope="col">Số lượng</th>
+												<th scope="col">Tổng</th>
+												<!-- <th scope="col">Mô tả</th> -->
+												<th scope="col">Hành động</th>
+
+										</tr>
+								</thead>
+
+								<tbody>
+										<tr th:each="c, iterator : ${order.orderProduct}">
+
+												<td scope="row" th:text="${iterator.index + 1}"></td>
+												<td th:if="${order.orderProduct.size() > 0}"
+														th:text="${c.product.code}"></td>
+												<td th:if="${order.orderProduct.size() == 0}"
+														th:text="Không có sản phẩm"></td>
+												<td th:text="${c.product.name}"></td>
+												<td th:class="right" th:text="${c.price}"></td>
+												<td th:class="right" th:text="${c.quantity}"></td>
+												<td th:class="right" th:text="${c.price * c.quantity}"></td>
+												<!--  <td th:text="${c.product.description}"></td>-->
+												<td>
+														<div class="btn-group" role="group"
+																aria-label="Basic example">
+																<!-- <button
+																th:onclick="@{|window.location.href='/order/${c.id}/show'|}"
+																type="button" class="btn btn-info">Xem</button> -->
+																<button type="button"
+																		th:onclick="@{|window.location.href='/order/${c.id}'|}"
+																		class="btn btn-warning">Sửa</button>
+																<button th:value="${iterator.index + 1}"
+																		id="productIndex" name="productIndex" type="submit"
+																		class="btn btn-danger">Xoá</button>
+														</div>
+												</td>
+										</tr>
+
+										<td colspan="4"></td>
+										<td>Tổng:</td>
+										<td th:class="right" th:text="${order.totalPrice}"></td>
+										</tr>
+								</tbody>
+						</table>
+
+
+
+						<div class="d-md-flex flex-column">
+
+								<div class="input-group mb-3">
+										<span class="input-group-text">PTTT</span> <select
+												class="form-select" th:field="${order.paymentType}">
+												<div th:each="p: ${paymentTypeList}">
+														<option
+																th:selected="${#arrays.contains(p.id, newOrder.paymentType.id)}"
+																th:value="${p.id}" th:text="${p.name}"></option>
+												</div>
+										</select>
+								</div>
+								<div></div>
+								<div class="input-group mb-3">
+										<span class="input-group-text">Ghi chú</span>
+										<textarea class="form-control" type="text"
+												th:field="${order.description}" />
+								</div>
+
+						</div>
+						<button type="submit" name="save" id="save"
+								class="btn btn-success w-25">Cập nhật đơn hàng</button>
+						<a th:href="@{/order/0/50}"><button type="button" class="btn btn-secondary w-25">
+								Quay lại
+						</button></a>
+				</form>
+
+		</div>
