@@ -3,6 +3,7 @@ package vn.com.ecotechgroup.erp.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -39,8 +40,7 @@ public class CustomerController {
 	public String showCustomerList(Model model,
 			@Valid @PathVariable("pageNumber") @Min(0) Integer pageNumber,
 			@Valid @PathVariable("pageSize") @Min(0) Integer pageSize,
-			@RequestParam(name = "search", required = false) String searchTerm
-						) {
+			@RequestParam(name = "search", required = false) String searchTerm) {
 		Page<Customer> customerList;
 		if (searchTerm != null) {
 			customerList = customerRepo
@@ -67,7 +67,8 @@ public class CustomerController {
 			model.addAttribute("isDetail", true);
 			return "page/customer";
 		} else {
-			return showCustomerList(model, default_page, default_page_size, null);
+			return showCustomerList(model, default_page, default_page_size,
+					null);
 		}
 	}
 
@@ -79,7 +80,8 @@ public class CustomerController {
 			model.addAttribute("isUpdate", true);
 			return "page/customer";
 		} else {
-			return showCustomerList(model, default_page, default_page_size, null);
+			return showCustomerList(model, default_page, default_page_size,
+					null);
 		}
 	}
 
@@ -92,13 +94,19 @@ public class CustomerController {
 			return "page/customer";
 		} else {
 			customerRepo.save(customer);
-			return showCustomerList(model, default_page, default_page_size, null);
+			return showCustomerList(model, default_page, default_page_size,
+					null);
 		}
 	}
 
 	@GetMapping("/delete/{id}")
-	public String deleteCustomer(@PathVariable("id") int id, Model model) {
-		customerRepo.deleteById(id);
+	public String deleteCustomer(@PathVariable("id") int id, Model model, Error error) {
+		try {
+			customerRepo.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			model.addAttribute("error", "Vui lòng xóa các dữ liệu có liên kết với dữ liệu này trước !");
+			return "error";
+		} 
 		return showCustomerList(model, default_page, default_page_size, null);
 	}
 
@@ -117,7 +125,8 @@ public class CustomerController {
 			return "page/customer";
 		} else {
 			customerRepo.save(customer);
-			return showCustomerList(model, default_page, default_page_size, null);
+			return showCustomerList(model, default_page, default_page_size,
+					null);
 		}
 	}
 }

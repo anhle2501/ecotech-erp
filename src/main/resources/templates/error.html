@@ -12,7 +12,7 @@
 						</div>
 						<div class="row">
 								<div class="col">
-										<h1>Trang bị lỗi</h1>
+										<h1 th:text="${error} ? ${error} : 'Trang bị lỗi'" ></h1>
 										<button class="btn btn-secondary" onclick="history.back()">Quay lại</button>
 								</div>
 						</div>

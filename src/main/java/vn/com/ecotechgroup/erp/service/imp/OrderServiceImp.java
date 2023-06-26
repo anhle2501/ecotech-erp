@@ -1,6 +1,7 @@
 package vn.com.ecotechgroup.erp.service.imp;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,7 +40,6 @@ public class OrderServiceImp implements OrderService {
 
 	@Override
 	public Order save(Order order) {
-		// TODO Auto-generated method stub
 		return orderRepo.save(order);
 	}
 
@@ -59,8 +59,7 @@ public class OrderServiceImp implements OrderService {
 
 	@Override
 	public Order getOne(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return orderRepo.getReferenceById(id);
 	}
 
 
