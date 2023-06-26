@@ -44,7 +44,6 @@ public class Product {
 //	@ManyToMany(mappedBy = "productsList", fetch = FetchType.LAZY)
 //	private List<Order> orders;
 
-	@ToString.Exclude
 	@OneToMany(mappedBy = "product",
 			cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE}
 			)

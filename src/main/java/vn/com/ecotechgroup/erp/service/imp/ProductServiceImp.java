@@ -23,7 +23,7 @@ public class ProductServiceImp implements ProductService {
 	}
 
 	@Override
-	public void delete(Product t) {
+	public void delete(int id) {
 		// TODO Auto-generated method stub
 		
 	}

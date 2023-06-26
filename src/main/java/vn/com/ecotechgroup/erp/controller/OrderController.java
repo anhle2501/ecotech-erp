@@ -19,10 +19,16 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.entity.Order;
+import vn.com.ecotechgroup.erp.entity.OrderProduct;
+import vn.com.ecotechgroup.erp.entity.PaymentType;
 import vn.com.ecotechgroup.erp.entity.Product;
+import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 import vn.com.ecotechgroup.erp.repository.OrderProductRepository;
 import vn.com.ecotechgroup.erp.repository.OrderRepository;
+import vn.com.ecotechgroup.erp.repository.PaymentTypeRepository;
+import vn.com.ecotechgroup.erp.repository.ProductRepository;
 import vn.com.ecotechgroup.erp.service.OrderService;
 
 @Controller
@@ -117,7 +123,7 @@ public class OrderController {
 
 	@GetMapping(DELETE_PATH)
 	public String deletePaymentType(@PathVariable("id") int id, Model model) {
-		orderRepo.deleteById(id);
+		orderService.delete(id);
 		return showOrderList(model, default_page, default_page_size, null);
 	}
 
@@ -138,7 +144,7 @@ public class OrderController {
 		return RETURN_PAGE;
 	}
 
-	@PostMapping(value = "/new-order", params = "addProduct")
+	@PostMapping(value = NEW_PATH, params = "addProduct")
 	public String addRow(Model model,
 			@ModelAttribute("product") Product product,
 			@ModelAttribute("newOrder") Order newOrder,
@@ -159,10 +165,13 @@ public class OrderController {
 		}
 	}
 
-	@PostMapping(value = "/new-order", params = "productIndex")
+	@PostMapping(value = NEW_PATH, params = "productIndex")
 	public String removeRow(Model model,
 			@ModelAttribute("newOrder") Order order,
 			@ModelAttribute("productIndex") Integer productIndex) {
+		System.out.println("productIndex");
+		System.out.println(productIndex);
+		
 		orderService.removeProduct(order, productIndex);
 		orderRepo.save(order);
 
@@ -174,12 +183,54 @@ public class OrderController {
 		return RETURN_PAGE;
 	}
 
-	@PostMapping(value = "/new-order", params = "save")
+	@PostMapping(value = NEW_PATH, params = "save")
 	public String addRow(Model model,
 			@ModelAttribute("newOrder") Order newOrder, SessionStatus session) {
 		orderRepo.save(newOrder);
 		session.setComplete();
 		model.addAttribute("isList", true);
 		return showOrderList(model, default_page, default_page_size, null);
+	}
+	
+	@Autowired
+	ProductRepository pRep; 
+	
+	@Autowired
+	CustomerRepository cRep; 
+	
+	@Autowired
+	PaymentTypeRepository ptRep; 
+	
+	
+	@GetMapping(value = "/test")
+	public String testFun(Model model) {
+		// create order
+		Order order = new Order();
+		
+		// get product
+		
+		Product pd = pRep.getReferenceById(1);
+		
+		// get customer
+		
+		Customer c = cRep.getReferenceById(1);
+		
+		// get paymentType
+		PaymentType pt = ptRep.getReferenceById(1);
+		
+		// create orderproduct
+		
+		OrderProduct op = new OrderProduct();
+		op.setOrder(order);
+		op.setProduct(pd);
+		op.setPrice(2);
+		op.setQuantity(2);
+		// add to order
+		order.getOrderProduct().add(op);
+		order.setCustomer(c);
+		order.setPaymentType(pt);
+		orderRepo.save(order);
+		
+		return showOrderList(model, default_page, default_page_size, null); 
 	}
 }

@@ -52,9 +52,8 @@ public class OrderServiceImp implements OrderService {
 
 
 	@Override
-	public void delete(Order t) {
-		// TODO Auto-generated method stub
-		
+	public void delete(int orderId) {
+		orderRepo.deleteById(orderId);
 	}
 
 
@@ -82,36 +81,14 @@ public class OrderServiceImp implements OrderService {
 	
 	@Override
 	public void addProduct(Order order, Product product, int price, int quantity) {
-		if (order.getOrderProduct().size() == 0) {
-			order.addProduct(product, price, quantity);
-			order.setTotalPrice(price * quantity);	
-			
-		} else {
-			order.addProduct(product, price, quantity);
-			List<OrderProduct> products = order.getOrderProduct();
-			List<Integer> priceList = products.stream().map(p -> p.getPrice() * p.getQuantity()).toList();
-			long total = (long) priceList.stream().reduce(0, (subtotal, element) -> (subtotal + element) );
-			order.setTotalPrice(total);	
-			
-//			List<OrderProduct> newOrderProducts = products.stream().map(o -> {
-//				o.setOrder(order);
-//				return o;
-//			}).toList();
-//			System.out.println("newOrderProducts");
-//			System.out.println(newOrderProducts);
-//			order.setOrderProduct(newOrderProducts);
-		}}
-
+		order.addProduct(product, price, quantity);
+		orderRepo.save(order);
+	}
 
 	@Override
 	public void removeProduct(Order order, Integer productIndex) {
-		if (order.getOrderProduct().size() != 0 && productIndex != 0) {
-			List<OrderProduct> products = order.getOrderProduct();
-			OrderProduct product = products.get(productIndex - 1);
-			long total = product.getPrice() * product.getQuantity();
-			order.setTotalPrice(order.getTotalPrice() - total);
-			products.remove(productIndex - 1);
-		}
+		order.removeProduct(productIndex);
+		orderRepo.save(order);
 	}
 	
 	
