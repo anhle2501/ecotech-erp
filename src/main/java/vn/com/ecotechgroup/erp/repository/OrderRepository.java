@@ -37,15 +37,15 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 //		, nativeQuery = true )
 	
 	@Query("SELECT o FROM Order o "
-//			+ "JOIN o.orderProduct oo "
-//			+ "WHERE "
-//			+ "LOWER(o.description) LIKE %:searchTerm% "
-//			+ "OR LOWER(o.customer.name) LIKE %:searchTerm% "
-//			+ "OR LOWER(o.paymentType.name) LIKE %:searchTerm% "
-//			+ "OR oo.product.name LIKE %:searchTerm% "
-//			+ "OR oo.product.code LIKE %:searchTerm% "
-//			+ "OR oo.product.description LIKE %:searchTerm% "
-			
+			+ "JOIN o.orderProduct oo "
+			+ "WHERE "
+			+ "LOWER(o.description) LIKE %:searchTerm% "
+			+ "OR LOWER(o.customer.name) LIKE %:searchTerm% "
+			+ "OR LOWER(o.paymentType.name) LIKE %:searchTerm% "
+			+ "OR oo.product.name LIKE %:searchTerm% "
+			+ "OR oo.product.code LIKE %:searchTerm% "
+			+ "OR oo.product.description LIKE %:searchTerm% "
+			+ "OR o.totalPrice = CAST(:searchTerm AS int)"
 			)
 	Page<Order> orderSearchList(Pageable pageable, @Param("searchTerm") String searchTerm);
 
