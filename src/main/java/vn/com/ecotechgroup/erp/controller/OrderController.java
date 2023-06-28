@@ -1,12 +1,7 @@
 package vn.com.ecotechgroup.erp.controller;
 
-import java.util.List;
 import java.util.Optional;
 
-import org.aspectj.weaver.NewMemberClassTypeMunger;
-import org.hibernate.boot.model.naming.ImplicitNameSource;
-import org.hibernate.tool.schema.spi.DelayedDropRegistry;
-import org.hibernate.validator.constraints.ISBN;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -23,20 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.fasterxml.jackson.databind.cfg.ConstructorDetector;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.entity.Order;
-import vn.com.ecotechgroup.erp.entity.OrderProduct;
-import vn.com.ecotechgroup.erp.entity.PaymentType;
 import vn.com.ecotechgroup.erp.entity.Product;
-import vn.com.ecotechgroup.erp.repository.CustomerRepository;
-import vn.com.ecotechgroup.erp.repository.OrderProductRepository;
-import vn.com.ecotechgroup.erp.repository.OrderRepository;
-import vn.com.ecotechgroup.erp.repository.PaymentTypeRepository;
-import vn.com.ecotechgroup.erp.repository.ProductRepository;
 import vn.com.ecotechgroup.erp.service.OrderService;
 import vn.com.ecotechgroup.erp.service.ProductService;
 
