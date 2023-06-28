@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,7 +35,7 @@ public class Product {
 	@Column(length = 45)
 	private String code;
 
-	@NotNull(message = "Không được để trống !")
+	@NotBlank(message = "Không được để trống !")
 	@Column(length = 100)
 	private String name;
 
@@ -44,6 +45,7 @@ public class Product {
 //	@ManyToMany(mappedBy = "productsList", fetch = FetchType.LAZY)
 //	private List<Order> orders;
 
+	@ToString.Exclude
 	@OneToMany(mappedBy = "product",
 			cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE}
 			)

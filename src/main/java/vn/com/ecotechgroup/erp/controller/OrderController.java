@@ -1,7 +1,11 @@
 package vn.com.ecotechgroup.erp.controller;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.aspectj.weaver.NewMemberClassTypeMunger;
+import org.hibernate.boot.model.naming.ImplicitNameSource;
+import org.hibernate.tool.schema.spi.DelayedDropRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -18,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.fasterxml.jackson.databind.cfg.ConstructorDetector;
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import vn.com.ecotechgroup.erp.entity.Customer;
@@ -31,22 +37,29 @@ import vn.com.ecotechgroup.erp.repository.OrderRepository;
 import vn.com.ecotechgroup.erp.repository.PaymentTypeRepository;
 import vn.com.ecotechgroup.erp.repository.ProductRepository;
 import vn.com.ecotechgroup.erp.service.OrderService;
+import vn.com.ecotechgroup.erp.service.ProductService;
 
 @Controller
 @RequestMapping("/order")
-@SessionAttributes("newOrder")
+@SessionAttributes(value ={"newOrder", "order"})
 public class OrderController {
 
 	private final String RETURN_PAGE = "page/order";
 	private final String SHOW_PATH = "/{id}/show";
 	private final String NEW_PATH = "/new-order";
-	private final String ADD_PATH = "/{id}";
 	private final String UPDATE_PATH = "/{id}";
+	private final String ADD_PATH = "/{id}";
 	private final String DELETE_PATH = "/delete/{id}";
 	private final String NAME_ATTRIBUTE = "order";
 
 	private OrderService orderService;
+	private ProductService productService;
 	
+	@Autowired
+	public void setProductService(ProductService productService) {
+		this.productService = productService;
+	}
+
 	@Autowired
 	public OrderController(OrderService orderService) {
 		this.orderService = orderService;
@@ -84,8 +97,9 @@ public class OrderController {
 
 	@GetMapping(SHOW_PATH)
 	public String showOrder(@PathVariable("id") int id, Model model) {
-		Optional<Order> orderObj = Optional.ofNullable(orderService.getOne(id));
+		Optional<Order> orderObj = Optional.of(orderService.getOne(id));
 		if (orderObj.isPresent()) {
+			model.addAttribute("id", id);
 			model.addAttribute(NAME_ATTRIBUTE, orderObj.get());
 			model.addAttribute("isDetail", true);
 			return RETURN_PAGE;
@@ -95,33 +109,91 @@ public class OrderController {
 	}
 
 	@GetMapping(ADD_PATH)
-	public String getPaymentType(@PathVariable("id") int id, Model model) {
+	public String getOrder(@PathVariable("id") int id, Model model) {
 		Optional<Order> orderObj = Optional.ofNullable(orderService.getOne(id));
 		if (orderObj.isPresent()) {
 			model.addAttribute(NAME_ATTRIBUTE, orderObj.get());
+			
+			// for create
+			model.addAttribute("id", id);
+			model.addAttribute("product",  Integer.valueOf(0));
+			model.addAttribute("price", Integer.valueOf(0));
+			model.addAttribute("quantity", Integer.valueOf(0));
+
+			// for delete
+			model.addAttribute("productIndex", Integer.valueOf(0));
+			
 			model.addAttribute("isUpdate", true);
+			orderService.getInformation(model);
 			return RETURN_PAGE;
 		} else {
 			return showOrderList(model, default_page, default_page_size, null);
 		}
 	}
 
-	@PostMapping(UPDATE_PATH)
-	public String updatePaymentType(@PathVariable("id") int id,
-			@Valid @ModelAttribute(NAME_ATTRIBUTE) Order order, Errors errors,
-			Model model) {
+	@PostMapping(value = UPDATE_PATH, params = "addProduct")
+	public String updateOrderAddProduct(Model model,
+			@ModelAttribute("order") Order order,
+			@ModelAttribute("product") int productId,
+			@ModelAttribute("price") Integer price,
+			@ModelAttribute("quantity") Integer quantity) {
 		orderService.getInformation(model);
-		if (errors.hasErrors()) {
+		model.addAttribute("id", order.getId());
+		if (productId == 0) {
+			
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
 		} else {
+			
+			Product productFull = productService.getOne(productId);
+			Order updateOrder = orderService.getOne(order.getId());
+			
+			orderService.addProduct(updateOrder, productFull, price, quantity);
+			updateOrder = orderService.getOne(order.getId());	
+			
+			model.addAttribute("order", updateOrder);
+			model.addAttribute("isUpdate", true);
+			return RETURN_PAGE; 
+		}
+	}
+	
+	@PostMapping(value = UPDATE_PATH, params = "productIndex")
+	public String updateOrderRemoveProduct(Model model,
+			@ModelAttribute("order") Order order,
+			@ModelAttribute("productIndex") int productIndex) {
+		
+		int id = order.getId();
+		orderService.removeProduct(order, productIndex);
+		Order updateOrder = orderService.getOne(id);	
+		// for reset
+		model.addAttribute("id", id);
+		model.addAttribute("order", updateOrder);
+		model.addAttribute("productIndex", Integer.valueOf(0));
+		model.addAttribute("isUpdate", true);
+
+		orderService.getInformation(model);
+		return RETURN_PAGE;
+	}
+	
+	@PostMapping(value = UPDATE_PATH, params = "save")
+	public String updateOrder(
+			@Valid @ModelAttribute(NAME_ATTRIBUTE) Order order, Errors errors,
+			SessionStatus session,
+			Model model) {
+		if (errors.hasErrors()) {
+			model.addAttribute("id", order.getId());
+			orderService.getInformation(model);
+			model.addAttribute("isList", true);
+			return RETURN_PAGE;
+		} else {
 			orderService.save(order);
+			session.setComplete();
 			return showOrderList(model, default_page, default_page_size, null);
 		}
 	}
 
 	@GetMapping(DELETE_PATH)
-	public String deletePaymentType(@PathVariable("id") int id, Model model) {
+	public String deleteOrder(@PathVariable("id") int id, Model model) {
 		try {
 			orderService.delete(id);
 		} catch (DataIntegrityViolationException e) {
@@ -155,7 +227,6 @@ public class OrderController {
 			@ModelAttribute("price") Integer price,
 			@ModelAttribute("quantity") Integer quantity) {
 
-		System.out.println(product.getId());
 		if (product.getId() == 0) {
 			model.addAttribute("isNew", true);
 			orderService.getInformation(model);
@@ -172,8 +243,7 @@ public class OrderController {
 	public String removeRow(Model model,
 			@ModelAttribute("newOrder") Order order,
 			@ModelAttribute("productIndex") Integer productIndex) {
-		System.out.println("productIndex");
-		System.out.println(productIndex);
+
 		orderService.removeProduct(order, productIndex);
 		// for reset
 		model.addAttribute("productIndex", Integer.valueOf(0));
@@ -184,7 +254,7 @@ public class OrderController {
 	}
 
 	@PostMapping(value = NEW_PATH, params = "save")
-	public String addRow(Model model,
+	public String saveOrder(Model model,
 			@ModelAttribute("newOrder") Order newOrder, SessionStatus session) {
 		orderService.save(newOrder);
 		session.setComplete();
@@ -192,45 +262,19 @@ public class OrderController {
 		return showOrderList(model, default_page, default_page_size, null);
 	}
 	
-	@Autowired
-	ProductRepository pRep; 
-	
-	@Autowired
-	CustomerRepository cRep; 
-	
-	@Autowired
-	PaymentTypeRepository ptRep; 
-	
-	
-//	@GetMapping(value = "/test")
-//	public String testFun(Model model) {
-//		// create order
-//		Order order = new Order();
-//		
-//		// get product
-//		
-//		Product pd = pRep.getReferenceById(1);
-//		
-//		// get customer
-//		
-//		Customer c = cRep.getReferenceById(1);
-//		
-//		// get paymentType
-//		PaymentType pt = ptRep.getReferenceById(1);
-//		
-//		// create orderproduct
-//		
-//		OrderProduct op = new OrderProduct();
-//		op.setOrder(order);
-//		op.setProduct(pd);
-//		op.setPrice(2);
-//		op.setQuantity(2);
-//		// add to order
-//		order.getOrderProduct().add(op);
-//		order.setCustomer(c);
-//		order.setPaymentType(pt);
-//		Or.save(order);
-//		
-//		return showOrderList(model, default_page, default_page_size, null); 
-//	}
+//	@Autowired
+//	ProductRepository pRep; 
+//	
+//	@Autowired
+//	CustomerRepository cRep; 
+//	
+//	@Autowired
+//	PaymentTypeRepository ptRep; 
+//	
+//	@Autowired
+//	OrderProductRepository opRep; 
+//	
+//	@Autowired
+//	OrderRepository oRep; 
+//	
 }

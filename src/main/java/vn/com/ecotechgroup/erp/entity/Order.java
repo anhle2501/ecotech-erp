@@ -48,9 +48,11 @@ public class Order {
 //			)
 //	private List<Product> productsList;
 
-	@ToString.Exclude
+	
 	@OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST,
-			CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE})
+			CascadeType.MERGE, 
+//			- update thi no se kiem xem co ko co  thi up
+			CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
 	private List<OrderProduct> orderProduct = new ArrayList<>();
 
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
