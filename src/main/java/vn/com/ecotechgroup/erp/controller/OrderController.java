@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.aspectj.weaver.NewMemberClassTypeMunger;
 import org.hibernate.boot.model.naming.ImplicitNameSource;
 import org.hibernate.tool.schema.spi.DelayedDropRegistry;
+import org.hibernate.validator.constraints.ISBN;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -225,34 +226,37 @@ public class OrderController {
 			@ModelAttribute("product") Product product,
 			@ModelAttribute("newOrder") Order newOrder,
 			@ModelAttribute("price") Integer price,
-			@ModelAttribute("quantity") Integer quantity) {
+			@ModelAttribute("quantity") Integer quantity, SessionStatus session) {
 
 		if (product.getId() == 0) {
 			model.addAttribute("isNew", true);
 			orderService.getInformation(model);
 			return RETURN_PAGE;
 		} else {
-			orderService.addProduct(newOrder, product, price, quantity);
+			Order tmp = orderService.addProduct(newOrder, product, price, quantity);
+			if (tmp.getId()!= 0) {
+				return "redirect:/order/" + tmp.getId();
+			}
 			model.addAttribute("isNew", true);
 			orderService.getInformation(model);
 			return RETURN_PAGE;
 		}
 	}
 
-	@PostMapping(value = NEW_PATH, params = "productIndex")
-	public String removeRow(Model model,
-			@ModelAttribute("newOrder") Order order,
-			@ModelAttribute("productIndex") Integer productIndex) {
-
-		orderService.removeProduct(order, productIndex);
-		// for reset
-		model.addAttribute("productIndex", Integer.valueOf(0));
-		model.addAttribute("isNew", true);
-
-		orderService.getInformation(model);
-		return RETURN_PAGE;
-	}
-
+//	@PostMapping(value = NEW_PATH, params = "productIndex")
+//	public String removeRow(Model model,
+//			@ModelAttribute("newOrder") Order order,
+//			@ModelAttribute("productIndex") Integer productIndex) {
+//
+//		orderService.removeProduct(order, productIndex);
+//		// for reset
+//		model.addAttribute("productIndex", Integer.valueOf(0));
+//		model.addAttribute("isNew", true);
+//
+//		orderService.getInformation(model);
+//		return RETURN_PAGE;
+//	}
+//
 	@PostMapping(value = NEW_PATH, params = "save")
 	public String saveOrder(Model model,
 			@ModelAttribute("newOrder") Order newOrder, SessionStatus session) {

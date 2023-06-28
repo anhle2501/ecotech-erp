@@ -89,18 +89,23 @@ public class Order {
 		}
 	}
 
-	public void removeProduct(int productIndex) {
+	public void removeProduct(Integer productIndex) {
 		if (this.getOrderProduct().size() != 0 && productIndex != 0) {
 			List<OrderProduct> products = this.getOrderProduct();
 			OrderProduct product = products.get(productIndex - 1);
 			long total = product.getPrice() * product.getQuantity();
 			this.setTotalPrice(this.getTotalPrice() - total);
 			products.remove(productIndex - 1);
+			}
 		}
 		
-//		orderProduct = orderProduct.stream()
-//				.filter(op -> op.getProduct().getId() != productId)
-//				.collect(Collectors.toList());
+	public void removeProduct(int productId) {
+		List<OrderProduct> orderProducts = this.getOrderProduct();
+		OrderProduct deleteProduct = orderProducts.stream().filter((op) -> op.getId() == productId).toList().get(0);
+		orderProducts = orderProducts.stream().filter((op) -> op.getId() != productId).toList();
+		this.setOrderProduct(orderProducts);
+		long total = deleteProduct.getPrice() * deleteProduct.getQuantity();
+		this.setTotalPrice(this.getTotalPrice() - total);
 	}
 
 	public Order(List<OrderProduct> orderProduct, Customer customer,

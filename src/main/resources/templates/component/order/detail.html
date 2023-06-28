@@ -208,7 +208,7 @@
 
 <div th:fragment="update-order">
 				<h3>Cập nhật đơn hàng </h3>
-	<h6 th:text="${id} ? ${id} : ''"></h6>
+
 				<form th:action="@{  ${id} ? '/order/' + ${id} : '/order' }" method="POST" th:object="${order}">
 					
 						<input th:type="hidden" th:value="${order.id}" th:field="${order.id}">

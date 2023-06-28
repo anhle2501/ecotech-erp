@@ -85,15 +85,13 @@ public class OrderServiceImp implements OrderService {
 	}
 	
 	@Override
-	public void addProduct(Order order, Product product, int price, int quantity) {
-		
-
-		System.out.println("here21");
-		OrderProduct orderProduct = new OrderProduct(order, product, price, quantity);
+	public Order addProduct(Order order, Product product, int price, int quantity) {
+//		OrderProduct orderProduct = new OrderProduct(order, product, price, quantity);
 //		orderProductRepo.save(orderProduct);
 		order.addProduct(product, price, quantity);
-		save(order);
-		System.out.println("here213");
+//		//will double save because of cascade persist	
+		return save(order);
+
 	}
 
 	@Override
@@ -104,16 +102,9 @@ public class OrderServiceImp implements OrderService {
 	
 	@Override
 	public void removeProduct(Order order, int productId) {
+		// cascade delete dont have so need to delete 2 time at 2 place
 		orderProductRepo.deleteById(productId);
-
-		List<OrderProduct> orderProducts = order.getOrderProduct();
-		OrderProduct deleteProduct = orderProducts.stream().filter((op) -> op.getId() == productId).toList().get(0);
-		orderProducts = orderProducts.stream().filter((op) -> op.getId() != productId).toList();
-
-		order.setOrderProduct(orderProducts);
-		int total = deleteProduct.getPrice() * deleteProduct.getQuantity();
-		order.setTotalPrice(order.getTotalPrice() - total);
-		
+		order.removeProduct(productId);
 		save(order);
 	}
 	
