@@ -103,8 +103,8 @@ public class OrderServiceImp implements OrderService {
 	@Override
 	public void removeProduct(Order order, int productId) {
 		// cascade delete dont have so need to delete 2 time at 2 place
-		orderProductRepo.deleteById(productId);
 		order.removeProduct(productId);
+		orderProductRepo.deleteById(productId);
 		save(order);
 	}
 	
