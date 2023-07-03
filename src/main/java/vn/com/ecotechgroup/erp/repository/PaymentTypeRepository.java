@@ -15,7 +15,7 @@ public interface PaymentTypeRepository extends JpaRepository<PaymentType, Intege
 	@Query("SELECT p FROM PaymentType p "
 			+ "WHERE p.name LIKE %:searchTerm% "
 			+ "OR p.description LIKE %:searchTerm% "
-			+ "OR p.day LIKE %:searchTerm% ")
+			)
 	Page<PaymentType> paymentTypeSearchList(Pageable pageable, @Param("searchTerm") String searchTerm);
 	
 }

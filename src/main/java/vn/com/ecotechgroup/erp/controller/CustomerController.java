@@ -22,7 +22,7 @@ import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 
 @Controller
-@RequestMapping("/customer")
+@RequestMapping("customer")
 public class CustomerController {
 
 	@Autowired

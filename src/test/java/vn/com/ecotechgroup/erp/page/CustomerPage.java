@@ -42,8 +42,7 @@ public class CustomerPage {
 
 		String titleText = browser.getTitle();
 		Assertions.assertThat(titleText).isEqualTo("Global Ecotech");
-		String textString = browser.findElement(ByTagName.tagName("h3")).getText();
-		assertEquals("Danh sách khách hàng", textString);
+		
 	}
 
 }

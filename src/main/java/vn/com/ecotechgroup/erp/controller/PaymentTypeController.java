@@ -22,7 +22,7 @@ import vn.com.ecotechgroup.erp.entity.PaymentType;
 import vn.com.ecotechgroup.erp.repository.PaymentTypeRepository;
 
 @Controller
-@RequestMapping("/payment-type")
+@RequestMapping("payment-type")
 public class PaymentTypeController {
 
 	private final String RETURN_PAGE = "page/payment-type";

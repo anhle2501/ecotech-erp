@@ -26,7 +26,7 @@ import vn.com.ecotechgroup.erp.service.OrderService;
 import vn.com.ecotechgroup.erp.service.ProductService;
 
 @Controller
-@RequestMapping("/order")
+@RequestMapping("order")
 @SessionAttributes(value ={"newOrder", "order"})
 public class OrderController {
 

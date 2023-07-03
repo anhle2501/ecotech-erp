@@ -22,7 +22,7 @@ import vn.com.ecotechgroup.erp.entity.Product;
 import vn.com.ecotechgroup.erp.repository.ProductRepository;
 
 @Controller
-@RequestMapping("/product")
+@RequestMapping("product")
 public class ProductController {
 
 	private final String RETURN_PAGE = "page/product";
