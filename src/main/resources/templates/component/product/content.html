@@ -2,7 +2,7 @@
 		<table class="table table-striped">
 				<thead>
 						<tr>
-								<th scope="col">#</th>
+								<th scope="col">Mã</th>
 								<th scope="col">Tên</th>
 								<th scope="col">Mô tả</th>
 								<th scope="col">Hành động</th>
@@ -30,7 +30,7 @@
 						</div>
 
 						<tr th:each="c, iterator : ${product}" th:with="count=0">
-								<td scope="row" th:text="${iterator.index + 1}"></td>
+								<td scope="row" th:text="${c.id}"></td>
 								<td th:text="${c.name}"></td>
 								<td th:text="${c.description}"></td>
 								<td>

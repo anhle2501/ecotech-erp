@@ -5,7 +5,7 @@
 				<table class="table table-striped ">
 						<thead>
 								<tr>
-										<th scope="col">#</th>
+										<th scope="col">Mã</th>
 										<th scope="col">Khách hàng</th>
 										<th scope="col">Mã hàng</th>
 										<th scope="col">Sản phẩm</th>
@@ -35,8 +35,8 @@
 									</div>
 								
 								<tr th:each="c, iterator : ${order}">
-
-										<td scope="row" th:text="${iterator.index + 1}"></td>
+										<!-- ${iterator.index + 1} -->
+										<td scope="row" th:text="${c.id}"></td>
 										<td th:text="${c.customer?.name}"></td>
 										<td th:if="${c.orderProduct.size() == 0}"
 												th:text="${'Không có sản phẩm'}" colspan="2">
