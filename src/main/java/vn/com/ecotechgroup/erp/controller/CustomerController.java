@@ -60,7 +60,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/{id}/show")
-	public String showCustomer(@PathVariable("id") int id, Model model) {
+	public String showCustomer(@PathVariable("id") long  id, Model model) {
 		Optional<Customer> customerObj = customerRepo.findById(id);
 		if (customerObj.isPresent()) {
 			model.addAttribute("customer", customerObj.get());
@@ -73,7 +73,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/{id}")
-	public String getCustomer(@PathVariable("id") int id, Model model) {
+	public String getCustomer(@PathVariable("id") long  id, Model model) {
 		Optional<Customer> customerObj = customerRepo.findById(id);
 		if (customerObj.isPresent()) {
 			model.addAttribute("customer", customerObj.get());
@@ -100,7 +100,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/delete/{id}")
-	public String deleteCustomer(@PathVariable("id") int id, Model model, Error error) {
+	public String deleteCustomer(@PathVariable("id") long  id, Model model, Error error) {
 		try {
 			customerRepo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {

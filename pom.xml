@@ -40,6 +40,14 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
+		<!-- add security-->
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		
+		</dependency>
+		
 		<!-- Auto reload web page, disable template caching -->
 		
 		<dependency>

@@ -38,7 +38,7 @@ public class ProductServiceImp implements ProductService {
 	}
 
 	@Override
-	public Product getOne(int id) {
+	public Product getOne(long id ) {
 		return proRep.getReferenceById(id);
 	}
 

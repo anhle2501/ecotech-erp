@@ -10,8 +10,8 @@ public interface OrderService extends CrudService<Order>, UiService{
 
 	public Order addProduct(Order order, Product product, int price, int quantity);
 	
-	public void removeProduct(Order order, Integer productIndex);
+	public void removeProduct(Order order, Long productIndex);
 	
-	public void removeProduct(Order order, int productIndex);
+	public void removeProduct(Order order, long productIndex);
 	
 }

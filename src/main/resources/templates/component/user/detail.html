@@ -1,0 +1,96 @@
+<div th:fragment="user-detail">
+		<h3>Thông tin khách hàng</h3>
+		<form th:action="@{|/user/${id}|}" th:object="${user}"
+				method="POST">
+				
+				  <label class="form-label" for="*{id}">Mã </label> 
+				  <input th:readonly="true" class="form-control" type="text" th:field="*{id}" > 
+				  
+				  <label class="form-label" for="*{userName}">Tên đăng nhập </label> 
+				  <input th:readonly="true" class="form-control" type="text" th:field="*{userName}" > 
+				  
+				  <label class="form-label" for="*{fullName}">Họ và tên </label> 
+				  <input th:readonly="true" class="form-control" type="text" th:field="*{fullName}" > 
+				   
+				  <label class="form-label" for="*{mobilePhone}">Điện thoại </label> 
+				  <input th:readonly="true" class="form-control" type="text" th:field="*{mobilePhone}" > 
+				   
+				  <br/> 
+				  <label class="form-label" for="*{description}">Ghi chú</label> 
+				  <input th:readonly="true" class="form-control" type="text" th:field="*{description}" >
+				  <br/>
+				  <button type="button" class="btn btn-secondary w-25"
+						th:onclick="window.history.back()">Quay lại</button>
+		</form>
+	
+</div>
+
+
+<div th:fragment="new-user">
+		<h3>Thêm khách hàng</h3>
+	
+		<form th:action="@{/user/new-user}" th:object="${user}"
+				method="POST">
+				
+				  <label class="form-label" for="*{userName}">Tên đăng nhập *</label> 
+					<span class="validationError"
+			          th:if="${#fields.hasErrors('userName')}"
+			          th:errors="*{userName}"></span>
+				  <input class="form-control" type="text" th:field="*{userName}" > 
+				   
+				  <label class="form-label" for="*{lastName}">Họ </label> 
+				  <input  class="form-control" type="text" th:field="*{lastName}" > 
+				   
+				  <label class="form-label" for="*{firstName}">Tên </label> 
+				  <input  class="form-control" type="text" th:field="*{firstName}" > 
+				   
+				  
+				  <label class="form-label" for="*{mobilePhone}">Điện thoại </label> 
+				  <input  class="form-control" type="text" th:field="*{mobilePhone}" > 
+				   
+				  <br/> 
+				  <label class="form-label" for="*{description}">Ghi chú</label> 
+				  <input class="form-control" type="text" th:field="*{description}" >
+				  <br/>
+				  <button type="submit" class="btn btn-success w-25">Tạo</button> 
+				  <button type="button" class="btn btn-secondary w-25"
+						th:onclick="window.history.back()">Quay lại</button>
+				
+		</form>
+		
+</div>
+
+<div th:fragment="update-user">
+		<h3>Cập nhật khách hàng</h3>
+		<form th:action="@{|/user/${id}|}" th:object="${user}"
+				method="POST">
+				  <input class="form-control" type="hidden" th:field="*{id}" >
+				  
+				   <label class="form-label" for="*{userName}">Tên đăng nhập*</label> 
+					<span class="validationError"
+			          th:if="${#fields.hasErrors('userName')}"
+			          th:errors="*{userName}"></span>
+				  <input class="form-control" type="text" th:field="*{userName}" > 
+				   
+				  
+				   <label class="form-label" for="*{lastName}">Họ </label> 
+				  <input  class="form-control" type="text" th:field="*{lastName}" > 
+				   
+				  <label class="form-label" for="*{firstName}">Tên </label> 
+				  <input  class="form-control" type="text" th:field="*{firstName}" > 
+				  
+				  <label class="form-label" for="*{mobilePhone}">Điện thoại </label> 
+				  <input  class="form-control" type="text" th:field="*{mobilePhone}" > 
+				  
+				  <br/> 
+				  <label class="form-label" for="*{description}">Ghi chú</label> 
+				  <input class="form-control" type="text" th:field="*{description}" >
+				  <br/>
+				  <span class="">
+				  <button type="submit" class="btn btn-success w-25">Cập nhật</button> 
+				  <button type="button" class="btn btn-secondary w-25"
+						th:onclick="window.history.back()">Quay lại</button></span>
+
+		</form>
+		
+</div>

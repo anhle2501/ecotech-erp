@@ -59,12 +59,12 @@ public class OrderServiceImp implements OrderService {
 
 	@Override
 	public void delete(int orderId) {
-		orderRepo.deleteById(orderId);
+		orderRepo.deleteById((long) orderId);
 	}
 
 
 	@Override
-	public Order getOne(int id) {
+	public Order getOne(long id) {
 		return orderRepo.getReferenceById(id);
 	}
 
@@ -95,13 +95,13 @@ public class OrderServiceImp implements OrderService {
 	}
 
 	@Override
-	public void removeProduct(Order order, Integer productIndex) {
+	public void removeProduct(Order order, Long productIndex) {
 		order.removeProduct(productIndex);
 		save(order);
 	}
 	
 	@Override
-	public void removeProduct(Order order, int productId) {
+	public void removeProduct(Order order, long productId) {
 		// cascade delete dont have so need to delete 2 time at 2 place
 		order.removeProduct(productId);
 		orderProductRepo.deleteById(productId);

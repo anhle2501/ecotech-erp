@@ -51,7 +51,7 @@ public class CustomerRepositoryTest {
 				.findById(customer.getId());
 		assertThat(resultCustomer.isPresent()).isTrue();
 
-		Optional<Customer> noThingOptional = customerRepo.findById(9999);
+		Optional<Customer> noThingOptional = customerRepo.findById((long) 9999);
 		assertThat(noThingOptional.isEmpty()).isTrue();
 
 	}

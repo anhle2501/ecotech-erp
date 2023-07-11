@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import vn.com.ecotechgroup.erp.entity.Product;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Integer> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	@Query("SELECT p FROM Product p "
 			+ "WHERE p.name LIKE %:searchTerm% "

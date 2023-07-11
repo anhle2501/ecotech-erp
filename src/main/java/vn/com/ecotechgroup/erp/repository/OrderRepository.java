@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import vn.com.ecotechgroup.erp.entity.Order;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Integer> {
+public interface OrderRepository extends JpaRepository<Order, Long > {
 
 	// pending
 //	@Query(value = "SELECT AUTO_INCREMENT "

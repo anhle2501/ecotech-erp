@@ -148,7 +148,7 @@ public class OrderController {
 			@ModelAttribute("order") Order order,
 			@ModelAttribute("productIndex") int productIndex) {
 		
-		int id = order.getId();
+		long id = order.getId();
 		orderService.removeProduct(order, productIndex);
 		Order updateOrder = orderService.getOne(id);	
 		// for reset

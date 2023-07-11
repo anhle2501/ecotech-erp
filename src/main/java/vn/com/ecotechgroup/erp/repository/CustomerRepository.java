@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import vn.com.ecotechgroup.erp.entity.Customer;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Integer>{
+public interface CustomerRepository extends JpaRepository<Customer, Long >{
 
 	Page<Customer> findCustomerByNameContainsOrDescriptionContains(Pageable pageable, String name, String description);
 

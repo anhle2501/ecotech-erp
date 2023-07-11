@@ -33,7 +33,7 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private int id;
+	private long id;
 
 	@Column
 	@CreationTimestamp
@@ -89,17 +89,19 @@ public class Order {
 		}
 	}
 
-	public void removeProduct(Integer productIndex) {
+	public void removeProduct( Long productIndex) {
+		int tmp = (int) (productIndex - 1);
 		if (this.getOrderProduct().size() != 0 && productIndex != 0) {
 			List<OrderProduct> products = this.getOrderProduct();
-			OrderProduct product = products.get(productIndex - 1);
+			OrderProduct product = products.get(tmp);
+			
 			long total = product.getPrice() * product.getQuantity();
 			this.setTotalPrice(this.getTotalPrice() - total);
-			products.remove(productIndex - 1);
+			products.remove(tmp);
 			}
 		}
 		
-	public void removeProduct(int productId) {
+	public void removeProduct( long productId) {
 		List<OrderProduct> orderProducts = this.getOrderProduct();
 		OrderProduct deleteProduct = orderProducts.stream().filter((op) -> op.getId() == productId).toList().get(0);
 		orderProducts = orderProducts.stream().filter((op) -> op.getId() != productId).toList();

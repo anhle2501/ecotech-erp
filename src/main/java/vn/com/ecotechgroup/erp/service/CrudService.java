@@ -16,7 +16,7 @@ public interface CrudService<T> {
 	
 	void delete(int id);
 	
-	T getOne(int id);
+	T getOne(long l);
 	
 	Page<T> getListPage(Pageable pageable, String searchTerm);
 		

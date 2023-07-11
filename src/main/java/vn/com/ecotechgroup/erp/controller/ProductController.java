@@ -67,7 +67,7 @@ public class ProductController {
 	}
 	
 	@GetMapping(SHOW_PATH)
-	public String showPaymentType(@PathVariable("id") int id, Model model) {
+	public String showPaymentType(@PathVariable("id") long  id, Model model) {
 		Optional<Product> productObj = productRepo.findById(id);
 		if (productObj.isPresent()) {
 			model.addAttribute(NAME_ATTRIBUTE, productObj.get());
@@ -79,7 +79,7 @@ public class ProductController {
 	}
 	
 	@GetMapping(ADD_PATH)
-	public String getPaymentType(@PathVariable("id") int id, Model model) {
+	public String getPaymentType(@PathVariable("id") long  id, Model model) {
 		Optional<Product> productObj = productRepo.findById(id);
 		if (productObj.isPresent()) {
 			model.addAttribute(NAME_ATTRIBUTE, productObj.get());
@@ -104,7 +104,7 @@ public class ProductController {
 	}
 	
 	@GetMapping(DELETE_PATH)
-	public String deletePaymentType(@PathVariable("id") int id, Model model) {
+	public String deletePaymentType(@PathVariable("id") long  id, Model model) {
 		productRepo.deleteById(id);
 		return showProductList(model, default_page, default_page_size, null);
 	}

@@ -27,7 +27,7 @@ public class OrderProduct {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private int id;
+	private long id;
 	
 	// prevent toString recursive
 	@ToString.Exclude

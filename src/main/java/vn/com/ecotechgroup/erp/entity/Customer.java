@@ -24,7 +24,7 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private int id;
+	private long id;
 
 	@NotBlank(message = "Không được để trống !")
 	@Column(length = 100)

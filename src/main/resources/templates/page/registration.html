@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<div th:replace="~{component/head-tag::head-tag}"></div>
+</head>
+
+<body>
+		<main>
+				<div class="container-md text-left">
+
+						<div class="row">
+								<div class="col">
+								<h1>Đăng ký tài khoản</h1>
+				<form th:action="@{/register}" th:object="${user}" method="POST">
+
+						  <label class="form-label" for="*{userName}">Tên đăng
+								nhập *</label> <span class="validationError"
+								th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
+						<input class="form-control" type="text" th:field="*{userName}">
+
+						  <label class="form-label" for="*{password}">Mật khẩu *</label> <span
+								class="validationError" th:if="${#fields.hasErrors('password')}"
+								th:errors="*{password}"></span> <input class="form-control"
+								type="password" th:field="*{password}"> <label
+								class="form-label" for="*{lastName}">Họ </label> <input
+								class="form-control" type="text" th:field="*{lastName}">
+
+						<label class="form-label" for="*{firstName}">Tên </label> <input
+								class="form-control" type="text" th:field="*{firstName}">
+
+
+						<label class="form-label" for="*{mobilePhone}">Điện thoại
+						</label> <input class="form-control" type="text" th:field="*{mobilePhone}">
+
+						<br /> <label class="form-label" for="*{description}">Ghi
+								chú</label> <input class="form-control" type="text"
+								th:field="*{description}"> <br />
+						<button type="submit" class="btn btn-success w-25">Đăng ký tài khoản</button>
+						<button type="button" class="btn btn-secondary w-25"
+								th:onclick="window.location.href='/'">Quay lại</button>
+				</form>
+								
+								</div>
+						</div>
+				</div>
+
+				
+		</main>
+
+
+
+
+
+		<div th:replace="~{component/footer::footer}"></div>
+</body>
+</html>

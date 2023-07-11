@@ -30,7 +30,7 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private int id;
+	private long id;
 
 	@Column(length = 45)
 	private String code;
@@ -61,7 +61,7 @@ public class Product {
 		orderProduct.add(newOrderProduct);
 	}
 	
-	public void removeOrder(int orderId) {
+	public void removeOrder(long orderId) {
 		orderProduct = 
 			orderProduct.stream()
 				.filter(op -> op.getOrder().getId() != orderId)

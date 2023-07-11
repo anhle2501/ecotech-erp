@@ -68,7 +68,7 @@ public class PaymentTypeController {
 	}
 	
 	@GetMapping(SHOW_PATH)
-	public String showPaymentType(@PathVariable("id") int id, Model model) {
+	public String showPaymentType(@PathVariable("id") long  id, Model model) {
 		Optional<PaymentType> paymentTypeObj = paymentTypeRepo.findById(id);
 		if (paymentTypeObj.isPresent()) {
 			model.addAttribute(NAME_ATTRIBUTE, paymentTypeObj.get());
@@ -80,7 +80,7 @@ public class PaymentTypeController {
 	}
 	
 	@GetMapping(ADD_PATH)
-	public String getPaymentType(@PathVariable("id") int id, Model model) {
+	public String getPaymentType(@PathVariable("id") long  id, Model model) {
 		Optional<PaymentType> paymentTypeObj = paymentTypeRepo.findById(id);
 		if (paymentTypeObj.isPresent()) {
 			model.addAttribute(NAME_ATTRIBUTE, paymentTypeObj.get());
@@ -106,7 +106,7 @@ public class PaymentTypeController {
 	}
 	
 	@GetMapping(DELETE_PATH)
-	public String deletePaymentType(@PathVariable("id") int id, Model model) {
+	public String deletePaymentType(@PathVariable("id") long  id, Model model) {
 		paymentTypeRepo.deleteById(id);
 		return showPaymentTypeList(model, default_page, default_page_size, null);
 	}

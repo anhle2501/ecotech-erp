@@ -31,11 +31,11 @@ public class OrderProductServiceImp implements CrudService<OrderProduct> {
 
 	@Override
 	public void delete(int id) {
-		opRep.deleteById(id);
+		opRep.deleteById((long) id);
 	}
 
 	@Override
-	public OrderProduct getOne(int id) {
+	public OrderProduct getOne(long id ) {
 		// TODO Auto-generated method stub
 		return null;
 	}
