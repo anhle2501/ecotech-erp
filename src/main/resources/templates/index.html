@@ -1,7 +1,19 @@
 <!DOCTYPE html>
 <html>
-<div th:replace="~{head-tag::head-tag}"></div>
+<div th:replace="~{component/head-tag::head-tag}"></div>
 <body>
-		<h1>Index</h1>
+		<div th:replace="~{component/header :: header}"></div>
+		<main>
+				<div class="container-md text-left">
+						<div class="row">
+								<div class="col">
+										<div th:replace="~{component/navbar::navbar}"></div> 
+								</div>
+						</div>
+						<div class="row">
+								<div class="col">Trang chủ</div>
+						</div>
+				</div>
+		</main>
 </body>
 </html>

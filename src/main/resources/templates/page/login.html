@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<div th:replace="~{component/head-tag::head-tag}"></div>
+<link th:href="@{/css/signin.css}" rel="stylesheet">
+</head>
+
+<body class="text-center">
+		<main class="form-signin">
+
+				Tài khoản test : nhutanh <br> mật khẩu: 12345678 <br>
+
+				<form th:action="@{/authenticate}" id="loginForm" method="POST">
+
+						<img class="mb-4" th:src="@{/asset/images/happiness.png}" alt=""
+								width="72" height="57">
+						<h1 class="h3 mb-3 fw-normal">Đăng nhập</h1>
+
+						<div class="form-floating">
+								<input type="text" class="form-control" id="username" name="username"
+										placeholder="Tên đăng nhập"> <label for="username">Tên
+										đăng nhập</label>
+						</div>
+						<div class="form-floating">
+								<input type="password" name="password" class="form-control" id="password"
+										placeholder="Mật khẩu"> <label for="password">Mật
+										khẩu</label>
+						</div>
+
+						<div class="checkbox mb-3">
+								<label> <input type="checkbox" value="remember-me">
+										Remember me
+								</label>
+						</div>
+						<button class="w-100 btn btn-lg btn-primary" type="submit">Sign
+								in</button>
+						<p class="mt-5 mb-3 text-muted">&copy; Global Ecotech 2023</p>
+				</form>
+
+		</main>
+
+
+		<!-- <div th:replace="~{component/footer::footer}"></div> -->
+</body>
+</html>

@@ -70,6 +70,10 @@
 		    <version>3.0.4.RELEASE</version>
 		</dependency>
 		
+		<dependency>
+		    <groupId>org.thymeleaf.extras</groupId>
+		    <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+		</dependency>
 		<!-- Validation: using hibernate validator -->		
 		
 		<dependency>

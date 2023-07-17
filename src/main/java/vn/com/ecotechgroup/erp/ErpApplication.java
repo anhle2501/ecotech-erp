@@ -4,10 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.function.RouterFunction;
-import org.springframework.web.servlet.function.ServerResponse;
 
+import vn.com.ecotechgroup.erp.controller.CustomerController;
+import vn.com.ecotechgroup.erp.entity.Authorities;
 import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 import vn.com.ecotechgroup.erp.repository.OrderRepository;
 import vn.com.ecotechgroup.erp.repository.PaymentTypeRepository;
@@ -24,8 +25,8 @@ public class ErpApplication {
 	@Autowired
 	private PaymentTypeRepository repo2;
 	
-	@Autowired
-	private OrderRepository repo3;
+//	@Autowired
+//	private Authorities au;
 	
 	@Bean
 	public CommandLineRunner cmd() {
@@ -55,9 +56,16 @@ public class ErpApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(ErpApplication.class, args);
+//		SpringApplication.run(ErpApplication.class, args);
 		
+		ApplicationContext context = SpringApplication.run(ErpApplication.class, args);
+        // Lấy ra bean SimpleBean trong Context
+        SimpleBean2 simpleBean = context.getBean(SimpleBean2.class);
+        // In ra màn hình
+        System.out.println("Simple Bean Example: " + simpleBean.toString());
 		
+        CustomerController customerControllers = context.getBean(CustomerController.class);
+        System.out.println(customerControllers.toString());
 	}
 
 }

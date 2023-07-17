@@ -7,14 +7,13 @@ import org.springframework.ui.Model;
 
 import vn.com.ecotechgroup.erp.entity.Order;
 
-
 public interface CrudService<T> {
 	
 	T save(T t);
 	
-	T update(int id);
+	T update(long id);
 	
-	void delete(int id);
+	void delete(long id);
 	
 	T getOne(long l);
 	

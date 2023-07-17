@@ -1,7 +1,7 @@
 package vn.com.ecotechgroup.erp.entity;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,9 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -28,13 +31,11 @@ import lombok.RequiredArgsConstructor;
 public class User implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private long id;
-	
-	
 	
 	@Column(length = 45, unique = true, nullable = false)
 	@NotBlank(message = "Không để trống!")
@@ -61,10 +62,26 @@ public class User implements UserDetails {
 	@Size(max = 1000, message = "Ít hơn 1000 ký tự!")
 	private final String description;
 	
+	@Column(insertable = false)
+	private boolean nonLock;
+	@Column(insertable = false)
+	private boolean nonExpired;
+	@Column(insertable = false)
+	private boolean pwNonExpired;
+	@Column(insertable = false)
+	private boolean enable;
+//	
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name="user_id_au")
+	private List<Authorities> listAuth;
+	
+	
+//	 @OneToMany(mappedBy = "userOrdered", fetch = FetchType.LAZY)
+//	 private List<Order> listOrders;
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
-		return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+		return listAuth.stream().map(e -> new SimpleGrantedAuthority(e.getAuthority())).toList();
 	}
 	@Override
 	public String getPassword() {
@@ -74,27 +91,27 @@ public class User implements UserDetails {
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return userName;
+		return userName + " " + "(" + fullName + ")";
 	}
 	@Override
 	public boolean isAccountNonExpired() {
 		
-		return true;
+		return this.nonExpired;
 	}
 	@Override
 	public boolean isAccountNonLocked() {
 		
-		return true;
+		return this.nonExpired;
 	}
 	@Override
 	public boolean isCredentialsNonExpired() {
 	
-		return false;
+		return this.pwNonExpired;
 	}
 	@Override
 	public boolean isEnabled() {
 		
-		return true;
+		return this.enable;
 	}
 	
 	

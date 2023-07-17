@@ -1,3 +1,14 @@
 <header th:fragment="header" class="text-center">
-	This is header
+ <span sec:authorize="isAuthenticated()">
+	Tên đăng nhập:
+		<span sec:authentication="principal.username">The value of the "name" property
+						of the authentication object should appear here.
+
+		
+	</span>
+	<form class="d-inline" method="POST" th:action="@{/logout}">
+				<button class="btn btn-secondary" type="submit">Thoát </button>
+		</form> 
+	
+</span>
 </header>

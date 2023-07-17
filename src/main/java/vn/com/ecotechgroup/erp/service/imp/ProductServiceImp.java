@@ -26,13 +26,13 @@ public class ProductServiceImp implements ProductService {
 	}
 
 	@Override
-	public Product update(int id) {
+	public Product update(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(long id) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -16,14 +16,14 @@ import vn.com.ecotechgroup.erp.repository.UserRepository;
 
 @Controller
 @RequestMapping("/register")
-public class UserController {
+public class RegisterController {
 
 	private UserRepository userRepository;
 	
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public UserController(UserRepository userRepository,
+	public RegisterController(UserRepository userRepository,
 			PasswordEncoder encoder) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = encoder;

@@ -76,6 +76,7 @@ public class OrderController {
 		} else {
 			orderList = orderService.getListPage(PageRequest.of(pageNumber, pageSize), searchTerm);
 		}
+		System.out.println(orderList.getContent().toString());
 		model.addAttribute(NAME_ATTRIBUTE, orderList );
 		model.addAttribute("isList", true);
 		return RETURN_PAGE;

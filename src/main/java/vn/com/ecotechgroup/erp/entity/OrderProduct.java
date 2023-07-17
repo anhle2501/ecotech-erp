@@ -48,7 +48,7 @@ public class OrderProduct {
 	
 	@Column(name="total",  insertable = false, updatable = false)
 	private long total;
-
+	
 	public OrderProduct(Order order, Product product, int price, int quantity) {
 		this.order = order;
 		this.product = product;
