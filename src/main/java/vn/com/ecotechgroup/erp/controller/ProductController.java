@@ -20,6 +20,7 @@ import jakarta.validation.constraints.Min;
 import vn.com.ecotechgroup.erp.entity.PaymentType;
 import vn.com.ecotechgroup.erp.entity.Product;
 import vn.com.ecotechgroup.erp.repository.ProductRepository;
+import vn.com.ecotechgroup.erp.service.ProductService;
 
 @Controller
 @RequestMapping("product")
@@ -37,6 +38,13 @@ public class ProductController {
 	
 	@Autowired
 	private ProductRepository productRepo;	
+	
+	private ProductService productService;
+	
+	@Autowired
+	public ProductController(ProductService productService) {
+		this.productService = productService;
+	}
 	
 	@ModelAttribute(name = NAME_ATTRIBUTE)
 	public Product product() {

@@ -68,7 +68,11 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	 return http
 			 .authorizeHttpRequests()
-			 	.requestMatchers("/order/**", "/customer/**", "/payment-type/**", "/product/**")
+			 	.requestMatchers("/order/**", 
+			 				"/customer/**", 
+			 				"/payment-type/**", 
+			 				"/product/**",
+			 				"/user/**")
 			 		.hasRole("USER")
 		 		.requestMatchers("/","/register","/js/**", "/css/**", "/asset/**" ,"/index")
 		 			.permitAll()

@@ -83,7 +83,7 @@ public class OrderController {
 	}
 
 	@GetMapping(SHOW_PATH)
-	public String showOrder(@PathVariable("id") int id, Model model) {
+	public String showOrder(@PathVariable("id") Long id, Model model) {
 		Optional<Order> orderObj = Optional.of(orderService.getOne(id));
 		if (orderObj.isPresent()) {
 			model.addAttribute("id", id);
@@ -96,7 +96,7 @@ public class OrderController {
 	}
 
 	@GetMapping(ADD_PATH)
-	public String getOrder(@PathVariable("id") int id, Model model) {
+	public String getOrder(@PathVariable("id") Long id, Model model) {
 		Optional<Order> orderObj = Optional.ofNullable(orderService.getOne(id));
 		if (orderObj.isPresent()) {
 			model.addAttribute(NAME_ATTRIBUTE, orderObj.get());
@@ -121,7 +121,7 @@ public class OrderController {
 	@PostMapping(value = UPDATE_PATH, params = "addProduct")
 	public String updateOrderAddProduct(Model model,
 			@ModelAttribute("order") Order order,
-			@ModelAttribute("product") int productId,
+			@ModelAttribute("product") long productId,
 			@ModelAttribute("price") Integer price,
 			@ModelAttribute("quantity") Integer quantity) {
 		orderService.getInformation(model);
@@ -180,7 +180,7 @@ public class OrderController {
 	}
 
 	@GetMapping(DELETE_PATH)
-	public String deleteOrder(@PathVariable("id") int id, Model model) {
+	public String deleteOrder(@PathVariable("id") Long id, Model model) {
 		try {
 			orderService.delete(id);
 		} catch (DataIntegrityViolationException e) {

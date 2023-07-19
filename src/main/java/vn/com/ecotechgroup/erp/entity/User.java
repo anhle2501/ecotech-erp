@@ -1,12 +1,16 @@
 package vn.com.ecotechgroup.erp.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,10 +29,10 @@ import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "user") 
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PUBLIC, force = true)
 @Data
 public class User implements UserDetails {
+	
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -39,28 +43,28 @@ public class User implements UserDetails {
 	
 	@Column(length = 45, unique = true, nullable = false)
 	@NotBlank(message = "Không để trống!")
-	@Size(max = 45, message = "Ít hơn 45 ký tự!")
-	private final String userName;
+	@Length(max = 45, message = "Ít hơn 45 ký tự!")
+	private String userName;
 	
 	@Column(length = 45, nullable = false)
 	@NotBlank(message = "Không để trống!")
-	@Size(min= 8, max=1000, message = "Nhiều hơn 8 ký tự!")
-	private final String password;
+	@Length(min= 8, max=1000, message = "Nhiều hơn 8 ký tự!")
+	private String password;
 	
 	@Column(length = 45)
-	@Size(max = 45, message = "Ít hơn 45 ký tự!")
-	private final String firstName;
+	@Length(max = 45, message = "Ít hơn 45 ký tự!")
+	private String firstName;
 	@Column(length = 45)
-	@Size(max = 45, message = "Ít hơn 45 ký tự!")
-	private final String lastName;
+	@Length(max = 45, message = "Ít hơn 45 ký tự!")
+	private String lastName;
 	@Column(insertable = false, updatable = false)
 	private String fullName;
 	@Column(length = 45)
-	@Size(max = 45, message = "Ít hơn 45 ký tự!")
-	private final String mobilePhone;
+	@Length(max = 45, message = "Ít hơn 45 ký tự!")
+	private String mobilePhone;
 	@Column(length = 1000)
-	@Size(max = 1000, message = "Ít hơn 1000 ký tự!")
-	private final String description;
+	@Length(max = 1000, message = "Ít hơn 1000 ký tự!")
+	private String description;
 	
 	@Column(insertable = false)
 	private boolean nonLock;
@@ -71,13 +75,20 @@ public class User implements UserDetails {
 	@Column(insertable = false)
 	private boolean enable;
 //	
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="user_id_au")
-	private List<Authorities> listAuth;
+	private List<Authorities> listAuth = new ArrayList<>();
 	
 	
 //	 @OneToMany(mappedBy = "userOrdered", fetch = FetchType.LAZY)
 //	 private List<Order> listOrders;
+	
+//	public String getUserName() {
+//		return this.userName;
+//	}
+//	public void setUserName(String userName) {
+//		this.userName = userName;
+//	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -85,13 +96,11 @@ public class User implements UserDetails {
 	}
 	@Override
 	public String getPassword() {
-		
 		return password ;
 	}
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
-		return userName + " " + "(" + fullName + ")";
+		return userName;
 	}
 	@Override
 	public boolean isAccountNonExpired() {
@@ -114,5 +123,22 @@ public class User implements UserDetails {
 		return this.enable;
 	}
 	
+	public User(
+			String userName,
+			String password,
+			String firstName,
+			String lastName,
+			String mobilePhone,
+			String description) {
+		this.userName = userName;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.mobilePhone = mobilePhone;
+		this.description = description;
+	}
+	public String getUserName() {
+		return userName;
+	}
 	
 }

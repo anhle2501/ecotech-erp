@@ -26,18 +26,18 @@ public class OrderProductServiceImp implements CrudService<OrderProduct> {
 	}
 
 	@Override
-	public OrderProduct update(long id) {
+	public OrderProduct update(OrderProduct t) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void delete(long id) {
+	public void delete(Long id) {
 		opRep.deleteById((long) id);
 	}
 
 	@Override
-	public OrderProduct getOne(long id ) {
+	public OrderProduct getOne(Long id ) {
 		// TODO Auto-generated method stub
 		return null;
 	}

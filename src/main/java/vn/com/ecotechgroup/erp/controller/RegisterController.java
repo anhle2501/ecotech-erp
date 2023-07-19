@@ -11,23 +11,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import vn.com.ecotechgroup.erp.entity.RegistrationForm;
-import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.repository.UserRepository;
+import vn.com.ecotechgroup.erp.service.UserService;
 
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
 
-	private UserRepository userRepository;
+	private UserService userService;
 	
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public RegisterController(UserRepository userRepository,
+	public RegisterController(UserService userService,
 			PasswordEncoder encoder) {
-		this.userRepository = userRepository;
+		this.userService = userService;
 		this.passwordEncoder = encoder;
 	}
+	
+//	@Autowired
+//	public RegisterController(
+//			UserService userService) {
+//		this.userService = userService;
+//	}
 	
 	@ModelAttribute("user")
 	public RegistrationForm createForm() {
@@ -48,7 +54,7 @@ public class RegisterController {
 			
 			return "page/registration";
 		} else {
-			userRepository.save(form.toUser(passwordEncoder));			
+			userService.save(form.toUser(passwordEncoder));			
 			return "redirect:/login";
 		}
 	}

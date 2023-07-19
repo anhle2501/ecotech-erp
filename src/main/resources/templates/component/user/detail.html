@@ -2,14 +2,14 @@
 		<h3>Thông tin khách hàng</h3>
 		<form th:action="@{|/user/${id}|}" th:object="${user}"
 				method="POST">
-				
-				  <label class="form-label" for="*{id}">Mã </label> 
+				 <h1 th:text="${user.userName}"></h1>
+				 <label class="form-label" for="*{id}">Mã </label> 
 				  <input th:readonly="true" class="form-control" type="text" th:field="*{id}" > 
 				  
-				  <label class="form-label" for="*{userName}">Tên đăng nhập </label> 
+			     <label class="form-label" for="*{userName}">Tên đăng nhập </label> 
 				  <input th:readonly="true" class="form-control" type="text" th:field="*{userName}" > 
 				  
-				  <label class="form-label" for="*{fullName}">Họ và tên </label> 
+				 <label class="form-label" for="*{fullName}">Họ và tên </label> 
 				  <input th:readonly="true" class="form-control" type="text" th:field="*{fullName}" > 
 				   
 				  <label class="form-label" for="*{mobilePhone}">Điện thoại </label> 
@@ -18,7 +18,7 @@
 				  <br/> 
 				  <label class="form-label" for="*{description}">Ghi chú</label> 
 				  <input th:readonly="true" class="form-control" type="text" th:field="*{description}" >
-				  <br/>
+				  <br/> 
 				  <button type="button" class="btn btn-secondary w-25"
 						th:onclick="window.history.back()">Quay lại</button>
 		</form>
@@ -37,7 +37,14 @@
 			          th:if="${#fields.hasErrors('userName')}"
 			          th:errors="*{userName}"></span>
 				  <input class="form-control" type="text" th:field="*{userName}" > 
-				   
+				
+				   <label class="form-label" for="*{password}">Mật khẩu *</label> 
+					<span class="validationError"
+			          th:if="${#fields.hasErrors('password')}"
+			          th:errors="*{password}"></span>
+				  <input class="form-control" type="text" th:field="*{password}" > 
+				  
+				  
 				  <label class="form-label" for="*{lastName}">Họ </label> 
 				  <input  class="form-control" type="text" th:field="*{lastName}" > 
 				   

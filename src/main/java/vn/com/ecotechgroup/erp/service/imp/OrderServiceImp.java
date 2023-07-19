@@ -52,19 +52,19 @@ public class OrderServiceImp implements OrderService {
 
 
 	@Override
-	public Order update(long id) {
-		return null;
+	public Order update(Order order) {
+		return orderRepo.save(order);
 	}
 
 
 	@Override
-	public void delete(long orderId) {
+	public void delete(Long orderId) {
 		orderRepo.deleteById((long) orderId);
 	}
 
 
 	@Override
-	public Order getOne(long id) {
+	public Order getOne(Long id) {
 		return orderRepo.getReferenceById(id);
 	}
 

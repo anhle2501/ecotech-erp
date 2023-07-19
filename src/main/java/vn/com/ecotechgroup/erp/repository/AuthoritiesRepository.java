@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import vn.com.ecotechgroup.erp.entity.Authorities;
 
 @Repository
-public interface AuthoritiesRepository extends JpaRepository<Authorities, Integer >{
+public interface AuthoritiesRepository extends JpaRepository<Authorities, Long >{
 
 }

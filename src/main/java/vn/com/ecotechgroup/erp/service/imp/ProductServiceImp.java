@@ -21,33 +21,28 @@ public class ProductServiceImp implements ProductService {
 
 	@Override
 	public Product save(Product t) {
-		// TODO Auto-generated method stub
-		return null;
+		return proRep.save(t);
 	}
 
 	@Override
-	public Product update(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Product update(Product t) {
+		return proRep.save(null);
 	}
 
 	@Override
-	public void delete(long id) {
-		// TODO Auto-generated method stub
-		
+	public void delete(Long id) {
+		proRep.deleteById(id);
+
 	}
 
 	@Override
-	public Product getOne(long id ) {
+	public Product getOne(Long id) {
 		return proRep.getReferenceById(id);
 	}
 
 	@Override
 	public Page<Product> getListPage(Pageable pageable, String searchTerm) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	
-	
 }
