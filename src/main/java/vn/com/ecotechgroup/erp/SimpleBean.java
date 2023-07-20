@@ -5,7 +5,7 @@ public class SimpleBean {
 
 
 	public SimpleBean(String username2) {
-		// TODO Auto-generated constructor stub
+		
 	    this.username = username2;
 	}
 

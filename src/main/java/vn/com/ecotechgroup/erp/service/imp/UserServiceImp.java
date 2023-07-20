@@ -20,11 +20,14 @@ public class UserServiceImp implements UserService {
 
 	private UserRepository userRepo;
 	private PasswordEncoder passwordEncoder;
+	private AuthoritiesRepository auRepo;
+	
 
 	@Autowired
 	public UserServiceImp(UserRepository userRepo, AuthoritiesRepository auRepo, PasswordEncoder passwordEncoder) {
 		this.userRepo = userRepo;
 		this.passwordEncoder = passwordEncoder;
+		this.auRepo = auRepo;
 	}
 	
 	@Override
@@ -37,21 +40,18 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public User save(User t) {
+		// add user
 		System.out.println("dang o day");
 		String pw = t.getPassword();
 		pw = passwordEncoder.encode(pw);
 		t.setPassword(pw);
-		
 		User user = userRepo.save(t);
-		System.out.println(user);
-		
+		// add role
 		Authorities au = new Authorities();
 		au.setAuthority("ROLE_USER");
 		au.setUserId(user.getId());
-		List<Authorities> tmpAuthorities = t.getListAuth();
-		tmpAuthorities.add(au);
+		auRepo.save(au);
 		
-		user = userRepo.save(t);
 		return user;
 		
 	}
@@ -63,6 +63,9 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public void delete(Long id) {
+		System.out.println("Dang chay odoadudiauiofadf");
+		
+		auRepo.deleteById(id);
 		userRepo.deleteById(id);
 	}
 

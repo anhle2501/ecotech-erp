@@ -12,8 +12,8 @@
 				  <label class="form-label" for="*{description}">Ghi chú</label> 
 				  <input th:readonly="true" class="form-control" type="text" th:field="*{description}" >
 				  <br/>
-				  <button type="button" class="btn btn-secondary w-25"
-						th:onclick="window.history.back()">Quay lại</button>
+				  	  <button type="button" class="btn btn-secondary w-25"
+						th:onclick="@{|window.location.href='/payment-type/0/50'|}">Quay lại</button></span>
 		</form>
 	
 </div>
@@ -42,8 +42,8 @@
 				  <input class="form-control" type="text" th:field="*{description}" >
 				  <br/>
 				  <button type="submit" class="btn btn-success w-25">Tạo</button> 
-				  <button type="button" class="btn btn-secondary w-25"
-						th:onclick="window.history.back()">Quay lại</button>
+				  	  <button type="button" class="btn btn-secondary w-25"
+						th:onclick="@{|window.location.href='/payment-type/0/50'|}">Quay lại</button></span>
 				
 		</form>
 		
@@ -73,7 +73,7 @@
 				  <span class="">
 				  <button type="submit" class="btn btn-success w-25">Cập nhật</button> 
 				  <button type="button" class="btn btn-secondary w-25"
-						th:onclick="window.history.back()">Quay lại</button></span>
+						th:onclick="@{|window.location.href='/payment-type/0/50'|}">Quay lại</button></span>
 
 		</form>
 		

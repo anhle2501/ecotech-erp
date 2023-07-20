@@ -1,7 +1,6 @@
 package vn.com.ecotechgroup.erp.service.imp;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,11 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.mysql.cj.log.Log;
-
 import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.entity.Order;
-import vn.com.ecotechgroup.erp.entity.OrderProduct;
 import vn.com.ecotechgroup.erp.entity.PaymentType;
 import vn.com.ecotechgroup.erp.entity.Product;
 import vn.com.ecotechgroup.erp.repository.CustomerRepository;

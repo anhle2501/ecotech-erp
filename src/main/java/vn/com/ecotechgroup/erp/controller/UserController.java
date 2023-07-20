@@ -37,9 +37,6 @@ public class UserController {
 	private int default_page = 0;
 	private int default_page_size = 50;
 
-//	@Autowired
-//	private UserRepository userService;	
-
 	private UserService userService;
 
 	@Autowired
@@ -75,7 +72,6 @@ public class UserController {
 
 	@GetMapping(SHOW_PATH)
 	public String showUser(@PathVariable("id") long id, Model model) {
-		System.out.println(id);
 		Optional<User> userObj = Optional.ofNullable(userService.getOne(id));
 		if (userObj.isPresent()) {
 			model.addAttribute(NAME_ATTRIBUTE, userObj.get());
@@ -100,13 +96,13 @@ public class UserController {
 
 	@PostMapping(UPDATE_PATH)
 	public String updateUser(@PathVariable("id") int id,
-			@Valid @ModelAttribute(NAME_ATTRIBUTE) User paymentType,
+			@Valid @ModelAttribute(NAME_ATTRIBUTE) User user,
 			Errors errors, Model model) {
 		if (errors.hasErrors()) {
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
 		} else {
-			userService.save(paymentType);
+			userService.update(user);
 			return showUserList(model, default_page, default_page_size, null);
 		}
 	}
@@ -124,10 +120,8 @@ public class UserController {
 	}
 
 	@PostMapping(NEW_PATH)
-	public String createPaymentType(@ModelAttribute(NAME_ATTRIBUTE) User user,
+	public String createPaymentType(@Valid @ModelAttribute(NAME_ATTRIBUTE) User user,
 			Errors errors, Model model) {
-		System.out.println("user");
-		System.out.println(user);
 		
 		if (errors.hasErrors()) {
 			model.addAttribute("isNew", true);
@@ -138,8 +132,7 @@ public class UserController {
 				userService.save(user);
 				return showUserList(model, default_page, default_page_size, null);
 			} else {
-				//to do add error message
-				
+				model.addAttribute("error", "User name bị trùng !");
 				model.addAttribute("isNew", true);
 				return RETURN_PAGE;
 			}

@@ -1,66 +1,70 @@
 <div th:fragment="customer-detail">
-		<h3>Thông tin khách hàng</h3>
-		<form th:action="@{|/customer/${id}|}" th:object="${customer}"
-				method="POST">
-				
-				  <label class="form-label" for="*{name}">Tên *</label> 
-				  <input th:readonly="true" class="form-control" type="text" th:field="*{name}" > 
-				   
-				  <br/> 
-				  <label class="form-label" for="*{description}">Ghi chú</label> 
-				  <input th:readonly="true" class="form-control" type="text" th:field="*{description}" >
-				  <br/>
-				  <button type="button" class="btn btn-secondary w-25"
-						th:onclick="window.history.back()">Quay lại</button>
-		</form>
+	<h3>Thông tin khách hàng</h3>
+	<form th:action="@{/customer/new-customer}" th:object="${customer}" method="POST">
+		<div class="input-group mb-3">
+		<span class="input-group-text">Tên *</span>
+		<input th:readonly="true" class="form-control" type="text" th:field="*{name}">
+		
+		</div>
+		
+		<div class="input-group mb-3">
+			<span class="input-group-text">Ghi chú</span>
+			<input th:readonly="true" class="form-control" type="text" th:field="*{description}">
+		</div>
+		
+		<button type="button" class="btn btn-secondary w-25"
+			th:onclick="@{|window.location.href='/customer/0/50'|}">Quay lại</button></span>
+	</form>
 	
+
 </div>
 
 
 <div th:fragment="new-customer">
-		<h3>Thêm khách hàng</h3>
-	
-		<form th:action="@{/customer/new-customer}" th:object="${customer}"
-				method="POST">
-				
-				  <label class="form-label" for="*{name}">Tên *</label> 
-					<span class="validationError"
-			          th:if="${#fields.hasErrors('name')}"
-			          th:errors="*{name}"></span>
-				  <input class="form-control" type="text" th:field="*{name}" > 
-				   
-				  <br/> 
-				  <label class="form-label" for="*{description}">Ghi chú</label> 
-				  <input class="form-control" type="text" th:field="*{description}" >
-				  <br/>
-				  <button type="submit" class="btn btn-success w-25">Tạo</button> 
-				  <button type="button" class="btn btn-secondary w-25"
-						th:onclick="window.history.back()">Quay lại</button>
-				
-		</form>
+	<h3>Thêm khách hàng</h3>
+
+	<form th:action="@{/customer/new-customer}" th:object="${customer}" method="POST">
+
+		<div class="input-group mb-3">
+			<span class="input-group-text">Tên *</span>
+			<input class="form-control" type="text" th:field="*{name}">
+			<span class="validationError input-group-text" th:if="${#fields.hasErrors('name')}"
+				th:errors="*{name}"></span>
+		</div>
 		
+		<div class="input-group mb-3">
+			<span class="input-group-text">Ghi chú</span>
+			<input class="form-control" type="text" th:field="*{description}">
+		</div>
+		
+		<button type="submit" class="btn btn-success w-25">Tạo</button>
+		<button type="button" class="btn btn-secondary w-25"
+			th:onclick="@{|window.location.href='/customer/0/50'|}">Quay lại</button></span>
+	</form>
+
 </div>
 
 <div th:fragment="update-customer">
-		<h3>Cập nhật khách hàng</h3>
-		<form th:action="@{|/customer/${id}|}" th:object="${customer}"
-				method="POST">
-				  <input class="form-control" type="hidden" th:field="*{id}" >
-				  <label class="form-label" for="*{name}">Tên *</label> 
-					<span class="validationError"
-			          th:if="${#fields.hasErrors('name')}"
-			          th:errors="*{name}"></span>
-				  <input class="form-control" type="text" th:field="*{name}" > 
-				   
-				  <br/> 
-				  <label class="form-label" for="*{description}">Ghi chú</label> 
-				  <input class="form-control" type="text" th:field="*{description}" >
-				  <br/>
-				  <span class="">
-				  <button type="submit" class="btn btn-success w-25">Cập nhật</button> 
-				  <button type="button" class="btn btn-secondary w-25"
-						th:onclick="window.history.back()">Quay lại</button></span>
-
-		</form>
+	<h3>Cập nhật khách hàng</h3>
+	<form th:action="@{|/customer/${id}|}" th:object="${customer}" method="POST">
+		  <input class="form-control" type="hidden" th:field="*{id}">
 		
+		<div class="input-group mb-3">
+			<span class="input-group-text">Tên *</span>
+			<input class="form-control" type="text" th:field="*{name}">
+			<span class="validationError input-group-text" th:if="${#fields.hasErrors('name')}"
+				th:errors="*{name}"></span>
+		</div>
+		
+		<div class="input-group mb-3">
+			<span class="input-group-text">Ghi chú</span>
+			<input class="form-control" type="text" th:field="*{description}">
+		</div>
+		
+		<button type="submit" class="btn btn-success w-25">Cập nhật</button>
+		<button type="button" class="btn btn-secondary w-25"
+			th:onclick="@{|window.location.href='/customer/0/50'|}">Quay lại</button></span>
+		
+	</form>
+
 </div>

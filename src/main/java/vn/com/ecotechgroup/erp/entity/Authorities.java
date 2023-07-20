@@ -1,7 +1,10 @@
 package vn.com.ecotechgroup.erp.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -25,8 +28,8 @@ public class Authorities {
 	@Column
 	private String authority;
 	
-	@ToString.Exclude
-	@OneToOne
-	@JoinColumn(name = "user_id_au")
-	User userDetails;
+//	@ToString.Exclude
+//	@OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+//	@JoinColumn(name = "user_id_au")
+//	User userDetails;
 }

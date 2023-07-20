@@ -48,8 +48,6 @@ public class RegisterController {
 	@PostMapping
 	public String processRegistration( @ModelAttribute("user") @Valid RegistrationForm form, Errors errors)
 	{
-		System.out.println(form);
-		System.out.println(errors  );
 		if (errors.hasErrors()) {
 			
 			return "page/registration";

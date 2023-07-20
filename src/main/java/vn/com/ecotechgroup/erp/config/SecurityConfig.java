@@ -83,7 +83,6 @@ public class SecurityConfig {
 		 		.usernameParameter("username")
 		 		.passwordParameter("password")
 		 		.defaultSuccessUrl("/order/0/50", true)
-		 		.permitAll()
 		 	.and()
 		 		.logout()
 		 		.logoutSuccessUrl("/login")

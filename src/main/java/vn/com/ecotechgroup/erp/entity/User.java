@@ -5,14 +5,15 @@ import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,16 +22,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "user") 
 @NoArgsConstructor(access = AccessLevel.PUBLIC, force = true)
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails {
 	
 	
@@ -87,7 +87,7 @@ public class User implements UserDetails {
 //		return this.userName;
 //	}
 //	public void setUserName(String userName) {
-//		this.userName = userName;
+//		this.userName = userName;ErroraddAttribute("
 //	}
 	
 	@Override
@@ -137,6 +137,7 @@ public class User implements UserDetails {
 		this.mobilePhone = mobilePhone;
 		this.description = description;
 	}
+	
 	public String getUserName() {
 		return userName;
 	}
