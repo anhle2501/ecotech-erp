@@ -41,8 +41,8 @@ public class UserServiceImp implements UserService {
 	@Override
 	public User save(User t) {
 		// add user
-		System.out.println("dang o day");
 		String pw = t.getPassword();
+		// encrypt password
 		pw = passwordEncoder.encode(pw);
 		t.setPassword(pw);
 		User user = userRepo.save(t);
@@ -58,13 +58,19 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public User update(User t) {
+		// encrypt password
+		String pw = t.getPassword();
+		pw = passwordEncoder.encode(pw);
+		t.setPassword(pw);
+		
+		// keep authority
+		List<Authorities> listAu = userRepo.getReferenceById(t.getId()).getListAuth();
+		t.setListAuth(listAu);
 		return userRepo.save(t);
 	}
 
 	@Override
 	public void delete(Long id) {
-		System.out.println("Dang chay odoadudiauiofadf");
-		
 		auRepo.deleteById(id);
 		userRepo.deleteById(id);
 	}

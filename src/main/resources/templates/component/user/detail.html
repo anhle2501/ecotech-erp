@@ -1,5 +1,5 @@
 <div th:fragment="user-detail">
-	<h3>Thông tin khách hàng</h3>
+	<h3>Thông tin người dùng</h3>
 	<form th:action="@{/user/new-user}" th:object="${user}" method="POST">
 
 		<div class="input-group mb-3">
@@ -38,7 +38,7 @@
 
 
 <div th:fragment="new-user">
-	<h3>Thêm khách hàng</h3>
+	<h3>Thêm người dùng</h3>
 
 	<form th:action="@{/user/new-user}" th:object="${user}" method="POST">
 
@@ -86,7 +86,7 @@
 </div>
 
 <div th:fragment="update-user">
-	<h3>Cập nhật khách hàng</h3>
+	<h3>Cập nhật người dùng</h3>
 
 	<form th:action="@{|/user/${id}|}" th:object="${user}" method="POST">
 		<div class="input-group mb-3 hidden">
@@ -145,8 +145,6 @@
 				<label class="form-check-label" for="pwNonExpired">Mật khẩu không hết hạn</label>
 			</div>
 		</div>
-
-
 
 		<div class="input-group mb-3">
 			<span class="input-group-text">Ghi chú</span>

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,15 +27,15 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode.Exclude;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "user") 
 @NoArgsConstructor(access = AccessLevel.PUBLIC, force = true)
 @Data
-@EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails {
-	
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -79,9 +82,9 @@ public class User implements UserDetails {
 	@JoinColumn(name="user_id_au")
 	private List<Authorities> listAuth = new ArrayList<>();
 	
-	
-//	 @OneToMany(mappedBy = "userOrdered", fetch = FetchType.LAZY)
-//	 private List<Order> listOrders;
+	 @ToString.Exclude
+	 @OneToMany(mappedBy = "userOrdered", fetch = FetchType.LAZY)
+	 private List<Order> listOrders;
 	
 //	public String getUserName() {
 //		return this.userName;
@@ -142,4 +145,5 @@ public class User implements UserDetails {
 		return userName;
 	}
 	
+
 }
