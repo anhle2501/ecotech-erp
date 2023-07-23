@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,18 +12,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Data;
-import lombok.EqualsAndHashCode.Exclude;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -77,25 +73,24 @@ public class User implements UserDetails {
 	private boolean pwNonExpired;
 	@Column(insertable = false)
 	private boolean enable;
-//	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name="user_id_au")
-	private List<Authorities> listAuth = new ArrayList<>();
+
+	@ToString.Exclude
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinTable(
+			  name = "user_role", 
+			  joinColumns = @JoinColumn(name = "user_id_au"), 
+			  inverseJoinColumns = @JoinColumn(name = "role_id")
+			  )
+	private List<Role> listRole = new ArrayList<>();
 	
 	 @ToString.Exclude
-	 @OneToMany(mappedBy = "userOrdered", fetch = FetchType.LAZY)
+	 @OneToMany(mappedBy = "userOrdered", fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	 private List<Order> listOrders;
 	
-//	public String getUserName() {
-//		return this.userName;
-//	}
-//	public void setUserName(String userName) {
-//		this.userName = userName;ErroraddAttribute("
-//	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return listAuth.stream().map(e -> new SimpleGrantedAuthority(e.getAuthority())).toList();
+		return listRole;
 	}
 	@Override
 	public String getPassword() {

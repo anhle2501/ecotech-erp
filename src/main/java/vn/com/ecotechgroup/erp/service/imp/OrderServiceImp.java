@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -13,6 +14,7 @@ import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.entity.Order;
 import vn.com.ecotechgroup.erp.entity.PaymentType;
 import vn.com.ecotechgroup.erp.entity.Product;
+import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 import vn.com.ecotechgroup.erp.repository.OrderProductRepository;
 import vn.com.ecotechgroup.erp.repository.OrderRepository;
@@ -43,6 +45,7 @@ public class OrderServiceImp implements OrderService {
 
 	@Override
 	public Order save(Order order) {
+		
 		return orderRepo.save(order);
 	}
 
@@ -85,7 +88,8 @@ public class OrderServiceImp implements OrderService {
 //		OrderProduct orderProduct = new OrderProduct(order, product, price, quantity);
 //		orderProductRepo.save(orderProduct);
 		order.addProduct(product, price, quantity);
-//		//will double save because of cascade persist	
+//		//will double save because of cascade persist
+		
 		return save(order);
 
 	}

@@ -1,6 +1,5 @@
 package vn.com.ecotechgroup.erp.service.imp;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import vn.com.ecotechgroup.erp.entity.Authorities;
+import vn.com.ecotechgroup.erp.entity.Role;
 import vn.com.ecotechgroup.erp.entity.User;
-import vn.com.ecotechgroup.erp.repository.AuthoritiesRepository;
+import vn.com.ecotechgroup.erp.repository.RoleRepository;
 import vn.com.ecotechgroup.erp.repository.UserRepository;
 import vn.com.ecotechgroup.erp.service.UserService;
 
@@ -20,14 +19,15 @@ public class UserServiceImp implements UserService {
 
 	private UserRepository userRepo;
 	private PasswordEncoder passwordEncoder;
-	private AuthoritiesRepository auRepo;
-	
+
+	private RoleRepository roleRepo;
 
 	@Autowired
-	public UserServiceImp(UserRepository userRepo, AuthoritiesRepository auRepo, PasswordEncoder passwordEncoder) {
+	public UserServiceImp(UserRepository userRepo, RoleRepository roleRepo, PasswordEncoder passwordEncoder) {
 		this.userRepo = userRepo;
+		this.roleRepo = roleRepo;
 		this.passwordEncoder = passwordEncoder;
-		this.auRepo = auRepo;
+
 	}
 	
 	@Override
@@ -45,34 +45,34 @@ public class UserServiceImp implements UserService {
 		// encrypt password
 		pw = passwordEncoder.encode(pw);
 		t.setPassword(pw);
-		User user = userRepo.save(t);
-		// add role
-		Authorities au = new Authorities();
-		au.setAuthority("ROLE_USER");
-		au.setUserId(user.getId());
-		auRepo.save(au);
 		
+		// add role
+		Role role = roleRepo.getRoleByName("ROLE_USER");
+		System.out.println(role);
+		t.getListRole().add(role);
+		User user = userRepo.save(t);
 		return user;
 		
 	}
 
 	@Override
 	public User update(User t) {
-		// encrypt password
+		// get old pw
+		String oldPw = userRepo.getReferenceById(t.getId()).getPassword();
 		String pw = t.getPassword();
-		pw = passwordEncoder.encode(pw);
-		t.setPassword(pw);
-		
-		// keep authority
-		List<Authorities> listAu = userRepo.getReferenceById(t.getId()).getListAuth();
-		t.setListAuth(listAu);
+		// encrypt password
+		boolean isChange = !passwordEncoder.matches(t.getPassword(), oldPw);
+		// it pw change -> set new pw
+		if (isChange) {
+			t.setPassword(passwordEncoder.encode(pw));
+		}
 		return userRepo.save(t);
 	}
 
 	@Override
 	public void delete(Long id) {
-		auRepo.deleteById(id);
-		userRepo.deleteById(id);
+		User user = userRepo.getReferenceById(id);
+		userRepo.delete(user);
 	}
 
 	@Override

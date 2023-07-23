@@ -2,16 +2,15 @@ package vn.com.ecotechgroup.erp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import jakarta.security.auth.message.config.AuthConfig;
 import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.repository.UserRepository;
 
@@ -58,10 +57,32 @@ public class SecurityConfig {
 	public UserDetailsService userDetailsService(UserRepository userRepository) {
 			return username -> {
 				User user = userRepository.findByUserName(username);
-//				System.out.println(user);
+				System.out.println(user);
 				if (user != null) return user; 
 				throw new UsernameNotFoundException("User '" + username + "' not found");
 			};
+	}
+	
+	
+//	@Autowired
+//	public void configureGlobal(AuthenticationManagerBuilder auth) 
+//	  throws Exception {
+//	    auth.jdbcAuthentication()
+////	      .dataSource(dataSource)
+////	      .usersByUsernameQuery("select email,password,enabled "
+////	        + "from bael_users "
+////	        + "where email = ?")
+////	      .authoritiesByUsernameQuery("select email,authority "
+////	        + "from authorities "
+////	        + "where email = ?");
+//	}
+	
+	@Bean
+	public RoleHierarchy roleHierarchy() {
+	    RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+	    String hierarchy = "ROLE_ADMIN > ROLE_USER";
+	    roleHierarchy.setHierarchy(hierarchy);
+	    return roleHierarchy;
 	}
 	
 	@Bean
@@ -72,7 +93,8 @@ public class SecurityConfig {
 			 				"/customer/**", 
 			 				"/payment-type/**", 
 			 				"/product/**",
-			 				"/user/**")
+			 				"/user/**"
+			 				)
 			 		.hasRole("USER")
 		 		.requestMatchers("/","/register","/js/**", "/css/**", "/asset/**" ,"/index")
 		 			.permitAll()

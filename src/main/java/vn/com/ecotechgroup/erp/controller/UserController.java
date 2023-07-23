@@ -1,5 +1,6 @@
 package vn.com.ecotechgroup.erp.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.Min;
-import vn.com.ecotechgroup.erp.entity.RegistrationForm;
+import vn.com.ecotechgroup.erp.entity.Role;
 import vn.com.ecotechgroup.erp.entity.User;
-import vn.com.ecotechgroup.erp.entity.User;
+import vn.com.ecotechgroup.erp.repository.RoleRepository;
+import vn.com.ecotechgroup.erp.repository.UserRepository;
 import vn.com.ecotechgroup.erp.service.UserService;
 
 @Controller
@@ -139,5 +140,23 @@ public class UserController {
 			
 			
 		}
+	}
+	@Autowired
+	UserRepository uRep;
+	@Autowired
+	RoleRepository rRep;
+	@GetMapping("/test")
+	public String test() {
+		User u = uRep.findByUserName("nhutanh");
+		System.out.println(u);
+		
+		List<Role> x = (List<Role>) u.getAuthorities();
+		System.out.println(x);
+		
+		System.out.println(x.get(0).getAuthority());
+		
+		Role r = rRep.getReferenceById((long) 1);
+		System.out.println(r);
+		return "index";
 	}
 }

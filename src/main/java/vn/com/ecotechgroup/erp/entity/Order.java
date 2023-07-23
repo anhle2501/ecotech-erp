@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -71,7 +72,8 @@ public class Order {
 	@Column
 	private long totalPrice;
 
-	 @ManyToOne
+	 
+	 @OneToOne
 	 @JoinColumn(name="user_id")
 	 private User userOrdered;
 	

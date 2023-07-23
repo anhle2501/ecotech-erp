@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -22,6 +23,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import vn.com.ecotechgroup.erp.entity.Order;
 import vn.com.ecotechgroup.erp.entity.Product;
+import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.service.OrderService;
 import vn.com.ecotechgroup.erp.service.ProductService;
 
@@ -52,12 +54,17 @@ public class OrderController {
 	}
 
 	@ModelAttribute(name = "newOrder")
-	public Order newOrder() {
-		return new Order();
+	public Order newOrder( @AuthenticationPrincipal User currentUser ) {
+		Order newOrder = new Order();
+		newOrder.setUserOrdered(currentUser);
+		return newOrder;
+		
 	}
 
 	@ModelAttribute(name = "order")
-	public Order order() {
+	public Order order( @AuthenticationPrincipal User currentUser ) {
+		Order newOrder = new Order();
+		newOrder.setUserOrdered(currentUser);
 		return new Order();
 	}
 
@@ -211,7 +218,8 @@ public class OrderController {
 			@ModelAttribute("product") Product product,
 			@ModelAttribute("newOrder") Order newOrder,
 			@ModelAttribute("price") Integer price,
-			@ModelAttribute("quantity") Integer quantity, SessionStatus session) {
+			@ModelAttribute("quantity") Integer quantity, SessionStatus session
+			) {
 
 		if (product.getId() == 0) {
 			model.addAttribute("isNew", true);
@@ -244,7 +252,8 @@ public class OrderController {
 //
 	@PostMapping(value = NEW_PATH, params = "save")
 	public String saveOrder(Model model,
-			@ModelAttribute("newOrder") Order newOrder, SessionStatus session) {
+			@ModelAttribute("newOrder") Order newOrder, SessionStatus session
+			) {
 		orderService.save(newOrder);
 		session.setComplete();
 		model.addAttribute("isList", true);

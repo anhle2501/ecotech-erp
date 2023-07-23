@@ -89,6 +89,13 @@
 	<h3>Cập nhật người dùng</h3>
 
 	<form th:action="@{|/user/${id}|}" th:object="${user}" method="POST">
+		
+		<div class="input-group mb-3 d-none">
+			<span class="input-group-text">ListRole</span>
+			<input class="form-control" type="text" th:field="*{listRole}">
+		</div>
+		
+		
 		<div class="input-group mb-3 hidden">
 			<span class="input-group-text">Mã</span>
 			<input th:readonly="true" class="form-control" type="text" th:field="*{id}">
@@ -104,7 +111,7 @@
 
 		<div class="input-group mb-3">
 			<span class="input-group-text">Mật khẩu *</span>
-			<input class="form-control" type="password" th:field="*{password}">
+			<input class="form-control" type="text" th:field="*{password}">
 			<span class="validationError input-group-text" th:if="${#fields.hasErrors('password')}"
 				th:errors="*{password}"></span>
 		</div>
