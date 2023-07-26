@@ -33,7 +33,7 @@ public class OrderProduct {
 	private Order order = new Order();
 	
 //	@ToString.Exclude
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE})
+	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product = new Product();
 	

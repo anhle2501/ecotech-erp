@@ -35,7 +35,7 @@ public class CustomerRepositoryTest {
 
 	@BeforeAll
 	public void start() {
-		customer = customerRepo.save(new Customer(1, "test", "test"));
+		customer = customerRepo.save(new Customer(1, "test", "test", null, null, null, null, null, null));
 	}
 
 	@AfterAll

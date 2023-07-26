@@ -85,6 +85,14 @@ public class SecurityConfig {
 	    return roleHierarchy;
 	}
 	
+
+//	@Bean
+//	public DefaultWebSecurityExpressionHandler webSecurityExpressionHandler() {
+//	    DefaultWebSecurityExpressionHandler expressionHandler = new DefaultWebSecurityExpressionHandler();
+//	    expressionHandler.setRoleHierarchy(roleHierarchy());
+//	    return expressionHandler;
+//	}
+//	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	 return http

@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 <html>
 <div th:replace="~{component/head-tag::head-tag}"></div>
+
 <body>
-		<div th:replace="~{component/header :: header}"></div>
-		<main>
-				<div class="container-md text-left">
-						<div class="row">
-								<div class="col">
-										<div th:replace="~{component/navbar::navbar}"></div> 
-								</div>
-						</div>
-						<div class="row">
-								<div class="col">Trang chủ</div>
-						</div>
+	<div th:replace="~{component/header :: header}"></div>
+	<main>
+		<div class="container-md text-left">
+			<div class="row">
+				<div class="col">
+					<div th:replace="~{component/navbar::navbar}"></div>
 				</div>
-		</main>
+			</div>
+			<div class="row">
+				<div class="col">Trang chủ</div>
+			 <select id="disease" style="width: 40%;  position: relative;top: 220px; left: 182px; " name="tdisease" >
+            <option value="">Select Disease</option>
+            <?php while ($row=$result->fetch_array(MYSQLI_ASSOC)) { ?>
+              <option value="<?php echo $row['ICD10']?>"><?php echo $row['diagnosis'];?> </option> 
+            <?php } ?> 
+        </select>
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+        <script>
+        $(document).ready(function (){
+           $("#disease").select2({
+             allowClear:true,
+             placeholder: 'Search for a disease'
+           });
+        })
+        </script>
+			</div>
+		</div>
+	</main>
 </body>
+<div th:replace="~{component/footer::footer}"></div>
+
 </html>

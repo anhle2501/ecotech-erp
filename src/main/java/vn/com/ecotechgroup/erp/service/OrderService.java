@@ -1,9 +1,8 @@
 package vn.com.ecotechgroup.erp.service;
 
-import org.springframework.stereotype.Service;
-
 import vn.com.ecotechgroup.erp.entity.Order;
 import vn.com.ecotechgroup.erp.entity.Product;
+import vn.com.ecotechgroup.erp.entity.User;
 
 
 public interface OrderService extends CrudService<Order>, UiService{
@@ -14,4 +13,5 @@ public interface OrderService extends CrudService<Order>, UiService{
 	
 	public void removeProduct(Order order, long productIndex);
 	
+	public void confirmOrder(Long id, User user);
 }

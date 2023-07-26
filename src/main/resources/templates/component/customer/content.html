@@ -3,7 +3,13 @@
 				<thead>
 						<tr>
 								<th scope="col">Mã</th>
-								<th scope="col">Tên</th>
+								<th scope="col">Tên khách hàng</th>
+								<th scope="col">Địa chỉ</th>
+								<th scope="col">MST</th>
+								<th scope="col">Điện thoại</th>
+								<th scope="col">Người tạo</th>
+								<th scope="col">Thời gian</th>
+								<th scope="col">Chia sẻ thông tin cho</th>
 								<th scope="col">Mô tả</th>
 								<th scope="col">Hành động</th>
 
@@ -28,6 +34,12 @@
 								<tr th:each="c, iterator : ${customer}">
 										<td scope="row" th:text="${c.id}"></td>
 										<td th:text="${c.name}"></td>
+										<td th:text="${c.address}"></td>
+										<td th:text="${c.taxCode}"></td>
+										<td th:text="${c.phone}"></td>
+										<td th:text="${c.user?.userName}"></td>
+										<td th:text="${#temporals.format(c.createAt, 'HH:mm a dd-MM-yyyy')}"></td>
+										<td th:text="xxx"></td>
 										<td th:text="${c.description}"></td>
 										<td>
 												<div class="btn-group" role="group"

@@ -83,22 +83,26 @@
 						th:object="${newOrder}">
 						<div class="input-group mb-3">
 								<span class="input-group-text">Khách hàng</span> <select
-										class="form-select" th:field="${newOrder.customer}">
+										class="form-select customer-select-search" th:field="${newOrder.customer}">
 										<div th:each="p: ${customerList}">
 												<option
 														th:selected="${#arrays.contains(p.id, newOrder.customer.id)}"
-														th:value="${p.id}" th:text="${p.name}"></option>
+														th:value="${p.id}" th:text="|Mã: ${p.code} Tên: ${p.name} Địa chỉ: ${p.address}|"></option>
 										</div>
 								</select>
+								<a class="btn btn-success" th:href="@{/customer/new-customer}">Thêm</a>
+									
 						</div>
+						
 						<div class="input-group mb-3">
 								<span class="input-group-text">Sản phẩm</span> <select
-										class="form-select w-50" id="product" name="product">
-										<option value="0" selected>Chọn sản phẩm</option>
+										class="form-select w-50 product-select-search" id="product" name="product">
+										<option id="option-product-new-order" value="0" selected>Chọn sản phẩm</option>
 										<div th:each="p: ${productListShow}">
-												<option th:value="${p.id}" th:text="${p.name}"></option>
+												<option th:value="${p.id}" th:text="|Tên sp: ${p.name} Mô tả: ${p.description}|"></option>
 										</div>
 								</select>
+								<a class="btn btn-success" th:href="@{/product/new-product}">Thêm</a>
 						</div>
 
 						<div class="d-md-flex gap-3">
@@ -120,7 +124,7 @@
 						</div>
 						</span>
 						<button type="submit" name="addProduct" id="addProduct"
-								class="btn btn-success">Thêm sản phẩm</button>
+								class="btn btn-success">Thêm sản phẩm vào đơn hàng</button>
 
 
 
@@ -180,12 +184,12 @@
 						<div class="d-md-flex flex-column">
 
 								<div class="input-group mb-3">
-										<span class="input-group-text">PTTT</span> <select
-												class="form-select" th:field="${newOrder.paymentType}">
+										<span class="input-group-text "  >PTTT</span> <select
+												class="form-select payment-type-select-search" th:field="${newOrder.paymentType}">
 												<div th:each="p: ${paymentTypeList}">
 														<option
 																th:selected="${#arrays.contains(p.id, newOrder.paymentType.id)}"
-																th:value="${p.id}" th:text="${p.name}"></option>
+																th:value="${p.id}" th:text="|Tên: ${p.name} Mô tả: ${p.description} Số ngày nợ: ${p.day}|"></option>
 												</div>
 										</select>
 								</div>
@@ -208,15 +212,29 @@
 
 <div th:fragment="update-order">
 				<h3>Cập nhật đơn hàng </h3>
-
+				
 				<form th:action="@{  ${id} ? '/order/' + ${id} : '/order' }" method="POST" th:object="${order}">
-					
+						
 						<input th:type="hidden" th:value="${order.id}" th:field="${order.id}">
+						
+					<!--	<div class="input-group mb-3">
+								<span class="input-group-text">Tình trạng đơn hàng</span> <select
+										class="form-select" th:field="${order.isConfirm}">
+										<div th:with="strList = ${ {0,1} }">
+										<div th:each="c: ${strList}">
+												<option class="select-search-value"
+														th:selected="${#arrays.contains(c, order.isConfirm)}"
+														th:value="${c}" th:text="${c == 1} ? 'Duyệt': 'Chưa duyệt'"></option>
+										</div>
+										</div>
+								</select>
+						</div>-->
+						
 						<div class="input-group mb-3">
 								<span class="input-group-text">Khách hàng</span> <select
-										class="form-select" th:field="${order.customer}">
+										class="form-select customer-select-search" th:field="${order.customer}">
 										<div th:each="c: ${customerList}">
-												<option
+												<option class="select-search-value"
 														th:selected="${#arrays.contains(c.id, order.customer.id)}"
 														th:value="${c.id}" th:text="${c.name}"></option>
 										</div>
@@ -224,7 +242,7 @@
 						</div>
 						<div class="input-group mb-3" >
 								<span class="input-group-text">Sản phẩm</span> 
-								<select class="form-select w-50"  name="product" id="product">
+								<select class="form-select w-50 product-select-search"  name="product" id="product">
 										<option value="0" selected>Chọn sản phẩm</option>
 										<div th:each="p: ${productListShow}">
 												<option th:value="${p.id}" th:text="${p.name}"></option>
@@ -311,7 +329,7 @@
 
 								<div class="input-group mb-3">
 										<span class="input-group-text">PTTT</span> <select
-												class="form-select" th:field="${order.paymentType}">
+												class="form-select payment-type-select-search" th:field="${order.paymentType}">
 												<div th:each="p: ${paymentTypeList}">
 														<option
 																th:selected="${#arrays.contains(p.id, order.paymentType.id)}"
@@ -333,5 +351,4 @@
 								Quay lại
 						</button></a>
 				</form>
-
 		</div>

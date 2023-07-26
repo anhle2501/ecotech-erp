@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,17 +55,13 @@ public class OrderController {
 	}
 
 	@ModelAttribute(name = "newOrder")
-	public Order newOrder( @AuthenticationPrincipal User currentUser ) {
-		Order newOrder = new Order();
-		newOrder.setUserOrdered(currentUser);
-		return newOrder;
+	public Order newOrder( ) {
+		return new Order();
 		
 	}
 
 	@ModelAttribute(name = "order")
-	public Order order( @AuthenticationPrincipal User currentUser ) {
-		Order newOrder = new Order();
-		newOrder.setUserOrdered(currentUser);
+	public Order order(  ) {
 		return new Order();
 	}
 
@@ -79,9 +76,9 @@ public class OrderController {
 			) {
 		Page<Order> orderList;
 		if (searchTerm == null) {
-			orderList = orderService.getListPage(PageRequest.of(pageNumber, pageSize), "");
+			orderList = orderService.getListPage(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()), "");
 		} else {
-			orderList = orderService.getListPage(PageRequest.of(pageNumber, pageSize), searchTerm);
+			orderList = orderService.getListPage(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()), searchTerm);
 		}
 		model.addAttribute(NAME_ATTRIBUTE, orderList );
 		model.addAttribute("isList", true);
@@ -256,6 +253,16 @@ public class OrderController {
 			) {
 		orderService.save(newOrder);
 		session.setComplete();
+		model.addAttribute("isList", true);
+		return showOrderList(model, default_page, default_page_size, null);
+	}
+	
+	@GetMapping(value = "/{id}/confirm")
+	public String confirmOrder(Model model,
+			@PathVariable("id") long id,
+			@AuthenticationPrincipal User user
+			) {
+		orderService.confirmOrder(id, user);
 		model.addAttribute("isList", true);
 		return showOrderList(model, default_page, default_page_size, null);
 	}

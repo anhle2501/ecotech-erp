@@ -1,5 +1,5 @@
 <div th:fragment="product-detail">
-		<h3>Thông tin khách hàng</h3>
+		<h3>Thông tin sản phẩm</h3>
 		<form th:action="@{|/product/${id}|}" th:object="${product}"
 				method="POST">
 				
@@ -18,7 +18,7 @@
 
 
 <div th:fragment="new-product">
-		<h3>Thêm khách hàng</h3>
+		<h3>Thêm sản phẩm</h3>
 	
 		<form th:action="@{/product/new-product}" th:object="${product}"
 				method="POST">
@@ -42,7 +42,7 @@
 </div>
 
 <div th:fragment="update-product">
-		<h3>Cập nhật khách hàng</h3>
+		<h3>Cập nhật sản phẩm</h3>
 		<form th:action="@{|/product/${id}|}" th:object="${product}"
 				method="POST">
 				  <input class="form-control" type="hidden" th:field="*{id}" >
