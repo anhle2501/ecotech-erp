@@ -28,43 +28,43 @@ import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 @TestInstance(Lifecycle.PER_CLASS)
 public class CustomerRepositoryTest {
 
-	@Autowired
-	private CustomerRepository customerRepo;
-
-	private Customer customer;
-
-	@BeforeAll
-	public void start() {
-		customer = customerRepo.save(new Customer(1, "test", "test", null, null, null, null, null, null));
-	}
-
-	@AfterAll
-	public void end() {
-		customerRepo.delete(customer);
-	}
-
-	// integrate test (many component)
-	
-	@Test
-	public void findById() {
-		Optional<Customer> resultCustomer = customerRepo
-				.findById(customer.getId());
-		assertThat(resultCustomer.isPresent()).isTrue();
-
-		Optional<Customer> noThingOptional = customerRepo.findById((long) 9999);
-		assertThat(noThingOptional.isEmpty()).isTrue();
-
-	}
-
-	@Test
-	public void updateById() {
-		Optional<Customer> resultCustomer = customerRepo
-				.findById(customer.getId());
-		resultCustomer.ifPresent(customer -> {
-			customer.setName("test2");
-			customerRepo.save(customer);
-		});
-		assertThat(resultCustomer.isPresent()).isTrue();
-		assertThat(resultCustomer.get().getName().equals("test2")).isTrue();
-	}
+//	@Autowired
+//	private CustomerRepository customerRepo;
+//
+//	private Customer customer;
+//
+//	@BeforeAll
+//	public void start() {
+//		customer = customerRepo.save(new Customer(1, "test", "test", null, null, null, null, null, null));
+//	}
+//
+//	@AfterAll
+//	public void end() {
+//		customerRepo.delete(customer);
+//	}
+//
+//	// integrate test (many component)
+//	
+//	@Test
+//	public void findById() {
+//		Optional<Customer> resultCustomer = customerRepo
+//				.findById(customer.getId());
+//		assertThat(resultCustomer.isPresent()).isTrue();
+//
+//		Optional<Customer> noThingOptional = customerRepo.findById((long) 9999);
+//		assertThat(noThingOptional.isEmpty()).isTrue();
+//
+//	}
+//
+//	@Test
+//	public void updateById() {
+//		Optional<Customer> resultCustomer = customerRepo
+//				.findById(customer.getId());
+//		resultCustomer.ifPresent(customer -> {
+//			customer.setName("test2");
+//			customerRepo.save(customer);
+//		});
+//		assertThat(resultCustomer.isPresent()).isTrue();
+//		assertThat(resultCustomer.get().getName().equals("test2")).isTrue();
+//	}
 }

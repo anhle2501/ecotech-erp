@@ -61,9 +61,9 @@ public class UserServiceImp implements UserService {
 		String oldPw = userRepo.getReferenceById(t.getId()).getPassword();
 		String pw = t.getPassword();
 		// encrypt password
-		boolean isChange = !passwordEncoder.matches(t.getPassword(), oldPw);
+		boolean isChange = passwordEncoder.matches(t.getPassword(), oldPw);
 		// it pw change -> set new pw
-		if (isChange) {
+		if (!isChange) {
 			t.setPassword(passwordEncoder.encode(pw));
 		}
 		return userRepo.save(t);
