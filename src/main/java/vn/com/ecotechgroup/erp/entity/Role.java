@@ -23,7 +23,7 @@ import lombok.Data;
 import lombok.ToString;
 
 @Entity
-@Table
+@Table(name = "role",  schema = "ecotechgroup_erp")
 @Data
 public class Role implements GrantedAuthority {
 

@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.ToString;
 
 @Entity
-@Table
+@Table(name = "permission", schema = "ecotechgroup_erp")
 @Data
 public class Permission {
 

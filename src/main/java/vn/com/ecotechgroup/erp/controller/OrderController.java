@@ -169,14 +169,21 @@ public class OrderController {
 	public String updateOrder(
 			@Valid @ModelAttribute(NAME_ATTRIBUTE) Order order, Errors errors,
 			SessionStatus session,
-			Model model) {
+			Model model,
+			@AuthenticationPrincipal User user
+			) {
 		if (errors.hasErrors()) {
 			model.addAttribute("id", order.getId());
 			orderService.getInformation(model);
 			model.addAttribute("isList", true);
 			return RETURN_PAGE;
 		} else {
-			orderService.save(order);
+			// if confirm update user who conform
+			if (order.getIsConfirm() == true) {
+				orderService.confirmOrder(order.getId(), user);
+			} else {
+				orderService.save(order);
+			}
 			session.setComplete();
 			return showOrderList(model, default_page, default_page_size, null);
 		}
@@ -185,6 +192,7 @@ public class OrderController {
 	@GetMapping(DELETE_PATH)
 	public String deleteOrder(@PathVariable("id") Long id, Model model) {
 		try {
+			System.out.println(id);
 			orderService.delete(id);
 		} catch (DataIntegrityViolationException e) {
 			model.addAttribute("error", "Vui lòng xóa các dữ liệu có liên kết với dữ liệu này trước !");

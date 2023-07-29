@@ -116,8 +116,8 @@ public class OrderServiceImp implements OrderService {
 		if (order.isPresent() == true) {
 			Order ord = order.get();
 			//update only when it is not confirm
-			if (ord.getIsConfirm() != 1) {
-				ord.setIsConfirm(1);
+			if (ord.getIsConfirm() != true) {
+				ord.setIsConfirm(true);
 				// set user
 				ord.setConfirmAt(LocalDateTime.now());
 				Optional<User> u = Optional.of(userRepo.findByUserName(user.getUserName()));

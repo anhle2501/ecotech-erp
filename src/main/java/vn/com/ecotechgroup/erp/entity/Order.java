@@ -4,11 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -18,19 +16,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "an_order")
+@Table(name = "an_order", schema = "ecotechgroup_erp")
 @EntityListeners(AuditingEntityListener.class)
 public class Order {
 
@@ -76,9 +74,16 @@ public class Order {
 	@JoinColumn(name = "user_id")
 	private User userOrdered;
 	
-	@Column
-	private int isConfirm;
+	@Column(name = "is_confirm")
+	private boolean isConfirm;
 	
+	public boolean getIsConfirm() {
+		return this.isConfirm;
+	}
+	
+	public void setIsConfirm(boolean b) {
+		this.isConfirm = b;
+	}
 	@Column
 	private LocalDateTime confirmAt;
 	

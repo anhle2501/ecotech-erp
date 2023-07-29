@@ -18,7 +18,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table
+@Table(name = "order_product", schema = "ecotechgroup_erp")
 public class OrderProduct {
 
 	@Id
@@ -43,8 +43,9 @@ public class OrderProduct {
 	@Column
 	private int quantity;
 	
+//	@Column(name="total",  insertable = false, updatable = false)
 	@Column(name="total",  insertable = false, updatable = false)
-	private long total;
+	private Long total;
 	
 	public OrderProduct(Order order, Product product, int price, int quantity) {
 		this.order = order;

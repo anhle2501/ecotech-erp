@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "user") 
+@Table(name = "user", schema = "ecotechgroup_erp") 
 @NoArgsConstructor(access = AccessLevel.PUBLIC, force = true)
 @Data
 public class User implements UserDetails {

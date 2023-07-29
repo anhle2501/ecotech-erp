@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -45,11 +46,11 @@ public class CustomerController {
 		if (searchTerm != null) {
 			customerList = customerRepo
 					.findCustomerByNameContainsOrDescriptionContains(
-							PageRequest.of(pageNumber, pageSize), searchTerm,
+							PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()), searchTerm,
 							searchTerm);
 		} else {
 			customerList = customerRepo
-					.findAll(PageRequest.of(pageNumber, pageSize));
+					.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()));
 		}
 		model.addAttribute("customer", customerList);
 		model.addAttribute("isList", true);

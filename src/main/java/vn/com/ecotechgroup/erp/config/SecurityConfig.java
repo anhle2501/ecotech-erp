@@ -57,7 +57,6 @@ public class SecurityConfig {
 	public UserDetailsService userDetailsService(UserRepository userRepository) {
 			return username -> {
 				User user = userRepository.findByUserName(username);
-				System.out.println(user);
 				if (user != null) return user; 
 				throw new UsernameNotFoundException("User '" + username + "' not found");
 			};
@@ -104,6 +103,7 @@ public class SecurityConfig {
 			 				"/user/**"
 			 				)
 			 		.hasRole("USER")
+//			 	.permitAll()
 		 		.requestMatchers("/","/register","/js/**", "/css/**", "/asset/**" ,"/index")
 		 			.permitAll()
 		 	.and()

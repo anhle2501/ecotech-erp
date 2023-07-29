@@ -121,7 +121,7 @@ public class UserController {
 	}
 
 	@PostMapping(NEW_PATH)
-	public String createPaymentType(@Valid @ModelAttribute(NAME_ATTRIBUTE) User user,
+	public String createUser(@Valid @ModelAttribute(NAME_ATTRIBUTE) User user,
 			Errors errors, Model model) {
 		
 		if (errors.hasErrors()) {

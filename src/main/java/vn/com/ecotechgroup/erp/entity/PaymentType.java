@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
+@Table(name = "payment_type", schema = "ecotechgroup_erp")
 public class PaymentType {
 
 	@Id

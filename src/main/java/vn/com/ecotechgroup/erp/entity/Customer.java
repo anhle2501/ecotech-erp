@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
+@Table(name = "customer", schema = "ecotechgroup_erp")
 public class Customer {
 
 	@Id
@@ -56,7 +56,7 @@ public class Customer {
 	private String phone;
 	
 	@Size(max = 45, message = "Độ dài quá 20 ký tự !")
-	@Pattern(regexp = "(\\d){8,}", message = "Mã số thuế lớn hơn 8 ký tự !")
+	@Pattern(regexp = "((\\d){8,})?", message = "Mã số thuế lớn hơn 8 ký tự !")
 	@Column(length = 20)
 	private String taxCode;
 	

@@ -3,6 +3,7 @@
 				<thead>
 						<tr>
 								<th scope="col">Mã</th>
+								<th scope="col">Mã sản phẩm</th>
 								<th scope="col">Tên</th>
 								<th scope="col">Mô tả</th>
 								<th scope="col">Hành động</th>
@@ -31,6 +32,7 @@
 
 						<tr th:each="c, iterator : ${product}" th:with="count=0">
 								<td scope="row" th:text="${c.id}"></td>
+								<td th:text="${c.code}"></td>
 								<td th:text="${c.name}"></td>
 								<td th:text="${c.description}"></td>
 								<td>
