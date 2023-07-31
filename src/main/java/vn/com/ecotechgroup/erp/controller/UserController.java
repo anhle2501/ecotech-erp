@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -110,7 +111,12 @@ public class UserController {
 
 	@GetMapping(DELETE_PATH)
 	public String deleteUser(@PathVariable("id") long id, Model model) {
-		userService.delete(id);
+		try {
+			userService.delete(id);
+		} catch (DataIntegrityViolationException de) {
+			model.addAttribute("error", "Vui lòng xóa dữ liệu liên quan trước khi xóa dữ liệu này !");
+			return "error";
+		}
 		return showUserList(model, default_page, default_page_size, null);
 	}
 
@@ -141,22 +147,22 @@ public class UserController {
 			
 		}
 	}
-	@Autowired
-	UserRepository uRep;
-	@Autowired
-	RoleRepository rRep;
-	@GetMapping("/test")
-	public String test() {
-		User u = uRep.findByUserName("nhutanh");
-		System.out.println(u);
-		
-		List<Role> x = (List<Role>) u.getAuthorities();
-		System.out.println(x);
-		
-		System.out.println(x.get(0).getAuthority());
-		
-		Role r = rRep.getReferenceById((long) 1);
-		System.out.println(r);
-		return "index";
-	}
+//	@Autowired
+//	UserRepository uRep;
+//	@Autowired
+//	RoleRepository rRep;
+//	@GetMapping("/test")
+//	public String test() {
+//		User u = uRep.findByUserName("nhutanh");
+//		System.out.println(u);
+//		
+//		List<Role> x = (List<Role>) u.getAuthorities();
+//		System.out.println(x);
+//		
+//		System.out.println(x.get(0).getAuthority());
+//		
+//		Role r = rRep.getReferenceById((long) 1);
+//		System.out.println(r);
+//		return "index";
+//	}
 }

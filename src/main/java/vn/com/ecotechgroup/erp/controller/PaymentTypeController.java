@@ -3,6 +3,7 @@ package vn.com.ecotechgroup.erp.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.entity.PaymentType;
 import vn.com.ecotechgroup.erp.repository.PaymentTypeRepository;
 
@@ -107,7 +107,12 @@ public class PaymentTypeController {
 	
 	@GetMapping(DELETE_PATH)
 	public String deletePaymentType(@PathVariable("id") long  id, Model model) {
-		paymentTypeRepo.deleteById(id);
+		try {
+			paymentTypeRepo.deleteById(id);
+		} catch (DataIntegrityViolationException de) {
+			model.addAttribute("error", "Vui lòng xóa dữ liệu liên quan trước khi xóa dữ liệu này !");
+			return "error";
+		}
 		return showPaymentTypeList(model, default_page, default_page_size, null);
 	}
 

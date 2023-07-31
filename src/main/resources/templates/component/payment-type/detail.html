@@ -2,16 +2,31 @@
 		<h3>Thông tin phương thức thanh </h3>
 		<form th:action="@{|/payment-type/${id}|}" th:object="${paymentType}"
 				method="POST">
-				  <label class="form-label" for="*{name}">Tên *</label> 
-				  <input th:readonly="true" class="form-control" type="text" th:field="*{name}" > 
-				  <br/> 
-				  <label class="form-label" for="*{day}">Số ngày nợ</label> 
-				  <input th:readonly="true" class="form-control" type="text" th:field="*{day}" >
-				   
-				  <br/> 
-				  <label class="form-label" for="*{description}">Ghi chú</label> 
-				  <input th:readonly="true" class="form-control" type="text" th:field="*{description}" >
-				  <br/>
+				
+				
+				<div class="input-group mb-3">
+					<span class="input-group-text">Tên phương thức thanh toán*</span>
+					<input th:readonly="true" class="form-control" type="text" th:field="*{name}">
+					<span class="validationError input-group-text" th:if="${#fields.hasErrors('name')}"
+						th:errors="*{name}"></span>
+				</div>
+				
+				<div class="input-group mb-3">
+					<span class="input-group-text">Số ngày nợ</span>
+					<input th:readonly="true" class="form-control" type="text" th:field="*{day}">
+					<span class="validationError input-group-text" th:if="${#fields.hasErrors('day')}"
+						th:errors="*{day}"></span>
+				</div>
+				
+				<div class="input-group mb-3">
+					<span class="input-group-text">Mô tả</span>
+					<input th:readonly="true" class="form-control" type="text" th:field="*{description}">
+					<span class="validationError input-group-text" th:if="${#fields.hasErrors('description')}"
+						th:errors="*{description}"></span>
+				</div>
+				
+				
+				
 				  	  <button type="button" class="btn btn-secondary w-25"
 						th:onclick="@{|window.location.href='/payment-type/0/50'|}">Quay lại</button></span>
 		</form>

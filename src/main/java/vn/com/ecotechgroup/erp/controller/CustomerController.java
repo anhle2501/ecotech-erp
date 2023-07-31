@@ -105,6 +105,7 @@ public class CustomerController {
 		try {
 			customerRepo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
+			System.out.println("khách hàng");
 			model.addAttribute("error", "Vui lòng xóa các dữ liệu có liên kết với dữ liệu này trước !");
 			return "error";
 		} 

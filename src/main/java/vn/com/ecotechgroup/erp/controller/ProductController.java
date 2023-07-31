@@ -3,6 +3,7 @@ package vn.com.ecotechgroup.erp.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -39,11 +40,8 @@ public class ProductController {
 	@Autowired
 	private ProductRepository productRepo;	
 	
-	private ProductService productService;
-	
 	@Autowired
 	public ProductController(ProductService productService) {
-		this.productService = productService;
 	}
 	
 	@ModelAttribute(name = NAME_ATTRIBUTE)
@@ -113,7 +111,12 @@ public class ProductController {
 	
 	@GetMapping(DELETE_PATH)
 	public String deletePaymentType(@PathVariable("id") long  id, Model model) {
-		productRepo.deleteById(id);
+		try {
+			productRepo.deleteById(id);
+		} catch (DataIntegrityViolationException de) {
+			model.addAttribute("error", "Vui lòng xóa dữ liệu liên quan trước khi xóa dữ liệu này !");
+			return "error";
+		}
 		return showProductList(model, default_page, default_page_size, null);
 	}
 

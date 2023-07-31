@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class PaymentType {
 	private String name;
 
 	@Column(length = 1000)
+	@Size(max = 1000, message = "Độ dài quá 1000 ký tự !")
 	private String description;
 
 	@Column

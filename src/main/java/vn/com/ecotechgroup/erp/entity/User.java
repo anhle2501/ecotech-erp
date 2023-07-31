@@ -90,8 +90,32 @@ public class User implements UserDetails {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return listRole;
+		return getGrantedAuthorities(getPermissions(listRole));
 	}
+	
+	private List<String> getPermissions(List<Role> roles) {
+		 
+        List<String> permission = new ArrayList<>();
+        List<Permission> collection = new ArrayList<>();
+        
+        for (Role role : roles) {
+        	permission.add(role.getName());
+            collection.addAll(role.getListPermission());
+        }
+        for (Permission item : collection) {
+        	permission.add(item.getName());
+        }
+        return permission;
+    }
+	
+	 private List<GrantedAuthority> getGrantedAuthorities(List<String> permission) {
+	        List<GrantedAuthority> authorities = new ArrayList<>();
+	        for (String privilege : permission) {
+	            authorities.add(new SimpleGrantedAuthority(privilege));
+	        }
+	        return authorities;
+	    }
+	 
 	@Override
 	public String getPassword() {
 		return password ;

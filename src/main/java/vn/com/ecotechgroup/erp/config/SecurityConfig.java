@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 
 import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.repository.UserRepository;
@@ -57,6 +58,8 @@ public class SecurityConfig {
 	public UserDetailsService userDetailsService(UserRepository userRepository) {
 			return username -> {
 				User user = userRepository.findByUserName(username);
+				System.out.println(user);	
+				System.out.println(user.getAuthorities());	
 				if (user != null) return user; 
 				throw new UsernameNotFoundException("User '" + username + "' not found");
 			};
@@ -83,15 +86,16 @@ public class SecurityConfig {
 	    roleHierarchy.setHierarchy(hierarchy);
 	    return roleHierarchy;
 	}
-	
-
+//	
 //	@Bean
 //	public DefaultWebSecurityExpressionHandler webSecurityExpressionHandler() {
 //	    DefaultWebSecurityExpressionHandler expressionHandler = new DefaultWebSecurityExpressionHandler();
 //	    expressionHandler.setRoleHierarchy(roleHierarchy());
 //	    return expressionHandler;
 //	}
-//	
+	
+	
+	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	 return http
@@ -99,11 +103,16 @@ public class SecurityConfig {
 			 	.requestMatchers("/order/**", 
 			 				"/customer/**", 
 			 				"/payment-type/**", 
-			 				"/product/**",
-			 				"/user/**"
+			 				"/product/**"
 			 				)
 			 		.hasRole("USER")
-//			 	.permitAll()
+		 		.requestMatchers("/order/**", 
+		 				"/customer/**", 
+		 				"/payment-type/**", 
+		 				"/product/**",
+		 				"/user/**"
+		 				)
+		 		.hasRole("ADMIN")
 		 		.requestMatchers("/","/register","/js/**", "/css/**", "/asset/**" ,"/index")
 		 			.permitAll()
 		 	.and()

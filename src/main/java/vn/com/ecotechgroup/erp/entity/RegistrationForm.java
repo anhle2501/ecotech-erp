@@ -32,6 +32,7 @@ public class RegistrationForm {
 	@Column(length = 45)
 	@Length(max = 45, message = "Ít hơn 45 ký tự!")
 	private  String mobilePhone;
+	
 	@Column(length = 1000)
 	@Length(max = 1000, message = "Ít hơn 1000 ký tự!")
 	private  String description;
