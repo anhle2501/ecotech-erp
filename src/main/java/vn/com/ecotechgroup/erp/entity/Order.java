@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.CascadeType;
@@ -66,6 +68,15 @@ public class Order {
 	@Column(length = 1000)
 	private String description;
 
+//	@OneToOne
+//	@JoinColumn(name = "last_modified_by")
+//	@LastModifiedBy
+//	private User userModified;
+//	
+//	@LastModifiedDate
+//	@Column
+//	private LocalDateTime last_modified_date;
+	
 	@Column
 	private long totalPrice;
 

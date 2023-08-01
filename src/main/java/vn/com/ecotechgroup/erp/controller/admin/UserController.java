@@ -1,6 +1,5 @@
-package vn.com.ecotechgroup.erp.controller;
+package vn.com.ecotechgroup.erp.controller.admin;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import vn.com.ecotechgroup.erp.entity.Role;
 import vn.com.ecotechgroup.erp.entity.User;
-import vn.com.ecotechgroup.erp.repository.RoleRepository;
-import vn.com.ecotechgroup.erp.repository.UserRepository;
 import vn.com.ecotechgroup.erp.service.UserService;
 
 @Controller
-@RequestMapping("user")
+@RequestMapping("admin/user")
 public class UserController {
 
 	private final String RETURN_PAGE = "page/user";

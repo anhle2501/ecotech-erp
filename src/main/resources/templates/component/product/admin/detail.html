@@ -1,6 +1,6 @@
 <div th:fragment="product-detail">
 		<h3>Thông tin sản phẩm</h3>
-		<form th:action="@{|/product/${id}|}" th:object="${product}"
+		<form th:action="@{|/admin/product/${id}|}" th:object="${product}"
 				method="POST">
 				
 				<div class="input-group mb-3">
@@ -33,7 +33,7 @@
 				   
 				 
 				<button type="button" class="btn btn-secondary w-25"
-						th:onclick="@{|window.location.href='/product/0/50'|}">Quay lại</button></span>
+						th:onclick="@{|window.location.href='/admin/product/0/50'|}">Quay lại</button></span>
 		</form>
 	
 </div>
@@ -42,7 +42,7 @@
 <div th:fragment="new-product">
 		<h3>Thêm sản phẩm</h3>
 	
-		<form th:action="@{/product/new-product}" th:object="${product}"
+		<form th:action="@{/admin/product/new-product}" th:object="${product}"
 				method="POST">
 				
 				  <div class="input-group mb-3">
@@ -74,7 +74,7 @@
 				</div>
 				  <button type="submit" class="btn btn-success w-25">Tạo</button> 
 				 <button type="button" class="btn btn-secondary w-25"
-						th:onclick="@{|window.location.href='/product/0/50'|}">Quay lại</button></span>
+						th:onclick="@{|window.location.href='/admin/product/0/50'|}">Quay lại</button></span>
 				
 		</form>
 		
@@ -82,7 +82,7 @@
 
 <div th:fragment="update-product">
 		<h3>Cập nhật sản phẩm</h3>
-		<form th:action="@{|/product/${id}|}" th:object="${product}"
+		<form th:action="@{|/admin/product/${id}|}" th:object="${product}"
 				method="POST">
 				  <div class="input-group mb-3">
 					<span class="input-group-text">Mã sản phẩm</span>
@@ -113,7 +113,7 @@
 				</div>
 				  <button type="submit" class="btn btn-success w-25">Cập nhật</button> 
 				  <button type="button" class="btn btn-secondary w-25"
-						th:onclick="@{|window.location.href='/product/0/50'|}">Quay lại</button></span>
+						th:onclick="@{|window.location.href='/admin/product/0/50'|}">Quay lại</button></span>
 
 		</form>
 		

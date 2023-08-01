@@ -1,4 +1,4 @@
-package vn.com.ecotechgroup.erp.controller;
+package vn.com.ecotechgroup.erp.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,14 +16,14 @@ import vn.com.ecotechgroup.erp.service.UserService;
 
 @Controller
 @RequestMapping("/register")
-public class RegisterController {
+public class RegisterControllerUser {
 
 	private UserService userService;
 	
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public RegisterController(UserService userService,
+	public RegisterControllerUser(UserService userService,
 			PasswordEncoder encoder) {
 		this.userService = userService;
 		this.passwordEncoder = encoder;

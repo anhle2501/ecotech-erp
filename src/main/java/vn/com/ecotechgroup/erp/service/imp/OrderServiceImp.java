@@ -7,8 +7,10 @@ import java.util.Optional;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -74,6 +76,12 @@ public class OrderServiceImp implements OrderService {
 	public Page<Order> getListPage(Pageable pageable, String searchTerm) {
 		return orderRepo.orderSearchList(pageable, searchTerm);
 	}
+	
+	@Override
+	public Page<Order> getListPageUser(PageRequest of, Long user_id , String searchTerm) {
+		return orderRepo.orderSearchListUser(of, user_id, searchTerm);
+	}
+
 
 	@Override
 	public void getInformation(Model model) {

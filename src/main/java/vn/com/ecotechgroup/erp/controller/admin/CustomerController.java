@@ -1,4 +1,4 @@
-package vn.com.ecotechgroup.erp.controller;
+package vn.com.ecotechgroup.erp.controller.admin;
 
 import java.util.Optional;
 
@@ -21,13 +21,22 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.repository.CustomerRepository;
+import vn.com.ecotechgroup.erp.service.CustomerService;
+import vn.com.ecotechgroup.erp.service.imp.CustomerServiceImp;
 
 @Controller
-@RequestMapping("customer")
+@RequestMapping("admin/customer")
 public class CustomerController {
 
-	@Autowired
+	
 	private CustomerRepository customerRepo;
+	private CustomerService cService;
+	
+	@Autowired
+	public CustomerController(CustomerRepository customerRepo, CustomerServiceImp cService) {
+		this.customerRepo = customerRepo;
+		this.cService = cService;
+	}
 
 	@ModelAttribute(name = "customer")
 	public Customer customer() {
@@ -44,11 +53,10 @@ public class CustomerController {
 			@RequestParam(name = "search", required = false) String searchTerm) {
 		Page<Customer> customerList;
 		if (searchTerm != null) {
-			customerList = customerRepo
-					.findCustomerByNameContainsOrDescriptionContains(
-							PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()), searchTerm,
-							searchTerm);
+			searchTerm = searchTerm.toLowerCase();
+			customerList = cService.getListPage(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()), searchTerm);
 		} else {
+			
 			customerList = customerRepo
 					.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()));
 		}
@@ -57,7 +65,7 @@ public class CustomerController {
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("search", searchTerm);
-		return "page/customer";
+		return "page/admin/customer";
 	}
 
 	@GetMapping("/{id}/show")
@@ -66,7 +74,7 @@ public class CustomerController {
 		if (customerObj.isPresent()) {
 			model.addAttribute("customer", customerObj.get());
 			model.addAttribute("isDetail", true);
-			return "page/customer";
+			return "page/admin/customer";
 		} else {
 			return showCustomerList(model, default_page, default_page_size,
 					null);
@@ -79,7 +87,7 @@ public class CustomerController {
 		if (customerObj.isPresent()) {
 			model.addAttribute("customer", customerObj.get());
 			model.addAttribute("isUpdate", true);
-			return "page/customer";
+			return "page/admin/customer";
 		} else {
 			return showCustomerList(model, default_page, default_page_size,
 					null);
@@ -92,9 +100,14 @@ public class CustomerController {
 			Model model) {
 		if (errors.hasErrors()) {
 			model.addAttribute("isUpdate", true);
-			return "page/customer";
+			return "page/admin/customer";
 		} else {
-			customerRepo.save(customer);
+			try {
+				customerRepo.save(customer);
+			} catch (DataIntegrityViolationException e) {
+				model.addAttribute("error", "Tên khách hàng đã tồn tại !");
+				return "error";
+			}
 			return showCustomerList(model, default_page, default_page_size,
 					null);
 		}
@@ -115,7 +128,7 @@ public class CustomerController {
 	@GetMapping("/new-customer")
 	public String showCustomerForm(Model model) {
 		model.addAttribute("isNew", true);
-		return "page/customer";
+		return "page/admin/customer";
 	}
 
 	@PostMapping("/new-customer")
@@ -124,9 +137,14 @@ public class CustomerController {
 			Model model) {
 		if (errors.hasErrors()) {
 			model.addAttribute("isNew", true);
-			return "page/customer";
+			return "page/admin/customer";
 		} else {
-			customerRepo.save(customer);
+			try {
+				customerRepo.save(customer);
+			} catch (DataIntegrityViolationException e) {
+				model.addAttribute("error", "Tên khách hàng đã tồn tại !");
+				return "error";
+			}
 			return showCustomerList(model, default_page, default_page_size,
 					null);
 		}

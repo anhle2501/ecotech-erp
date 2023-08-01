@@ -8,10 +8,12 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,6 +29,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,13 +42,13 @@ public class Product {
 	@Column
 	private long id;
 
-	@Column(length = 45)
+	@Column(length = 45, unique = true)
 	@Size(max = 45, message = "Độ dài quá 45 ký tự !")
 	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Mã có định dạng liên tục !")
 	private String code;
 
 	@Size(min = 5, max = 100, message = "Độ dài từ 5-100 ký tự !")
-	@Column(length = 100)
+	@Column(length = 100, unique = true)
 	private String name;
 
 	@Column(length = 1000)
@@ -56,12 +59,12 @@ public class Product {
 //	private List<Order> orders;
 	
 	@Size(max = 10 , message = "Độ dài quá 10 ký tự !")
-	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Mã có định dạng liên tục !")
-	@Column(length = 10)
+	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Đơn vị tính có định dạng liên tục !")
+	@Column(length = 10, unique = true)
 	private String unit;
 	
 	@OneToOne
-	@JoinColumn(name = "create_by")
+	@JoinColumn(name = "create_by", updatable = false)
 	@CreatedBy
 	private User user;
 	
@@ -75,7 +78,7 @@ public class Product {
 	private User userModified;
 	
 	@LastModifiedDate
-	@Column(updatable = false)
+	@Column
 	private LocalDateTime last_modified_date;
 	
 	@ToString.Exclude

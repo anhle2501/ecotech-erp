@@ -79,13 +79,13 @@ public class SecurityConfig {
 ////	        + "where email = ?");
 //	}
 	
-	@Bean
-	public RoleHierarchy roleHierarchy() {
-	    RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-	    String hierarchy = "ROLE_ADMIN > ROLE_USER";
-	    roleHierarchy.setHierarchy(hierarchy);
-	    return roleHierarchy;
-	}
+//	@Bean
+//	public RoleHierarchy roleHierarchy() {
+//	    RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+//	    String hierarchy = "ROLE_ADMIN > ROLE_USER";
+//	    roleHierarchy.setHierarchy(hierarchy);
+//	    return roleHierarchy;
+//	}
 //	
 //	@Bean
 //	public DefaultWebSecurityExpressionHandler webSecurityExpressionHandler() {
@@ -100,19 +100,13 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	 return http
 			 .authorizeHttpRequests()
-			 	.requestMatchers("/order/**", 
-			 				"/customer/**", 
-			 				"/payment-type/**", 
-			 				"/product/**"
-			 				)
-			 		.hasRole("USER")
+			 	
 		 		.requestMatchers("/order/**", 
 		 				"/customer/**", 
-		 				"/payment-type/**", 
-		 				"/product/**",
-		 				"/user/**"
-		 				)
-		 		.hasRole("ADMIN")
+		 				"/payment-type/**").hasAnyRole("ADMIN", "USER")
+		 		
+		 		.requestMatchers("/admin/**").hasRole("ADMIN")
+		 		
 		 		.requestMatchers("/","/register","/js/**", "/css/**", "/asset/**" ,"/index")
 		 			.permitAll()
 		 	.and()
@@ -121,7 +115,7 @@ public class SecurityConfig {
 		 		.loginProcessingUrl("/authenticate")
 		 		.usernameParameter("username")
 		 		.passwordParameter("password")
-		 		.defaultSuccessUrl("/order/0/50", true)
+		 		.defaultSuccessUrl("/index", true)
 		 	.and()
 		 		.logout()
 		 		.logoutSuccessUrl("/login")

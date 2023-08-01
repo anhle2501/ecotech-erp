@@ -1,0 +1,362 @@
+<div th:fragment="order-detail">
+		<h3>Thông tin đơn hàng</h3>
+
+		<div class="input-group mb-3">
+				<span class="input-group-text">Khách hàng</span> <select
+						th:readonly="true" class="form-select">
+
+						<option th:selected="true" th:text="${order.customer.name}"></option>
+
+				</select>
+		</div>
+
+		<table class="table table-striped ">
+				<thead>
+						<tr>
+								<th scope="col">#</th>
+								<th scope="col">Mã hàng</th>
+								<th scope="col">Sản phẩm</th>
+								<th scope="col">Đơn giá</th>
+								<th scope="col">Số lượng</th>
+								<th scope="col">Tổng</th>
+								<!-- <th scope="col">Mô tả</th> -->
+								<!-- <th scope="col">Hành động</th> -->
+
+						</tr>
+				</thead>
+
+				<tbody>
+						<tr th:each="c, iterator : ${order.orderProduct}">
+
+								<td scope="row" th:text="${iterator.index + 1}"></td>
+								<td th:if="${order.orderProduct.size() > 0}"
+										th:text="${c.product.code}"></td>
+								<td th:if="${order.orderProduct.size() == 0}"
+										th:text="Không có sản phẩm"></td>
+								<td th:text="${c.product.name}"></td>
+								<td th:class="right" th:text="${c.price}"></td>
+								<td th:class="right" th:text="${c.quantity}"></td>
+								<td th:class="right" th:text="${c.price * c.quantity}"></td>
+								<!--  <td th:text="${c.product.description}"></td>-->
+
+						</tr>
+
+						<td colspan="4"></td>
+						<td>Tổng:</td>
+						<td th:class="right" th:text="${order.totalPrice}"></td>
+						</tr>
+				</tbody>
+		</table>
+
+
+
+		<div class="d-md-flex flex-column">
+
+				<div class="input-group mb-3">
+						<span class="input-group-text">PTTT</span> <select
+								th:readonly="true" class="form-select">
+
+								<option th:selected="true" th:text="${order.paymentType.name}"></option>
+
+						</select>
+				</div>
+
+				<div class="input-group mb-3">
+						<span class="input-group-text">Ghi chú</span>
+						<textarea th:readonly="true" class="form-control" type="text"
+								th:text="${order.description}" > </textarea>
+
+				</div>
+
+				<a th:href="@{/admin/order/0/50}"><button type="button" class="btn btn-secondary w-25">
+						Quay lại
+				</button></a>
+
+
+		</div>
+</div>
+
+<div th:fragment="new-order">
+				<h3> Thêm đơn hàng</h3>
+				
+				<form th:action="@{order/new-order}" method="POST"
+						th:object="${newOrder}">
+						<div class="input-group mb-3">
+								<span class="input-group-text">Khách hàng</span> <select
+										class="form-select customer-select-search" th:field="${newOrder.customer}">
+										<div th:each="p: ${customerList}">
+												<option
+														th:selected="${#arrays.contains(p.id, newOrder.customer.id)}"
+														th:value="${p.id}" th:text="|Tên: ${p.name} |"></option>
+										</div>
+								</select>
+								<a class="btn btn-success" th:href="@{admin/customer/new-customer}">Thêm</a>
+									
+						</div>
+						
+						<div class="input-group mb-3">
+								<span class="input-group-text">Sản phẩm</span> <select
+										class="form-select w-50 product-select-search" id="product" name="product">
+										<option id="option-product-new-order" value="0" selected>Chọn sản phẩm</option>
+										<div th:each="p: ${productListShow}">
+												<option th:value="${p.id}" th:text="|Mã sp: ${p.code} - Tên sp: ${p.name}|"></option>
+										</div>
+								</select>
+								<a class="btn btn-success" th:href="@{admin/product/new-product}">Thêm</a>
+						</div>
+
+						<div class="d-md-flex gap-3">
+
+								<div class="input-group mb-3">
+										<span class="input-group-text">Giá</span> <input name="price"
+												id="price" type="number" class="form-control" min="0"
+												max="2000000000" lang="vn" value="0" required> <span
+												class="input-group-text">đồng</span>
+								</div>
+								<div></div>
+								<div class="input-group mb-3">
+										<span class="input-group-text">Số lượng</span> <input
+												name="quantity" id="quantity" type="number"
+												class="form-control" min="0" max="2000000000" lang="vn"
+												value="0" required> <span class="input-group-text">đồng</span>
+								</div>
+
+						</div>
+						</span>
+						<button type="submit" name="addProduct" id="addProduct"
+								class="btn btn-success">Thêm sản phẩm vào đơn hàng</button>
+
+
+
+						<table class="table table-striped table-bordered mt-2">
+								<thead>
+										<tr>
+												<th scope="col">#</th>
+												<th scope="col">Mã hàng</th>
+												<th scope="col">Sản phẩm</th>
+												<th scope="col">Đơn giá</th>
+												<th scope="col">Số lượng</th>
+												<th scope="col">Tổng</th>
+												<!-- <th scope="col">Mô tả</th> -->
+												<th scope="col">Hành động</th>
+
+										</tr>
+								</thead>
+
+								<tbody>
+										<tr th:each="c, iterator : ${newOrder.orderProduct}">
+
+												<td scope="row" th:text="${iterator.index + 1}"></td>
+												<td th:if="${newOrder.orderProduct.size() > 0}"
+														th:text="${c.product.code}"></td>
+												<td th:if="${newOrder.orderProduct.size() == 0}"
+														th:text="Không có sản phẩm"></td>
+												<td th:text="${c.product.name}"></td>
+												<td th:class="right" th:text="${c.price}"></td>
+												<td th:class="right" th:text="${c.quantity}"></td>
+												<td th:class="right" th:text="${c.price * c.quantity}"></td>
+												<!--  <td th:text="${c.product.description}"></td>-->
+												<td>
+														<div class="btn-group" role="group"
+																aria-label="Basic example">
+																<!-- <button
+																th:onclick="@{|window.location.href='/order/${c.id}/show'|}"
+																type="button" class="btn btn-info">Xem</button> -->
+																<!-- <button type="button"
+																		th:onclick="@{|window.location.href='/order/${c.id}'|}"
+																		class="btn btn-warning">Sửa</button> -->
+																<button th:value="${iterator.index + 1}"
+																		id="productIndex" name="productIndex" type="submit"
+																		class="btn btn-danger">Xoá</button>
+														</div>
+												</td>
+										</tr>
+
+										<td colspan="4"></td>
+										<td>Tổng:</td>
+										<td th:class="right" th:text="${newOrder.totalPrice}"></td>
+										</tr>
+								</tbody>
+						</table>
+
+
+
+						<div class="d-md-flex flex-column">
+
+								<div class="input-group mb-3">
+										<span class="input-group-text "  >PTTT</span> <select
+												class="form-select payment-type-select-search" th:field="${newOrder.paymentType}">
+												<div th:each="p: ${paymentTypeList}">
+														<option
+																th:selected="${#arrays.contains(p.id, newOrder.paymentType.id)}"
+																th:value="${p.id}" th:text="|Tên: ${p.name} Mô tả: ${p.description} Số ngày nợ: ${p.day}|"></option>
+												</div>
+										</select>
+								</div>
+								<div></div>
+								<div class="input-group mb-3">
+										<span class="input-group-text">Ghi chú</span>
+										<textarea class="form-control" type="text"
+												th:field="${newOrder.description}" />
+								</div>
+
+						</div>
+						<button type="submit" name="save" id="save"
+								class="btn btn-success w-25">Gửi phê duyệt</button>
+						<a th:href="@{admin/order/0/50}"><button type="button" class="btn btn-secondary w-25">
+								Quay lại
+						</button></a>
+				</form>
+
+		</div>
+
+
+<div th:fragment="update-order">
+	
+				<form th:action="@{  ${id} ? '/admin/order/' + ${id} : '/admin/order' }" method="POST" th:object="${order}">
+				<h3 class="d-inline">Cập nhật đơn hàng</h3><span th:class="${ (order.isConfirm == 1) ? 'badge text-bg-primary m-2 ' : 'badge text-bg-secondary m-2 '}" th:text="${ (order.isConfirm == 1) ? 'Đã duyệt' : 'Chưa duyệt'} "> </span>
+				
+			
+						
+						<input th:type="hidden" th:value="${order.id}" th:field="${order.id}">
+						
+					
+					<!--	<div class="input-group mb-3">
+								<span class="input-group-text">Tình trạng đơn hàng</span> <select
+										class="form-select" th:field="${order.isConfirm}">
+										<div th:with="strList = ${ {0,1} }">
+										<div th:each="c: ${strList}">
+												<option class="select-search-value"
+														th:selected="${#arrays.contains(c, order.isConfirm)}"
+														th:value="${c}" th:text="${c == 1} ? 'Duyệt': 'Chưa duyệt'"></option>
+										</div>
+										</div>
+								</select>
+						</div>-->
+						
+						<div class="input-group mb-3">
+								<span class="input-group-text">Khách hàng</span> <select
+										class="form-select customer-select-search" th:field="${order.customer}">
+										<div th:each="c: ${customerList}">
+												<option class="select-search-value"
+														th:selected="${#arrays.contains(c.id, order.customer.id)}"
+														th:value="${c.id}" th:text="${c.name}"></option>
+										</div>
+								</select>
+						</div>
+						<div class="input-group mb-3" >
+								<span class="input-group-text">Sản phẩm</span> 
+								<select class="form-select w-50 product-select-search"  name="product" id="product">
+										<option value="0" selected>Chọn sản phẩm</option>
+										<div th:each="p: ${productListShow}">
+												<option th:value="${p.id}" th:text="${p.name}"></option>
+										</div>
+								</select>
+						</div>
+
+						<div class="d-md-flex gap-3">
+
+								<div class="input-group mb-3">
+										<span class="input-group-text">Giá</span> <input name="price"
+												id="price" type="number" class="form-control" min="0"
+												max="2000000000" lang="vn" value="0" required> <span
+												class="input-group-text text-right">đồng</span>
+								</div>
+								<div></div>
+								<div class="input-group mb-3">
+										<span class="input-group-text">Số lượng</span> <input
+												name="quantity" id="quantity" type="number"
+												class="form-control" min="0" max="2000000000" lang="vn"
+												value="0" required> <span class="input-group-text">đồng</span>
+								</div>
+
+						</div>
+						</span>
+						<button type="submit" name="addProduct" id="addProduct"
+								class="btn btn-success timer">Thêm sản phẩm</button>
+
+
+
+						<table class="table table-striped table-bordered mt-2">
+								<thead>
+										<tr>
+												<th scope="col">#</th>
+												<th scope="col">Mã hàng</th>
+												<th scope="col">Sản phẩm</th>
+												<th scope="col">Đơn giá</th>
+												<th scope="col">Số lượng</th>
+												<th scope="col">Tổng</th>
+												<!-- <th scope="col">Mô tả</th> -->
+												<th scope="col">Hành động</th>
+
+										</tr>
+								</thead>
+
+								<tbody>
+										<tr th:each="c, iterator : ${order.orderProduct}">
+												<td scope="row" th:text="${iterator.index + 1}"></td>
+												<td th:if="${order.orderProduct.size() > 0}"
+														th:text="${c.product.code}"></td>
+												<td th:if="${order.orderProduct.size() == 0}"
+														th:text="Không có sản phẩm"></td>
+												<td th:text="${c.product.name}"></td>
+												<td th:class="right" th:text="${c.price}"></td>
+												<td th:class="right" th:text="${c.quantity}"></td>
+												<td th:class="right" th:text="${c.price * c.quantity}"></td>
+												<!--  <td th:text="${c.product.description}"></td>-->
+												<td>
+														<div class="btn-group" role="group"
+																aria-label="Basic example">
+																<!-- <button
+																th:onclick="@{|window.location.href='/order/${c.id}/show'|}"
+																type="button" class="btn btn-info">Xem</button> -->
+																<!-- <button type="button"
+																		th:onclick="@{|window.location.href='/order/${c.id}'|}"
+																		class="btn btn-warning">Sửa</button> -->
+																<button th:value="${c.id}"
+																		id="productIndex" name="productIndex" type="submit"
+																		class="btn btn-danger timer">Xoá</button>
+														</div>
+												</td>
+										</tr>
+
+										<td colspan="4"></td>
+										<td>Tổng:</td>
+										<td th:class="right" th:text="${order.totalPrice}"></td>
+										</tr>
+								</tbody>
+						</table>
+
+
+
+						<div class="d-md-flex flex-column">
+
+								<div class="input-group mb-3">
+										<span class="input-group-text">PTTT</span> <select
+												class="form-select payment-type-select-search" th:field="${order.paymentType}">
+												<div th:each="p: ${paymentTypeList}">
+														<option
+																th:selected="${#arrays.contains(p.id, order.paymentType.id)}"
+																th:value="${p.id}" th:text="${p.name}"></option>
+												</div>
+										</select>
+								</div>
+								<div></div>
+								<div class="input-group mb-3">
+										<span class="input-group-text">Ghi chú</span>
+										<textarea class="form-control" type="text"
+												th:field="${order.description}" />
+								</div>
+
+						</div>
+							<div class="form-check form-switch">
+						  <input th:class="${ (order.isConfirm == true) ? 'form-check-input disabled': 'form-check-input'}" type="checkbox" role="switch" id="flexSwitchCheckDefault" th:field="${order.isConfirm}" value="${order.isConfirm}">
+						  <label class="form-check-label" for="flexSwitchCheckDefault">Phê duyệt</label>
+						</div>
+						<button type="submit" name="save" id="save"
+								class="btn btn-success w-25">Cập nhật</button>
+						<a th:href="@{/admin/order/0/50}"><button type="button" class="btn btn-secondary w-25">
+								Quay lại
+						</button></a>
+				</form>
+		</div>

@@ -1,4 +1,4 @@
-package vn.com.ecotechgroup.erp.controller;
+package vn.com.ecotechgroup.erp.controller.user;
 
 import java.util.Optional;
 
@@ -31,7 +31,7 @@ import vn.com.ecotechgroup.erp.service.ProductService;
 @Controller
 @RequestMapping("order")
 @SessionAttributes(value ={"newOrder", "order"})
-public class OrderController {
+public class OrderControllerUser {
 
 	private final String RETURN_PAGE = "page/order";
 	private final String SHOW_PATH = "/{id}/show";
@@ -50,7 +50,7 @@ public class OrderController {
 	}
 
 	@Autowired
-	public OrderController(OrderService orderService) {
+	public OrderControllerUser(OrderService orderService) {
 		this.orderService = orderService;
 	}
 
@@ -72,13 +72,16 @@ public class OrderController {
 	public String showOrderList(Model model,
 			@Valid @PathVariable("pageNumber") @Min(0) Integer pageNumber,
 			@Valid @PathVariable("pageSize") @Min(0) Integer pageSize,
-			@RequestParam(name = "search", required = false) String searchTerm
+			@RequestParam(name = "search", required = false) String searchTerm,
+			@AuthenticationPrincipal User user
 			) {
 		Page<Order> orderList;
+		
 		if (searchTerm == null) {
-			orderList = orderService.getListPage(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()), "");
+			orderList = orderService.getListPageUser(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()),(Long) user.getId() , null);
 		} else {
-			orderList = orderService.getListPage(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()), searchTerm);
+			searchTerm = searchTerm.toLowerCase();
+			orderList = orderService.getListPageUser(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()),(Long) user.getId(), searchTerm);
 		}
 		model.addAttribute(NAME_ATTRIBUTE, orderList );
 		model.addAttribute("isList", true);
@@ -86,7 +89,7 @@ public class OrderController {
 	}
 
 	@GetMapping(SHOW_PATH)
-	public String showOrder(@PathVariable("id") Long id, Model model) {
+	public String showOrder(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal User user) {
 		Optional<Order> orderObj = Optional.of(orderService.getOne(id));
 		if (orderObj.isPresent()) {
 			model.addAttribute("id", id);
@@ -94,12 +97,12 @@ public class OrderController {
 			model.addAttribute("isDetail", true);
 			return RETURN_PAGE;
 		} else {
-			return showOrderList(model, default_page, default_page_size, null);
+			return showOrderList(model, default_page, default_page_size, null, user);
 		}
 	}
 
 	@GetMapping(ADD_PATH)
-	public String getOrder(@PathVariable("id") Long id, Model model) {
+	public String getOrder(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal User user) {
 		Optional<Order> orderObj = Optional.ofNullable(orderService.getOne(id));
 		if (orderObj.isPresent()) {
 			model.addAttribute(NAME_ATTRIBUTE, orderObj.get());
@@ -117,7 +120,7 @@ public class OrderController {
 			orderService.getInformation(model);
 			return RETURN_PAGE;
 		} else {
-			return showOrderList(model, default_page, default_page_size, null);
+			return showOrderList(model, default_page, default_page_size, null, user);
 		}
 	}
 
@@ -185,12 +188,12 @@ public class OrderController {
 				orderService.save(order);
 			}
 			session.setComplete();
-			return showOrderList(model, default_page, default_page_size, null);
+			return showOrderList(model, default_page, default_page_size, null, user);
 		}
 	}
 
 	@GetMapping(DELETE_PATH)
-	public String deleteOrder(@PathVariable("id") Long id, Model model) {
+	public String deleteOrder(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal User user) {
 		try {
 			System.out.println(id);
 			orderService.delete(id);
@@ -198,7 +201,7 @@ public class OrderController {
 			model.addAttribute("error", "Vui lòng xóa các dữ liệu có liên kết với dữ liệu này trước !");
 			return "error";
 		}
-		return showOrderList(model, default_page, default_page_size, null);
+		return showOrderList(model, default_page, default_page_size, null, user);
 	}
 
 	@GetMapping(NEW_PATH)
@@ -257,37 +260,23 @@ public class OrderController {
 //
 	@PostMapping(value = NEW_PATH, params = "save")
 	public String saveOrder(Model model,
-			@ModelAttribute("newOrder") Order newOrder, SessionStatus session
+			@ModelAttribute("newOrder") Order newOrder, SessionStatus session, @AuthenticationPrincipal User user
 			) {
 		orderService.save(newOrder);
 		session.setComplete();
 		model.addAttribute("isList", true);
-		return showOrderList(model, default_page, default_page_size, null);
+		return showOrderList(model, default_page, default_page_size, null, user);
 	}
 	
-	@GetMapping(value = "/{id}/confirm")
-	public String confirmOrder(Model model,
-			@PathVariable("id") long id,
-			@AuthenticationPrincipal User user
-			) {
-		orderService.confirmOrder(id, user);
-		model.addAttribute("isList", true);
-		return showOrderList(model, default_page, default_page_size, null);
-	}
-	
-//	@Autowired
-//	ProductRepository pRep; 
+//	@GetMapping(value = "/{id}/confirm")
+//	public String confirmOrder(Model model,
+//			@PathVariable("id") long id,
+//			@AuthenticationPrincipal User user
+//			) {
+//		orderService.confirmOrder(id, user);
+//		model.addAttribute("isList", true);
+//		return showOrderList(model, default_page, default_page_size, null, user);
+//	}
 //	
-//	@Autowired
-//	CustomerRepository cRep; 
-//	
-//	@Autowired
-//	PaymentTypeRepository ptRep; 
-//	
-//	@Autowired
-//	OrderProductRepository opRep; 
-//	
-//	@Autowired
-//	OrderRepository oRep; 
-//	
+//
 }

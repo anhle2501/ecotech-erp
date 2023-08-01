@@ -1,27 +1,25 @@
 package vn.com.ecotechgroup.erp;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import vn.com.ecotechgroup.erp.entity.PermissionInit;
-import vn.com.ecotechgroup.erp.repository.PermissionRepository;
+import vn.com.ecotechgroup.erp.entity.Order;
+import vn.com.ecotechgroup.erp.repository.OrderRepository;
 
 @SpringBootApplication
 public class ErpApplication {
 	
 	@Autowired
-	private PermissionRepository pRep;
+	private OrderRepository oRep;
 
 	
 	@Autowired
-	public ErpApplication(PermissionRepository pRep) {
+	public ErpApplication(OrderRepository oRep) {
 		super();
-		this.pRep = pRep;
+		this.oRep = oRep;
 	}
 
 	@Bean
@@ -29,11 +27,6 @@ public class ErpApplication {
 		return arg -> {
 			
 			System.out.println("test");
-			PermissionInit p = new PermissionInit(pRep);
-			System.out.println("test1");
-			System.out.println(p.getPermissionRep()); 
-			System.out.println("test2");
-			p.init(List.of(	"admin", "customer", "product", "payment-type"));
 		
 		};
 	}

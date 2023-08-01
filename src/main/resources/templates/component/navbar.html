@@ -1,20 +1,46 @@
-<nav th:fragment="navbar"
-		class="navbar navbar-expand-lg navbar-dark bg-primary">
-		<a class="navbar-brand" th:href="@{/}">Ecotech</a>
-<!-- 		<button class="navbar-toggler" type="button" data-toggle="collapse"
+<div th:fragment="navbar">
+	
+	<div sec:authorize="hasRole('USER')">
+		<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary">
+			<a class="navbar-brand" th:href="@{/}">Ecotech</a>
+			<!-- 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarColor02" aria-controls="navbarColor02"
 				aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 		</button> -->
 
-		<div class="" id="navbarColor02">
+			<div class="" id="navbarColor02">
 				<ul class="navbar-nav mr-auto flex-container">
 					<!--<span class="sr-only">(current)</span>-->
-						<li class="nav-item"><a class="nav-link" th:href="@{/customer/0/50}">Khách hàng  </a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/order/0/50}">Đặt hàng </a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/product/0/50}">Sản phẩm </a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/payment-type/0/50}">PTTT</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/user/0/50}">Người dùng</a></li>				
-		</div>
+					<li class="nav-item"><a class="nav-link" th:href="@{/customer/0/50}">Khách hàng </a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/order/0/50}">Đặt hàng </a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/payment-type/0/50}">PTTT</a></li>
+			</div>
 
-</nav>
+
+		</nav>
+	</div>
+
+	<div sec:authorize="hasRole('ADMIN')">
+		<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" th:href="@{/}">Admin</a>
+			<!-- 		<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarColor02" aria-controls="navbarColor02"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+		</button> -->
+
+
+			<div class="" id="navbarColor01">
+				<ul class="navbar-nav bg-dark mr-auto flex-container">
+					<!--<span class="sr-only">(current)</span>-->
+					<li class="nav-item"><a class="nav-link" th:href="@{/admin/customer/0/50}">Khách hàng </a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/admin/order/0/50}">Đặt hàng </a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/admin/product/0/50}">Sản phẩm </a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/admin/payment-type/0/50}">PTTT</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/admin/user/0/50}">Người dùng</a></li>
+			</div>
+
+		</nav>
+	</div>
+</div>

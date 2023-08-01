@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -38,12 +40,12 @@ public class Customer {
 	
 	@Size(max = 45, message = "Độ dài quá 45 ký tự !")
 	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Mã có định dạng liên tục !")
-	@Column(length = 45)
+	@Column(length = 45, unique = true)
 	private String code;
 
 	@NotBlank(message = "Không được để trống !")
 	@Size(min = 5, max = 100, message = "Độ dài từ 5-100 ký tự !")
-	@Column(length = 100)
+	@Column(length = 100, unique = true)
 	private String name;
 	
 	@Size(max = 45, message = "Độ dài quá 200 ký tự !")
@@ -60,15 +62,23 @@ public class Customer {
 	@Column(length = 20)
 	private String taxCode;
 	
-	
 	@OneToOne
-	@JoinColumn(name = "create_by")
-	@CreatedBy
+	@JoinColumn(name = "create_by", updatable = false) 
+	@CreatedBy 
 	private User user;
 	
 	@CreatedDate
 	@Column(updatable = false)
 	private LocalDateTime createAt;
+	
+	@OneToOne
+	@JoinColumn(name = "last_modified_by")
+	@LastModifiedBy
+	private User userModified;
+	
+	@LastModifiedDate
+	@Column
+	private LocalDateTime last_modified_date;
 	
 	@Column(length = 1000)
 	@Size(max = 1000, message = "Độ dài quá 1000 ký tự !")
