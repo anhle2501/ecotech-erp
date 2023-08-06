@@ -1,8 +1,6 @@
 package vn.com.ecotechgroup.erp.entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,7 +8,6 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -18,17 +15,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
@@ -39,7 +35,7 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
+	@Column(name = "id", unique = true, nullable = false)
 	private long id;
 
 	@Column(length = 45, unique = true)
@@ -81,26 +77,24 @@ public class Product {
 	@Column
 	private LocalDateTime last_modified_date;
 	
-	@ToString.Exclude
-	@OneToMany(mappedBy = "product",
-			cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE}
-			)
-	private List<OrderProduct> orderProduct;
+//	@ToString.Exclude
+//	@OneToMany(mappedBy = "product")
+//	private List<OrderProduct> orderProduct;
 	
 	
-	public void addOrder(Order order, int price, int quantity) {
-		OrderProduct newOrderProduct = new OrderProduct();
-		newOrderProduct.setOrder(order);
-		newOrderProduct.setProduct(this);
-		newOrderProduct.setPrice(price);
-		newOrderProduct.setQuantity(quantity);
-		orderProduct.add(newOrderProduct);
-	}
-	
-	public void removeOrder(long orderId) {
-		orderProduct = 
-			orderProduct.stream()
-				.filter(op -> op.getOrder().getId() != orderId)
-				.collect(Collectors.toList());
-	}
+//	public void addOrder(Order order, int price, int quantity) {
+//		OrderProduct newOrderProduct = new OrderProduct();
+//		newOrderProduct.setOrder(order);
+//		newOrderProduct.setProduct(this);
+//		newOrderProduct.setPrice(price);
+//		newOrderProduct.setQuantity(quantity);
+//		orderProduct.add(newOrderProduct);
+//	}
+//	
+//	public void removeOrder(long orderId) {
+//		orderProduct = 
+//			orderProduct.stream()
+//				.filter(op -> op.getOrder().getId() != orderId)
+//				.collect(Collectors.toList());
+//	}
 }

@@ -117,7 +117,7 @@ public class OrderControllerUser {
 			model.addAttribute("productIndex", Integer.valueOf(0));
 			
 			model.addAttribute("isUpdate", true);
-			orderService.getInformation(model);
+			orderService.getInformationForUser(model, user);
 			return RETURN_PAGE;
 		} else {
 			return showOrderList(model, default_page, default_page_size, null, user);
@@ -129,8 +129,10 @@ public class OrderControllerUser {
 			@ModelAttribute("order") Order order,
 			@ModelAttribute("product") long productId,
 			@ModelAttribute("price") Integer price,
-			@ModelAttribute("quantity") Integer quantity) {
-		orderService.getInformation(model);
+			@ModelAttribute("quantity") Integer quantity,
+			@AuthenticationPrincipal User user
+			) {
+		orderService.getInformationForUser(model, user);
 		model.addAttribute("id", order.getId());
 		if (productId == 0) {
 			
@@ -153,7 +155,9 @@ public class OrderControllerUser {
 	@PostMapping(value = UPDATE_PATH, params = "productIndex")
 	public String updateOrderRemoveProduct(Model model,
 			@ModelAttribute("order") Order order,
-			@ModelAttribute("productIndex") int productIndex) {
+			@ModelAttribute("productIndex") int productIndex,
+			@AuthenticationPrincipal User user
+			) {
 		
 		long id = order.getId();
 		orderService.removeProduct(order, productIndex);
@@ -164,7 +168,7 @@ public class OrderControllerUser {
 		model.addAttribute("productIndex", Integer.valueOf(0));
 		model.addAttribute("isUpdate", true);
 
-		orderService.getInformation(model);
+		orderService.getInformationForUser(model, user);
 		return RETURN_PAGE;
 	}
 	
@@ -177,7 +181,7 @@ public class OrderControllerUser {
 			) {
 		if (errors.hasErrors()) {
 			model.addAttribute("id", order.getId());
-			orderService.getInformation(model);
+			orderService.getInformationForUser(model, user);
 			model.addAttribute("isList", true);
 			return RETURN_PAGE;
 		} else {
@@ -205,9 +209,9 @@ public class OrderControllerUser {
 	}
 
 	@GetMapping(NEW_PATH)
-	public String showOrderForm(Model model) {
+	public String showOrderForm(Model model, @AuthenticationPrincipal User user) {
 
-		orderService.getInformation(model);
+		orderService.getInformationForUser(model, user);
 		model.addAttribute("isNew", true);
 
 		// for create
@@ -226,12 +230,13 @@ public class OrderControllerUser {
 			@ModelAttribute("product") Product product,
 			@ModelAttribute("newOrder") Order newOrder,
 			@ModelAttribute("price") Integer price,
-			@ModelAttribute("quantity") Integer quantity, SessionStatus session
+			@ModelAttribute("quantity") Integer quantity, SessionStatus session,
+			@AuthenticationPrincipal User user
 			) {
 
 		if (product.getId() == 0) {
 			model.addAttribute("isNew", true);
-			orderService.getInformation(model);
+			orderService.getInformationForUser(model, user);
 			return RETURN_PAGE;
 		} else {
 			Order tmp = orderService.addProduct(newOrder, product, price, quantity);
@@ -239,7 +244,7 @@ public class OrderControllerUser {
 				return "redirect:/order/" + tmp.getId();
 			}
 			model.addAttribute("isNew", true);
-			orderService.getInformation(model);
+			orderService.getInformationForUser(model, user);
 			return RETURN_PAGE;
 		}
 	}

@@ -47,7 +47,7 @@ public class UserServiceImp implements UserService {
 		t.setPassword(pw);
 		
 		// add role
-		Role role = (Role) roleRepo.getRoleByName("ROLE_USER");
+		Role role = roleRepo.getRoleByName("ROLE_USER");
 		System.out.println(role);
 		t.getListRole().add(role);
 		User user = userRepo.save(t);

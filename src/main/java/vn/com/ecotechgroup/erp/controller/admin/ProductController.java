@@ -110,7 +110,7 @@ public class ProductController {
 	}
 	
 	@GetMapping(DELETE_PATH)
-	public String deletePaymentType(@PathVariable("id") long  id, Model model) {
+	public String deleteProduct(@PathVariable("id") long  id, Model model) {
 		try {
 			productRepo.deleteById(id);
 		} catch (DataIntegrityViolationException de) {

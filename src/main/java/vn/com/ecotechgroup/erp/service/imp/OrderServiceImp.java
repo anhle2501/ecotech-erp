@@ -4,14 +4,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -23,17 +21,23 @@ import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 import vn.com.ecotechgroup.erp.repository.OrderProductRepository;
 import vn.com.ecotechgroup.erp.repository.OrderRepository;
+
 import vn.com.ecotechgroup.erp.repository.PaymentTypeRepository;
 import vn.com.ecotechgroup.erp.repository.ProductRepository;
 import vn.com.ecotechgroup.erp.repository.UserRepository;
 import vn.com.ecotechgroup.erp.service.OrderService;
+import vn.com.ecotechgroup.erp.service.UiService;
 
 @Service
-public class OrderServiceImp implements OrderService {
+public class OrderServiceImp implements OrderService, UiService {
 
 	private PaymentTypeRepository paymentTypeRepo;
 	private CustomerRepository customerRepo;
+	
+	@Autowired
 	private OrderRepository orderRepo;
+	
+	
 	private ProductRepository productRepo;
 	private OrderProductRepository orderProductRepo;
 
@@ -41,11 +45,12 @@ public class OrderServiceImp implements OrderService {
 
 	@Autowired
 	public OrderServiceImp(PaymentTypeRepository paymentTypeRepo, CustomerRepository customerRepo,
-			OrderRepository orderRepo, ProductRepository productRepo, OrderProductRepository orderProductRepo,
+//			OrderRepository orderRepo, 
+			ProductRepository productRepo, OrderProductRepository orderProductRepo,
 			UserRepository userRepo) {
 		this.paymentTypeRepo = paymentTypeRepo;
 		this.customerRepo = customerRepo;
-		this.orderRepo = orderRepo;
+//		this.orderRepo = orderRepo;
 		this.productRepo = productRepo;
 		this.orderProductRepo = orderProductRepo;
 		this.userRepo = userRepo;
@@ -64,7 +69,8 @@ public class OrderServiceImp implements OrderService {
 
 	@Override
 	public void delete(Long orderId) {
-		orderRepo.deleteById((long) orderId);
+		System.out.println(orderId);
+		orderRepo.deleteById(orderId);
 	}
 
 	@Override
@@ -136,6 +142,18 @@ public class OrderServiceImp implements OrderService {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void getInformationForUser(Model model, User user) {
+		List<PaymentType> paymentTypeList = paymentTypeRepo.findAll();
+		
+		List<Customer> customerList = customerRepo.getCustomerByUserOrderByName(user);
+			
+		List<Product> productList = productRepo.findAll();
+		model.addAttribute("paymentTypeList", paymentTypeList);
+		model.addAttribute("customerList", customerList);
+		model.addAttribute("productListShow", productList);
 	}
 
 }

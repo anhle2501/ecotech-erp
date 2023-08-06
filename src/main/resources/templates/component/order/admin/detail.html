@@ -79,7 +79,7 @@
 <div th:fragment="new-order">
 				<h3> Thêm đơn hàng</h3>
 				
-				<form th:action="@{order/new-order}" method="POST"
+				<form th:action="@{/admin/order/new-order}" method="POST"
 						th:object="${newOrder}">
 						<div class="input-group mb-3">
 								<span class="input-group-text">Khách hàng</span> <select
@@ -90,7 +90,7 @@
 														th:value="${p.id}" th:text="|Tên: ${p.name} |"></option>
 										</div>
 								</select>
-								<a class="btn btn-success" th:href="@{admin/customer/new-customer}">Thêm</a>
+								<a class="btn btn-success" th:href="@{/customer/new-customer}">Thêm</a>
 									
 						</div>
 						
@@ -102,7 +102,7 @@
 												<option th:value="${p.id}" th:text="|Mã sp: ${p.code} - Tên sp: ${p.name}|"></option>
 										</div>
 								</select>
-								<a class="btn btn-success" th:href="@{admin/product/new-product}">Thêm</a>
+								<a class="btn btn-success" th:href="@{/product/new-product}">Thêm</a>
 						</div>
 
 						<div class="d-md-flex gap-3">
@@ -203,20 +203,19 @@
 						</div>
 						<button type="submit" name="save" id="save"
 								class="btn btn-success w-25">Gửi phê duyệt</button>
-						<a th:href="@{admin/order/0/50}"><button type="button" class="btn btn-secondary w-25">
+						<a th:href="@{/admin/order/0/50}"><button type="button" class="btn btn-secondary w-25">
 								Quay lại
 						</button></a>
 				</form>
 
 		</div>
 
-
 <div th:fragment="update-order">
 	
 				<form th:action="@{  ${id} ? '/admin/order/' + ${id} : '/admin/order' }" method="POST" th:object="${order}">
-				<h3 class="d-inline">Cập nhật đơn hàng</h3><span th:class="${ (order.isConfirm == 1) ? 'badge text-bg-primary m-2 ' : 'badge text-bg-secondary m-2 '}" th:text="${ (order.isConfirm == 1) ? 'Đã duyệt' : 'Chưa duyệt'} "> </span>
+				<h3 class="d-inline">Cập nhật đơn hàng</h3><span th:class="${ (order.isConfirm == true ) ? 'badge text-bg-success m-2 ' : 'badge text-bg-secondary m-2 '}" th:text="${ (order.isConfirm == true) ? 'Đã duyệt' : 'Chưa duyệt'} "> </span>
 				
-			
+				
 						
 						<input th:type="hidden" th:value="${order.id}" th:field="${order.id}">
 						
@@ -273,7 +272,7 @@
 						</div>
 						</span>
 						<button type="submit" name="addProduct" id="addProduct"
-								class="btn btn-success timer">Thêm sản phẩm</button>
+								class="btn btn-success">Thêm sản phẩm</button>
 
 
 
@@ -349,7 +348,7 @@
 								</div>
 
 						</div>
-							<div class="form-check form-switch">
+						<div class="form-check form-switch">
 						  <input th:class="${ (order.isConfirm == true) ? 'form-check-input disabled': 'form-check-input'}" type="checkbox" role="switch" id="flexSwitchCheckDefault" th:field="${order.isConfirm}" value="${order.isConfirm}">
 						  <label class="form-check-label" for="flexSwitchCheckDefault">Phê duyệt</label>
 						</div>

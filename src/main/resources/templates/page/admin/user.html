@@ -14,16 +14,16 @@
 								<div class="col">
 								
 										<div th:if="${isList == true}">
-												<div th:replace="~{component/user/content::user}"></div>
+												<div th:replace="~{component/user/admin/content::user}"></div>
 										</div>
 										<div th:if="${isNew == true}">
-												<div th:replace="~{component/user/detail::new-user}"></div>
+												<div th:replace="~{component/user/admin/detail::new-user}"></div>
 										</div>
 										<div th:if="${isDetail == true}">
-												<div th:replace="~{component/user/detail::user-detail}"></div>
+												<div th:replace="~{component/user/admin/detail::user-detail}"></div>
 										</div>
 										<div th:if="${isUpdate == true}">
-												<div th:replace="~{component/user/detail::update-user}"></div>
+												<div th:replace="~{component/user/admin/detail::update-user}"></div>
 										</div> 
 								</div>
 						</div>

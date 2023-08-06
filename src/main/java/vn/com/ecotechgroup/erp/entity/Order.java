@@ -14,6 +14,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,10 +23,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,7 +38,7 @@ public class Order {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
+	@Column(name = "id", unique = true, nullable = false)
 	private long id;
 
 	@Column(updatable = false)
@@ -51,16 +53,14 @@ public class Order {
 //			)
 //	private List<Product> productsList;
 
-	@OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-//			- update thi no se kiem xem co ko co  thi up
-			CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE })
+	@OneToMany(mappedBy = "order", cascade = {CascadeType.ALL} )
 	private List<OrderProduct> orderProduct = new ArrayList<>();
 
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE })
+	@OneToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer = new Customer();
 
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE })
+	@OneToOne
 	@JoinColumn(name = "payment_type_id")
 //	@NotNull(message="Không được để trống !")
 	private PaymentType paymentType = new PaymentType();
@@ -68,14 +68,14 @@ public class Order {
 	@Column(length = 1000)
 	private String description;
 
-//	@OneToOne
-//	@JoinColumn(name = "last_modified_by")
-//	@LastModifiedBy
-//	private User userModified;
-//	
-//	@LastModifiedDate
-//	@Column
-//	private LocalDateTime last_modified_date;
+	@OneToOne
+	@JoinColumn(name = "last_modified_by")
+	@LastModifiedBy
+	private User userModified;
+	
+	@LastModifiedDate
+	@Column
+	private LocalDateTime last_modified_date;
 	
 	@Column
 	private long totalPrice;
@@ -98,7 +98,7 @@ public class Order {
 	@Column
 	private LocalDateTime confirmAt;
 	
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE })
+	@OneToOne
 	@JoinColumn(name = "confirm_by")
 	private User confirmByUser;
 	
@@ -112,8 +112,8 @@ public class Order {
 			OrderProduct newOrderProduct = new OrderProduct(this, product, price, quantity);
 			orderProduct.add(newOrderProduct);
 			List<OrderProduct> products = this.getOrderProduct();
-			List<Integer> priceList = products.stream().map(p -> p.getPrice() * p.getQuantity()).toList();
-			long total = (long) priceList.stream().reduce(0, (subtotal, element) -> (subtotal + element));
+			List<Long> priceList = products.stream().map(p -> p.getPrice() * p.getQuantity()).toList();
+			long total = (long) priceList.stream().reduce(0L, (subtotal, element) -> (subtotal + element));
 			this.setTotalPrice(total);
 		}
 	}

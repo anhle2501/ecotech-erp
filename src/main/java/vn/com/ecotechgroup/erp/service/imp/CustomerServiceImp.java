@@ -34,8 +34,11 @@ public class CustomerServiceImp implements CustomerService {
 
 	@Override
 	public void delete(Long id) {
-		
+		try {
 		customerRep.deleteById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

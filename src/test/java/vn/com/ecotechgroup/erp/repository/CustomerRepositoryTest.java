@@ -1,32 +1,32 @@
-package vn.com.ecotechgroup.erp.repository;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-
-import vn.com.ecotechgroup.erp.entity.Customer;
-import vn.com.ecotechgroup.erp.repository.CustomerRepository;
-
-@SpringBootTest
-@TestInstance(Lifecycle.PER_CLASS)
-public class CustomerRepositoryTest {
+//package vn.com.ecotechgroup.erp.repository;
+//
+//import static org.assertj.core.api.Assertions.assertThat;
+//import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.mockito.Mockito.mock;
+//import static org.mockito.Mockito.verify;
+//import static org.mockito.Mockito.when;
+//
+//import java.util.List;
+//import java.util.Optional;
+//
+//import org.junit.jupiter.api.AfterAll;
+//import org.junit.jupiter.api.BeforeAll;
+//import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.TestInstance;
+//import org.junit.jupiter.api.TestInstance.Lifecycle;
+//import org.mockito.InjectMocks;
+//import org.mockito.Mock;
+//import org.mockito.Mockito;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.boot.test.mock.mockito.MockBean;
+//
+//import vn.com.ecotechgroup.erp.entity.Customer;
+//import vn.com.ecotechgroup.erp.repository.CustomerRepository;
+//
+//@SpringBootTest
+//@TestInstance(Lifecycle.PER_CLASS)
+//public class CustomerRepositoryTest {
 
 //	@Autowired
 //	private CustomerRepository customerRepo;
@@ -67,4 +67,4 @@ public class CustomerRepositoryTest {
 //		assertThat(resultCustomer.isPresent()).isTrue();
 //		assertThat(resultCustomer.get().getName().equals("test2")).isTrue();
 //	}
-}
+//}

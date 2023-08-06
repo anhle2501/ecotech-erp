@@ -213,7 +213,7 @@
 <div th:fragment="update-order">
 	
 				<form th:action="@{  ${id} ? '/order/' + ${id} : '/order' }" method="POST" th:object="${order}">
-				<h3 class="d-inline">Cập nhật đơn hàng</h3><span th:class="${ (order.isConfirm == 1) ? 'badge text-bg-primary m-2 ' : 'badge text-bg-secondary m-2 '}" th:text="${ (order.isConfirm == 1) ? 'Đã duyệt' : 'Chưa duyệt'} "> </span>
+				<h3 class="d-inline">Cập nhật đơn hàng</h3><span th:class="${ (order.isConfirm == true ) ? 'badge text-bg-success m-2 ' : 'badge text-bg-secondary m-2 '}" th:text="${ (order.isConfirm == true) ? 'Đã duyệt' : 'Chưa duyệt'} "> </span>
 				
 				
 						
@@ -348,10 +348,10 @@
 								</div>
 
 						</div>
-							<div class="form-check form-switch">
+						<!--	<div class="form-check form-switch">
 						  <input th:class="${ (order.isConfirm == true) ? 'form-check-input disabled': 'form-check-input'}" type="checkbox" role="switch" id="flexSwitchCheckDefault" th:field="${order.isConfirm}" value="${order.isConfirm}">
 						  <label class="form-check-label" for="flexSwitchCheckDefault">Phê duyệt</label>
-						</div>
+						</div>-->
 						<button type="submit" name="save" id="save"
 								class="btn btn-success w-25">Cập nhật</button>
 						<a th:href="@{/order/0/50}"><button type="button" class="btn btn-secondary w-25">

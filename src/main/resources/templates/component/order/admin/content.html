@@ -66,7 +66,7 @@
 
 						<td>
 							<div class="btn-group" role="group" aria-label="Basic example">
-								<button th:if="${c.isConfirm != true}" th:onclick="@{|window.location.href='/admin/order/${c.id}/confirm'|}" type="button"
+								<button th:if="${c.isConfirm != true}" th:onclick="@{|window.location.href='/order/${c.id}/confirm'|}" type="button"
 									class="btn btn-success timer">Duyệt</button>
 								<button th:onclick="@{|window.location.href='/admin/order/${c.id}/show'|}" type="button"
 									class="btn btn-info">Xem</button>

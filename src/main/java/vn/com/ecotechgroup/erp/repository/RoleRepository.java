@@ -10,5 +10,5 @@ import vn.com.ecotechgroup.erp.entity.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
-	List<Role> getRoleByName(String name);
+	Role getRoleByName(String name);
 }

@@ -21,9 +21,10 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,7 +35,7 @@ public class PaymentType {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
+	@Column(name = "id", unique = true, nullable = false)
 	private long id;
 
 	@NotBlank(message = "Không được để trống!")

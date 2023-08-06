@@ -1,33 +1,34 @@
 package vn.com.ecotechgroup.erp;
 
+import org.hibernate.sql.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import jakarta.transaction.Transactional;
 import vn.com.ecotechgroup.erp.entity.Order;
-import vn.com.ecotechgroup.erp.repository.OrderRepository;
+
 
 @SpringBootApplication
 public class ErpApplication {
-	
-	@Autowired
-	private OrderRepository oRep;
 
-	
-	@Autowired
-	public ErpApplication(OrderRepository oRep) {
-		super();
-		this.oRep = oRep;
-	}
 
 	@Bean
+	@Transactional
 	public CommandLineRunner cmd() {
 		return arg -> {
 			
 			System.out.println("test");
-		
+//			
+//			Order order = new Order();
+//			order.setDescription("123");
+//			
+//			Order save = oRep.save(order);
+//			System.out.println(save);
+//			oRep.delete(save);
+			
 		};
 	}
 

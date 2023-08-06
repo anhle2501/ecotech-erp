@@ -20,11 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import vn.com.ecotechgroup.erp.entity.Order;
 import vn.com.ecotechgroup.erp.entity.Product;
 import vn.com.ecotechgroup.erp.entity.User;
+import vn.com.ecotechgroup.erp.repository.OrderProductRepository;
+import vn.com.ecotechgroup.erp.repository.TestRepository;
 import vn.com.ecotechgroup.erp.service.OrderService;
 import vn.com.ecotechgroup.erp.service.ProductService;
 
@@ -75,8 +78,9 @@ public class OrderController {
 			@RequestParam(name = "search", required = false) String searchTerm
 			) {
 		Page<Order> orderList;
+		
 		if (searchTerm == null) {
-			orderList = orderService.getListPage(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()), "");
+			orderList = orderService.getListPage(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()) , null);
 		} else {
 			searchTerm = searchTerm.toLowerCase();
 			orderList = orderService.getListPage(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()), searchTerm);
@@ -87,7 +91,7 @@ public class OrderController {
 	}
 
 	@GetMapping(SHOW_PATH)
-	public String showOrder(@PathVariable("id") Long id, Model model) {
+	public String showOrder(@PathVariable("id") Long id, Model model ) {
 		Optional<Order> orderObj = Optional.of(orderService.getOne(id));
 		if (orderObj.isPresent()) {
 			model.addAttribute("id", id);
@@ -100,7 +104,7 @@ public class OrderController {
 	}
 
 	@GetMapping(ADD_PATH)
-	public String getOrder(@PathVariable("id") Long id, Model model) {
+	public String getOrder(@PathVariable("id") Long id, Model model ) {
 		Optional<Order> orderObj = Optional.ofNullable(orderService.getOne(id));
 		if (orderObj.isPresent()) {
 			model.addAttribute(NAME_ATTRIBUTE, orderObj.get());
@@ -170,8 +174,7 @@ public class OrderController {
 	public String updateOrder(
 			@Valid @ModelAttribute(NAME_ATTRIBUTE) Order order, Errors errors,
 			SessionStatus session,
-			Model model,
-			@AuthenticationPrincipal User user
+			Model model, @AuthenticationPrincipal User user
 			) {
 		if (errors.hasErrors()) {
 			model.addAttribute("id", order.getId());
@@ -189,14 +192,27 @@ public class OrderController {
 			return showOrderList(model, default_page, default_page_size, null);
 		}
 	}
+	
+	@Autowired
+	private TestRepository tRep;
+	@Autowired
+	private OrderProductRepository opRep;
 
 	@GetMapping(DELETE_PATH)
-	public String deleteOrder(@PathVariable("id") Long id, Model model) {
+	@Transactional
+	public String deleteOrder(@PathVariable("id") Long id, Model model ) {
 		try {
+			System.out.println(id);
 			orderService.delete(id);
+//			System.out.println(tRep); 
+			
+//			Order order = tRep.findById(id).get();
+//			order.getOrderProduct().forEach(e -> opRep.delete(e));
+//			tRep.deleteById(order.getId());
+//			
+//			System.out.println("end delete");
 		} catch (DataIntegrityViolationException e) {
 			model.addAttribute("error", "Vui lòng xóa các dữ liệu có liên kết với dữ liệu này trước !");
-			
 			return "error";
 		}
 		return showOrderList(model, default_page, default_page_size, null);
@@ -271,10 +287,9 @@ public class OrderController {
 			@PathVariable("id") long id,
 			@AuthenticationPrincipal User user
 			) {
-		System.out.println("dang chay");
 		orderService.confirmOrder(id, user);
 		model.addAttribute("isList", true);
-		return "redirect:/admin/order/0/50";
+		return showOrderList(model, default_page, default_page_size, null);
 	}
 	
 

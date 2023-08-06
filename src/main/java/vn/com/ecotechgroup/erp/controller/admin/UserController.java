@@ -25,7 +25,7 @@ import vn.com.ecotechgroup.erp.service.UserService;
 @RequestMapping("admin/user")
 public class UserController {
 
-	private final String RETURN_PAGE = "page/user";
+	private final String RETURN_PAGE = "page/admin/user";
 	private final String SHOW_PATH = "/{id}/show";
 	private final String NEW_PATH = "/new-user";
 	private final String ADD_PATH = "/{id}";
@@ -72,6 +72,7 @@ public class UserController {
 	public String showUser(@PathVariable("id") long id, Model model) {
 		Optional<User> userObj = Optional.ofNullable(userService.getOne(id));
 		if (userObj.isPresent()) {
+			System.out.println(userObj);
 			model.addAttribute(NAME_ATTRIBUTE, userObj.get());
 			model.addAttribute("isDetail", true);
 			return RETURN_PAGE;

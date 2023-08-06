@@ -1,6 +1,6 @@
 <div th:fragment="user-detail">
 	<h3>Thông tin người dùng</h3>
-	<form th:action="@{/user/new-user}" th:object="${user}" method="POST">
+	<form th:action="@{/admin/user/new-user}" th:object="${user}" method="POST">
 
 		<div class="input-group mb-3">
 			<span class="input-group-text">Mã</span>
@@ -30,7 +30,7 @@
 			<input th:readonly="true" class="form-control" type="text" th:field="*{description}">
 		</div>
 
-		<button type="button" class="btn btn-secondary w-25" th:onclick="@{|window.location.href='/user/0/50'|}">Quay
+		<button type="button" class="btn btn-secondary w-25" th:onclick="@{|window.location.href='/admin/user/0/50'|}">Quay
 			lại</button></span>
 	</form>
 
@@ -40,7 +40,7 @@
 <div th:fragment="new-user">
 	<h3>Thêm người dùng</h3>
 
-	<form th:action="@{/user/new-user}" th:object="${user}" method="POST">
+	<form th:action="@{/admin/user/new-user}" th:object="${user}" method="POST">
 
 		<div class="input-group mb-3">
 			<span class="input-group-text">Tên đăng nhập *</span>
@@ -78,7 +78,7 @@
 		</div>
 
 		<button type="submit" class="btn btn-success w-25">Tạo</button>
-		<button type="button" class="btn btn-secondary w-25" th:onclick="@{|window.location.href='/user/0/50'|}">Quay
+		<button type="button" class="btn btn-secondary w-25" th:onclick="@{|window.location.href='/admin/user/0/50'|}">Quay
 			lại</button></span>
 
 	</form>
@@ -88,7 +88,7 @@
 <div th:fragment="update-user">
 	<h3>Cập nhật người dùng</h3>
 
-	<form th:action="@{|/user/${id}|}" th:object="${user}" method="POST">
+	<form th:action="@{|/admin/user/${id}|}" th:object="${user}" method="POST">
 		
 		<div class="input-group mb-3 d-none">
 			<span class="input-group-text">ListRole</span>
@@ -159,7 +159,7 @@
 		</div>
 
 		<button type="submit" class="btn btn-success w-25">Cập nhật</button>
-		<button type="button" class="btn btn-secondary w-25" th:onclick="@{|window.location.href='/user/0/50'|}">Quay
+		<button type="button" class="btn btn-secondary w-25" th:onclick="@{|window.location.href='/admin/user/0/50'|}">Quay
 			lại</button></span>
 
 	</form>
