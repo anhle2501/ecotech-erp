@@ -9,6 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +25,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -46,6 +47,7 @@ public class User implements UserDetails {
 	@Length(max = 45, message = "Ít hơn 45 ký tự!")
 	private String userName;
 	
+	@JsonIgnore
 	@Column(length = 45, nullable = false)
 	@NotBlank(message = "Không để trống!")
 	@Length(min= 8, max=1000, message = "Nhiều hơn 8 ký tự!")

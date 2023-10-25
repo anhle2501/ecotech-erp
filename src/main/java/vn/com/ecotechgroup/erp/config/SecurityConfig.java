@@ -100,29 +100,30 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	 return http
 			 .authorizeHttpRequests()
-			 	
-		 		.requestMatchers("/order/**", 
-		 				"/customer/**", 
-		 				"/payment-type/**").hasAnyRole("ADMIN", "USER")
-		 		
-		 		.requestMatchers("/admin/**").hasRole("ADMIN")
-		 		
-		 		.requestMatchers("/","/register","/js/**", "/css/**", "/asset/**" ,"/index")
-		 			.permitAll()
-		 	.and()
-		 	.formLogin()
-		 		.loginPage("/login")
-		 		.loginProcessingUrl("/authenticate")
-		 		.usernameParameter("username")
-		 		.passwordParameter("password")
-		 		.defaultSuccessUrl("/index", true)
-		 	.and()
-		 		.logout()
-		 		.logoutSuccessUrl("/login")
-		 		.permitAll()
+			 .requestMatchers("/**").permitAll().and().build();
+//			 	
+//		 		.requestMatchers("/order/**", 
+//		 				"/customer/**", 
+//		 				"/payment-type/**").hasAnyRole("ADMIN", "USER")
+//		 		
+//		 		.requestMatchers("/admin/**").hasRole("ADMIN")
+//		 		
+//		 		.requestMatchers("/","/register","/js/**", "/css/**", "/asset/**" ,"/index")
+//		 			.permitAll()
 //		 	.and()
-//		 	 .exceptionHandling().accessDeniedPage("page/denied.html")
-		 	 .and()
-			 .build();
+//		 	.formLogin()
+//		 		.loginPage("/login")
+//		 		.loginProcessingUrl("/authenticate")
+//		 		.usernameParameter("username")
+//		 		.passwordParameter("password")
+//		 		.defaultSuccessUrl("/index", true)
+//		 	.and()
+//		 		.logout()
+//		 		.logoutSuccessUrl("/login")
+//		 		.permitAll()
+////		 	.and()
+////		 	 .exceptionHandling().accessDeniedPage("page/denied.html")
+//		 	 .and()
+//			 .build();
 	}
 }

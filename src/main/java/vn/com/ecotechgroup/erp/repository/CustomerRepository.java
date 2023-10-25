@@ -7,12 +7,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.config.Projection;
 import org.springframework.stereotype.Repository;
 
 import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.entity.User;
+import vn.com.ecotechgroup.erp.entity.projector.CustomerRestProjector;
 
 @Repository
+@Projection(name="CustomerRestProjector", types= {Customer.class})
+@RepositoryRestResource(excerptProjection = CustomerRestProjector.class)
 public interface CustomerRepository extends JpaRepository<Customer, Long >{
 	// admin page
 	Page<Customer> findCustomerByNameContainsOrDescriptionContains(Pageable pageable, String name, String description);
