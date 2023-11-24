@@ -2,15 +2,12 @@ package vn.com.ecotechgroup.erp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 
 import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.repository.UserRepository;
@@ -20,11 +17,21 @@ public class SecurityConfig {
 
 	private HttpSecurity httpSecurity;
 
+//	@Bean
+//	public PasswordEncoder passwordEncoder() {
+//		return new BCryptPasswordEncoder();
+//	}
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
-
+//
+//	@Bean
+//	public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
+//		return new SecurityEvaluationContextExtension();
+//	}
+	
 	// in memory
 //	@Bean
 //	public UserDetailsService userDetailsService(
@@ -100,30 +107,33 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	 return http
 			 .authorizeHttpRequests()
-			 .requestMatchers("/**").permitAll().and().build();
-//			 	
-//		 		.requestMatchers("/order/**", 
-//		 				"/customer/**", 
-//		 				"/payment-type/**").hasAnyRole("ADMIN", "USER")
-//		 		
-//		 		.requestMatchers("/admin/**").hasRole("ADMIN")
-//		 		
-//		 		.requestMatchers("/","/register","/js/**", "/css/**", "/asset/**" ,"/index")
-//		 			.permitAll()
-//		 	.and()
-//		 	.formLogin()
-//		 		.loginPage("/login")
-//		 		.loginProcessingUrl("/authenticate")
-//		 		.usernameParameter("username")
-//		 		.passwordParameter("password")
-//		 		.defaultSuccessUrl("/index", true)
-//		 	.and()
-//		 		.logout()
-//		 		.logoutSuccessUrl("/login")
-//		 		.permitAll()
-////		 	.and()
-////		 	 .exceptionHandling().accessDeniedPage("page/denied.html")
-//		 	 .and()
+//			 .requestMatchers("/**").permitAll().and()
+//			 .csrf().disable()
+//			 .cors().disable()
 //			 .build();
+//			 	
+		 		.requestMatchers("/order/**", 
+		 				"/customer/**", 
+		 				"/payment-type/**").hasAnyRole("ADMIN", "USER")
+		 		
+		 		.requestMatchers("/admin/**").hasRole("ADMIN")
+		 		
+		 		.requestMatchers("/","/register","/js/**", "/css/**", "/asset/**" ,"/index")
+		 			.permitAll()
+		 	.and()
+		 	.formLogin()
+		 		.loginPage("/login")
+		 		.loginProcessingUrl("/authenticate")
+		 		.usernameParameter("username")
+		 		.passwordParameter("password")
+		 		.defaultSuccessUrl("/index", true)
+		 	.and()
+		 		.logout()
+		 		.logoutSuccessUrl("/login")
+		 		.permitAll()
+//		 	.and()
+//		 	 .exceptionHandling().accessDeniedPage("page/denied.html")
+		 	 .and()
+			 .build();
 	}
 }

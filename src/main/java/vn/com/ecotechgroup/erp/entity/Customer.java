@@ -7,8 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.web.JsonPath;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,7 +27,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Builder
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -84,7 +83,7 @@ public class Customer {
 	
 	@LastModifiedDate
 	@Column
-	private LocalDateTime last_modified_date;
+	private LocalDateTime lastModifiedDate;
 	
 	@Column(length = 1000)
 	@Size(max = 1000, message = "Độ dài quá 1000 ký tự !")

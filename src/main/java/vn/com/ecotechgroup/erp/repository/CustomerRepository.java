@@ -1,29 +1,25 @@
 package vn.com.ecotechgroup.erp.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.config.Projection;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 
 import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.entity.User;
-import vn.com.ecotechgroup.erp.entity.projector.CustomerRestProjector;
 
 @Repository
-@Projection(name="CustomerRestProjector", types= {Customer.class})
-@RepositoryRestResource(excerptProjection = CustomerRestProjector.class)
 public interface CustomerRepository extends JpaRepository<Customer, Long >{
 	// admin page
 	Page<Customer> findCustomerByNameContainsOrDescriptionContains(Pageable pageable, String name, String description);
 	
 	List<Customer> getCustomerByUserOrderByName(User user);
-
 	
 	@Query("SELECT c FROM Customer c "
 			+ "INNER JOIN c.user cc "
@@ -37,9 +33,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long >{
 			+ "OR lower(c.description) LIKE %:searchTerm%)"
 			)
 	Page<Customer> customerSearchListAdmin(Pageable pageable, @Param("searchTerm") String searchTerm);
-	
-	
-	
 	
 	// user page
 	@Query("SELECT c FROM Customer c "
@@ -56,5 +49,4 @@ public interface CustomerRepository extends JpaRepository<Customer, Long >{
 			)
 	Page<Customer> customerSearchListUser(Pageable pageable, @Param("user_id") Long user_id , @Param("searchTerm") String searchTerm);
 
-	
 }

@@ -7,14 +7,17 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import lombok.Getter;
+import vn.com.ecotechgroup.erp.repository.UserRepository;
 
 @Getter
 public class CustomerTest {
 
-	private Customer customer; 
-
+	private Customer customer;
+	
 	public CustomerTest() {
 		customer = Customer.builder()
 				.address("40/20 Lu Gia")

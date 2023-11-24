@@ -36,8 +36,6 @@ public class ProductTest {
 
 	@Test
 	void get_info_attribute() {
-		System.out.println("user");
-		System.out.println(user);
 		assertThat(product.getCode()).isEqualTo("BVTV");
 		assertThat(product.getName()).isEqualTo("Product 1");
 		assertThat(product.getUnit()).isEqualTo("Bao");

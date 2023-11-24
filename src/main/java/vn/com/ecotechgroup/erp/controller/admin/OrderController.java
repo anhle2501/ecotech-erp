@@ -27,7 +27,6 @@ import vn.com.ecotechgroup.erp.entity.Order;
 import vn.com.ecotechgroup.erp.entity.Product;
 import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.repository.OrderProductRepository;
-import vn.com.ecotechgroup.erp.repository.TestRepository;
 import vn.com.ecotechgroup.erp.service.OrderService;
 import vn.com.ecotechgroup.erp.service.ProductService;
 
@@ -193,8 +192,7 @@ public class OrderController {
 		}
 	}
 	
-	@Autowired
-	private TestRepository tRep;
+
 	@Autowired
 	private OrderProductRepository opRep;
 

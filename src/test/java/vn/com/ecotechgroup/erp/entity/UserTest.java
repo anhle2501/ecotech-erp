@@ -8,16 +8,17 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class UserTest {
 
 	private User user; 
 	
 	public UserTest() {
 		user = new User();
-		user.setUserName("nhutanh");
+		user.setUserName("nhutanh99");
+		user.setPassword("123456789Abc");
 		user.setDescription("mô tả");
 		user.setMobilePhone("12345678");
 		user.setLastName("anh");
@@ -26,6 +27,7 @@ public class UserTest {
 		user.setNonExpired(true);
 		user.setNonLock(true);
 		user.setPwNonExpired(true);
+		
 	}
 	
 

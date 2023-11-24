@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,7 +36,7 @@ import lombok.ToString;
 @Data
 public class User implements UserDetails {
 	
-	private static final long serialVersionUID = 1L;
+//	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +47,7 @@ public class User implements UserDetails {
 	@NotBlank(message = "Không để trống!")
 	@Length(max = 45, message = "Ít hơn 45 ký tự!")
 	private String userName;
-	
+
 	@JsonIgnore
 	@Column(length = 45, nullable = false)
 	@NotBlank(message = "Không để trống!")
@@ -65,6 +66,8 @@ public class User implements UserDetails {
 	@Length(max = 45, message = "Ít hơn 45 ký tự!")
 	private String mobilePhone;
 	@Column(length = 1000)
+	
+	
 	@Length(max = 1000, message = "Ít hơn 1000 ký tự!")
 	private String description;
 	
@@ -74,6 +77,8 @@ public class User implements UserDetails {
 	private boolean nonExpired;
 	@Column(insertable = false)
 	private boolean pwNonExpired;
+	
+	
 	@Column(insertable = false)
 	private boolean enable;
 

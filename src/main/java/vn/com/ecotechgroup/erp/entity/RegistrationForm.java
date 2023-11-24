@@ -1,6 +1,7 @@
 package vn.com.ecotechgroup.erp.entity;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import jakarta.persistence.Column;
@@ -10,6 +11,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
+@RestResource(exported = false)
 public class RegistrationForm {
 	
 	@Column(length = 45, unique = true, nullable = false)

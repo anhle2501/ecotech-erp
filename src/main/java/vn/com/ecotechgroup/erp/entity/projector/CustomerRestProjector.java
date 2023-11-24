@@ -3,12 +3,13 @@ package vn.com.ecotechgroup.erp.entity.projector;
 
 import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.core.config.Projection;
 
 import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.entity.User;
 
-@Projection(name="CustomerRestProjector", types= {Customer.class})
+@Projection(name="CustomerRestProjector", types= {Customer.class, User.class})
 public interface CustomerRestProjector {
 	
 	long getId();
@@ -25,8 +26,9 @@ public interface CustomerRestProjector {
 	
 	LocalDateTime getCreateAt();
 	
-	LocalDateTime getLast_modified_date();
+	LocalDateTime getLastModifiedDate();
 	
+	@Value("#{target.user}")
 	User getUser();
 	
 	User getUserModified();

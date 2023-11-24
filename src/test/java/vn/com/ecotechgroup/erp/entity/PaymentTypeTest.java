@@ -36,8 +36,6 @@ public class PaymentTypeTest {
 
 	@Test
 	void get_info_attribute() {
-		System.out.println("user");
-		System.out.println(user);
 		assertThat(paymentType.getDescription()).isEqualTo("30 ngày");
 		assertThat(paymentType.getName()).isEqualTo("Thanh toán");
 		assertThat(paymentType.getDay()).isEqualTo(30);
