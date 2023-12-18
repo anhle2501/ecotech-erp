@@ -5,11 +5,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 import jakarta.transaction.Transactional;
 
 
-@SpringBootApplication
+@SpringBootApplication()
 public class ErpApplication {
 		
 	@Value("${host.name}")
@@ -26,7 +27,7 @@ public class ErpApplication {
 			System.out.println(name);
 			System.out.println(port);
 			System.out.println("test");
-
+	
 		});
 	}
 

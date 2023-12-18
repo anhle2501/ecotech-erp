@@ -78,9 +78,13 @@ public class User implements UserDetails {
 	@Column(insertable = false)
 	private boolean pwNonExpired;
 	
-	
 	@Column(insertable = false)
 	private boolean enable;
+	
+	@Column(insertable = false)
+	private String accessToken;
+//	@Column(insertable = false)
+//	private String refreshToken;
 
 	@ToString.Exclude
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

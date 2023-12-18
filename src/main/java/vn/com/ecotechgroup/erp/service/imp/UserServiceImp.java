@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import vn.com.ecotechgroup.erp.entity.Role;
 import vn.com.ecotechgroup.erp.entity.User;
@@ -38,6 +39,7 @@ public class UserServiceImp implements UserService {
 		return true;
 	}
 
+	
 	@Override
 	public User save(User t) {
 		// add user
@@ -75,7 +77,9 @@ public class UserServiceImp implements UserService {
 		userRepo.delete(user);
 	}
 
+	
 	@Override
+	@Transactional
 	public User getOne(Long id) {
 		return userRepo.getReferenceById(id);
 	}
