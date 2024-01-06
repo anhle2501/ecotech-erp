@@ -95,8 +95,8 @@ public class UserController {
 
 	@PostMapping(UPDATE_PATH)
 	public String updateUser(@PathVariable("id") int id,
-			@Valid @ModelAttribute(NAME_ATTRIBUTE) User user,
-			Errors errors, Model model) {
+			@Valid @ModelAttribute(NAME_ATTRIBUTE) User user, Errors errors,
+			Model model) {
 		if (errors.hasErrors()) {
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
@@ -111,7 +111,8 @@ public class UserController {
 		try {
 			userService.delete(id);
 		} catch (DataIntegrityViolationException de) {
-			model.addAttribute("error", "Vui lòng xóa dữ liệu liên quan trước khi xóa dữ liệu này !");
+			model.addAttribute("error",
+					"Vui lòng xóa dữ liệu liên quan trước khi xóa dữ liệu này !");
 			return "error";
 		}
 		return showUserList(model, default_page, default_page_size, null);
@@ -126,22 +127,23 @@ public class UserController {
 	@PostMapping(NEW_PATH)
 	public String createUser(@Valid @ModelAttribute(NAME_ATTRIBUTE) User user,
 			Errors errors, Model model) {
-		
+
 		if (errors.hasErrors()) {
 			model.addAttribute("isNew", true);
 			return RETURN_PAGE;
 		} else {
-			
-			if (userService.checkUserNameDuplicate(user.getUserName()) == false ){
+
+			if (userService
+					.checkUserNameDuplicate(user.getUserName()) == false) {
 				userService.save(user);
-				return showUserList(model, default_page, default_page_size, null);
+				return showUserList(model, default_page, default_page_size,
+						null);
 			} else {
 				model.addAttribute("error", "User name bị trùng !");
 				model.addAttribute("isNew", true);
 				return RETURN_PAGE;
 			}
-			
-			
+
 		}
 	}
 //	@Autowired

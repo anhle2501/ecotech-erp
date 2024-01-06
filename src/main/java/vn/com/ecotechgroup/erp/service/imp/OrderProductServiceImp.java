@@ -13,7 +13,7 @@ import vn.com.ecotechgroup.erp.service.CrudService;
 public class OrderProductServiceImp implements CrudService<OrderProduct> {
 
 	OrderProductRepository opRep;
-	
+
 	@Autowired
 	public void setOpRep(OrderProductRepository opRep) {
 		this.opRep = opRep;
@@ -37,7 +37,7 @@ public class OrderProductServiceImp implements CrudService<OrderProduct> {
 	}
 
 	@Override
-	public OrderProduct getOne(Long id ) {
+	public OrderProduct getOne(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -48,8 +48,5 @@ public class OrderProductServiceImp implements CrudService<OrderProduct> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
-	
 
 }

@@ -23,51 +23,54 @@ import vn.com.ecotechgroup.erp.entity.User;
 public class LoginController {
 
 	@Autowired
-    AuthenticationManager authenticationManager;
+	AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtTokenProvider tokenProvider;
-    
-    @PostMapping("/login")
-    public LoginResponse authenticateUser(@RequestBody LoginRequest loginRequest) {
+	@Autowired
+	private JwtTokenProvider tokenProvider;
 
-    	System.out.println(loginRequest);
-        // Xác thực từ username và password.
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUserName(),
-                        loginRequest.getPassword()
-                )
-        );
+	@PostMapping("/login")
+	public LoginResponse authenticateUser(
+			@RequestBody LoginRequest loginRequest) {
 
-        // Nếu không xảy ra exception tức là thông tin hợp lệ
-        // Set thông tin authentication vào Security Context
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        
-        // Trả về jwt cho người dùng.
-        User user = (User) authentication.getPrincipal(); 
-        String accessToken = tokenProvider.generateAccessToken(user);
-        String refreshToken = tokenProvider.generateRefreshToken(user);
-        return new LoginResponse(accessToken, refreshToken);
-    }
+		System.out.println(loginRequest);
+		// Xác thực từ username và password.
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(
+						loginRequest.getUserName(),
+						loginRequest.getPassword()));
 
-    @PostMapping("/refresh")
-    public ResponseEntity<?> refreshToken(@RequestParam("refreshToken") String refreshToken) {
-        // Validate the refresh token
-    	System.out.println("vo day chua");
-        if (tokenProvider.validateToken(refreshToken)) {
-            // If valid, generate a new access token
-        	SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            System.out.println("SecurityContextHolder.getContext().getAuthentication().getPrincipal();");
-            System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-            
-        	
+		// Nếu không xảy ra exception tức là thông tin hợp lệ
+		// Set thông tin authentication vào Security Context
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		// Trả về jwt cho người dùng.
+		User user = (User) authentication.getPrincipal();
+		String accessToken = tokenProvider.generateAccessToken(user);
+		String refreshToken = tokenProvider.generateRefreshToken(user);
+		return new LoginResponse(accessToken, refreshToken);
+	}
+
+	@PostMapping("/refresh")
+	public ResponseEntity<?> refreshToken(
+			@RequestParam("refreshToken") String refreshToken) {
+		// Validate the refresh token
+		System.out.println("vo day chua");
+		if (tokenProvider.validateToken(refreshToken)) {
+			// If valid, generate a new access token
+			SecurityContextHolder.getContext().getAuthentication()
+					.getPrincipal();
+			System.out.println(
+					"SecurityContextHolder.getContext().getAuthentication().getPrincipal();");
+			System.out.println(SecurityContextHolder.getContext()
+					.getAuthentication().getPrincipal());
+
 //            String newAccessToken = tokenProvider.generateAccessToken(user);
-            return ResponseEntity.ok(new LoginResponse().builder().accessToken("11").build());
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
-        }
-    }
+			return ResponseEntity.ok(
+					new LoginResponse().builder().accessToken("11").build());
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+					.body("Invalid refresh token");
+		}
+	}
 
 }
-

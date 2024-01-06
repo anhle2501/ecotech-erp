@@ -13,16 +13,13 @@ import vn.com.ecotechgroup.erp.entity.projector.UserRestProjector;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-	
+
 	User findByUserName(String username);
-	
-	
-	@Query("SELECT u FROM User u "
-			+ "WHERE u.userName LIKE %:searchTerm% "
+
+	@Query("SELECT u FROM User u " + "WHERE u.userName LIKE %:searchTerm% "
 			+ "OR u.fullName LIKE %:searchTerm% "
 			+ "OR u.mobilePhone LIKE %:searchTerm% "
-			+ "OR u.description LIKE %:searchTerm% "
-			+ "order by :orderBy"
-			)
-	Page<User> userSearchList(Pageable pageable, String searchTerm, String orderBy);
+			+ "OR u.description LIKE %:searchTerm% " + "order by :orderBy")
+	Page<User> userSearchList(Pageable pageable, String searchTerm,
+			String orderBy);
 }

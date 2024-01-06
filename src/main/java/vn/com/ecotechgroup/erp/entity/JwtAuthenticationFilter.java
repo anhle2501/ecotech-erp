@@ -35,38 +35,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			System.out.println("JwtAuthenticationFilter");
 			// Lấy jwt từ request
 			String jwt = getJwtFromRequest(request);
-			System.out.println("jwt");
-            System.out.println(jwt);
-            System.out.println("StringUtils.hasText(jwt)");
-            System.out.println(StringUtils.hasText(jwt));
-            System.out.println("tokenProvider.validateToken(jwt");
-            System.out.println(tokenProvider.validateToken(jwt));
-            
+
 			if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
 				// Lấy id user từ chuỗi jwt
 				String userName = tokenProvider.extractUsername(jwt);
-				System.out.println("doFilterInternal");
-                System.out.println(userName);
 				// Lấy thông tin người dùng từ id
 				UserDetails userDetails = userSer.loadUserByUsername(userName);
-				System.out.println("userName11");
-                System.out.println(userName);
-				
+
 				if (userDetails != null) {
 					// Nếu người dùng hợp lệ, set thông tin cho Seturity Context
 					UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 							userDetails, null, userDetails.getAuthorities());
-					System.out.println("authentication");
-					System.out.println(authentication);
+					logger.info(authentication);
 					authentication
 							.setDetails(new WebAuthenticationDetailsSource()
 									.buildDetails(request));
 
 					SecurityContextHolder.getContext()
 							.setAuthentication(authentication);
-					
-					
-					System.out.println("end filter");
 				}
 			}
 		} catch (Exception ex) {

@@ -28,12 +28,14 @@ import vn.com.ecotechgroup.erp.service.imp.CustomerServiceImp;
 @RequestMapping("admin/customer")
 public class CustomerController {
 
-	
-	private CustomerRepository customerRepo;
-	private CustomerService cService;
-	
 	@Autowired
-	public CustomerController(CustomerRepository customerRepo, CustomerServiceImp cService) {
+	private CustomerRepository customerRepo;
+	@Autowired
+	private CustomerService cService;
+
+	@Autowired
+	public CustomerController(CustomerRepository customerRepo,
+			CustomerServiceImp cService) {
 		this.customerRepo = customerRepo;
 		this.cService = cService;
 	}
@@ -54,11 +56,12 @@ public class CustomerController {
 		Page<Customer> customerList;
 		if (searchTerm != null) {
 			searchTerm = searchTerm.toLowerCase();
-			customerList = cService.getListPage(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()), searchTerm);
+			customerList = cService.getListPage(PageRequest.of(pageNumber,
+					pageSize, Sort.by("createAt").descending()), searchTerm);
 		} else {
-			
-			customerList = customerRepo
-					.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()));
+
+			customerList = customerRepo.findAll(PageRequest.of(pageNumber,
+					pageSize, Sort.by("createAt").descending()));
 		}
 		model.addAttribute("customer", customerList);
 		model.addAttribute("isList", true);
@@ -69,7 +72,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/{id}/show")
-	public String showCustomer(@PathVariable("id") long  id, Model model) {
+	public String showCustomer(@PathVariable("id") long id, Model model) {
 		Optional<Customer> customerObj = customerRepo.findById(id);
 		if (customerObj.isPresent()) {
 			model.addAttribute("customer", customerObj.get());
@@ -82,7 +85,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/{id}")
-	public String getCustomer(@PathVariable("id") long  id, Model model) {
+	public String getCustomer(@PathVariable("id") long id, Model model) {
 		Optional<Customer> customerObj = customerRepo.findById(id);
 		if (customerObj.isPresent()) {
 			model.addAttribute("customer", customerObj.get());
@@ -114,14 +117,16 @@ public class CustomerController {
 	}
 
 	@GetMapping("/delete/{id}")
-	public String deleteCustomer(@PathVariable("id") long  id, Model model, Error error) {
+	public String deleteCustomer(@PathVariable("id") long id, Model model,
+			Error error) {
 		try {
 			customerRepo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			System.out.println("khách hàng");
-			model.addAttribute("error", "Vui lòng xóa các dữ liệu có liên kết với dữ liệu này trước !");
+			model.addAttribute("error",
+					"Vui lòng xóa các dữ liệu có liên kết với dữ liệu này trước !");
 			return "error";
-		} 
+		}
 		return showCustomerList(model, default_page, default_page_size, null);
 	}
 

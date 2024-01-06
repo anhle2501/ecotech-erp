@@ -11,13 +11,11 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
-
 class OrderRepositoryTest {
-	
- 
+
 	@BeforeAll
 	static void initAll() {
-		
+
 	}
 
 	@BeforeEach

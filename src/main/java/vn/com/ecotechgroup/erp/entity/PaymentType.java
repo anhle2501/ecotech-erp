@@ -1,5 +1,6 @@
 package vn.com.ecotechgroup.erp.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedBy;
@@ -24,6 +25,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -31,7 +33,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "payment_type", schema = "ecotechgroup_erp")
 //@EntityListeners(AuditingEntityListener.class)
-public class PaymentType {
+public class PaymentType implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,21 +53,21 @@ public class PaymentType {
 	@Column
 	@Max(value = 255, message = "Tối đa nợ 255 ngày.")
 	private int day;
-	
+
 	@OneToOne
 	@JoinColumn(name = "create_by", updatable = false)
 	@CreatedBy
 	private User user;
-	
+
 	@CreatedDate
 	@Column(updatable = false)
 	private LocalDateTime createAt;
-	
+
 	@OneToOne
 	@JoinColumn(name = "last_modified_by")
 	@LastModifiedBy
 	private User userModified;
-	
+
 	@LastModifiedDate
 	@Column
 	private LocalDateTime last_modified_date;

@@ -14,18 +14,17 @@ import org.junit.jupiter.api.Test;
 
 import lombok.Getter;
 
-
 @Getter
 public class OrderProductTest {
-	
+
 	private Order order;
-	
+
 	private Product product;
-	
+
 	private OrderProduct orderProduct;
-	
+
 	private List<OrderProduct> listOrderProduct;
-	
+
 	public OrderProductTest() {
 
 		orderProduct = new OrderProduct();
@@ -34,9 +33,9 @@ public class OrderProductTest {
 		orderProduct.setQuantity(100);
 		orderProduct.setPrice(10);
 		orderProduct.setTotal(1000L);
-		
+
 		listOrderProduct = new ArrayList<OrderProduct>();
-		for (long i = 0 ; i < 6 ; i++) {
+		for (long i = 0; i < 6; i++) {
 			OrderProduct orderProduct = new OrderProduct();
 			orderProduct.setId(i);
 			orderProduct.setOrder(order);
@@ -47,11 +46,10 @@ public class OrderProductTest {
 			listOrderProduct.add(orderProduct);
 		}
 	}
-	
-	
+
 	@BeforeAll
-	static void  initAll() {
-		
+	static void initAll() {
+
 	}
 
 	@BeforeEach

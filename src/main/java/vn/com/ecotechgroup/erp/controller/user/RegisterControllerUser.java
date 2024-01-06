@@ -19,22 +19,22 @@ import vn.com.ecotechgroup.erp.service.UserService;
 public class RegisterControllerUser {
 
 	private UserService userService;
-	
+
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	public RegisterControllerUser(UserService userService,
 			PasswordEncoder encoder) {
 		this.userService = userService;
 		this.passwordEncoder = encoder;
 	}
-	
+
 //	@Autowired
 //	public RegisterController(
 //			UserService userService) {
 //		this.userService = userService;
 //	}
-	
+
 	@ModelAttribute("user")
 	public RegistrationForm createForm() {
 		return new RegistrationForm();
@@ -46,13 +46,14 @@ public class RegisterControllerUser {
 	}
 
 	@PostMapping
-	public String processRegistration( @ModelAttribute("user") @Valid RegistrationForm form, Errors errors)
-	{
+	public String processRegistration(
+			@ModelAttribute("user") @Valid RegistrationForm form,
+			Errors errors) {
 		if (errors.hasErrors()) {
-			
+
 			return "page/registration";
 		} else {
-			userService.save(form.toUser(passwordEncoder));			
+			userService.save(form.toUser(passwordEncoder));
 			return "redirect:/login";
 		}
 	}

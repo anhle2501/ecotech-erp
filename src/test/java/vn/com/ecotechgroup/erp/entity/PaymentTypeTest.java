@@ -18,16 +18,13 @@ public class PaymentTypeTest {
 	private User user = new UserTest().getUser();
 
 	public PaymentTypeTest() {
-		paymentType = PaymentType.builder()
-				.day(30)
-				.description("30 ngày").user(user)
-				.name("Thanh toán").build();
+		paymentType = PaymentType.builder().day(30).description("30 ngày")
+				.user(user).name("Thanh toán").build();
 	}
-	
-	
+
 	@BeforeAll
 	static void init_paymentType() {
-		
+
 	}
 
 	@BeforeEach

@@ -24,22 +24,23 @@ public class UserServiceImp implements UserService {
 	private RoleRepository roleRepo;
 
 	@Autowired
-	public UserServiceImp(UserRepository userRepo, RoleRepository roleRepo, PasswordEncoder passwordEncoder) {
+	public UserServiceImp(UserRepository userRepo, RoleRepository roleRepo,
+			PasswordEncoder passwordEncoder) {
 		this.userRepo = userRepo;
 		this.roleRepo = roleRepo;
 		this.passwordEncoder = passwordEncoder;
 
 	}
-	
+
 	@Override
 	public boolean checkUserNameDuplicate(String userName) {
-		Optional<User> optU = Optional.ofNullable(userRepo.findByUserName(userName));
+		Optional<User> optU = Optional
+				.ofNullable(userRepo.findByUserName(userName));
 		if (optU.isEmpty())
 			return false;
 		return true;
 	}
 
-	
 	@Override
 	public User save(User t) {
 		// add user
@@ -47,14 +48,14 @@ public class UserServiceImp implements UserService {
 		// encrypt password
 		pw = passwordEncoder.encode(pw);
 		t.setPassword(pw);
-		
+
 		// add role
 		Role role = roleRepo.getRoleByName("ROLE_USER");
 		System.out.println(role);
 		t.getListRole().add(role);
 		User user = userRepo.save(t);
 		return user;
-		
+
 	}
 
 	@Override
@@ -77,7 +78,6 @@ public class UserServiceImp implements UserService {
 		userRepo.delete(user);
 	}
 
-	
 	@Override
 	@Transactional
 	public User getOne(Long id) {
@@ -86,7 +86,7 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public Page<User> getListPage(Pageable pageable, String searchTerm) {
-		return userRepo.userSearchList(pageable,searchTerm, "userName");
+		return userRepo.userSearchList(pageable, searchTerm, "userName");
 	}
 
 }

@@ -36,85 +36,87 @@ public class ProductController {
 	private final String NAME_ATTRIBUTE = "product";
 	private int default_page = 0;
 	private int default_page_size = 50;
-	
+
 	@Autowired
-	private ProductRepository productRepo;	
-	
+	private ProductRepository productRepo;
+
 	@Autowired
 	public ProductController(ProductService productService) {
 	}
-	
+
 	@ModelAttribute(name = NAME_ATTRIBUTE)
 	public Product product() {
 		return new Product();
 	}
-	
+
 	@GetMapping("/{pageNumber}/{pageSize}")
-	public String showProductList(Model model, 
+	public String showProductList(Model model,
 			@Valid @PathVariable("pageNumber") @Min(0) Integer pageNumber,
 			@Valid @PathVariable("pageSize") @Min(0) Integer pageSize,
-			@RequestParam(name = "search", required = false) String searchTerm
-			) {
+			@RequestParam(name = "search", required = false) String searchTerm) {
 		Page<Product> productList;
 		if (searchTerm != null) {
-			productList = productRepo
-					.productSearchList(
-							PageRequest.of(pageNumber, pageSize), searchTerm);
+			productList = productRepo.productSearchList(
+					PageRequest.of(pageNumber, pageSize), searchTerm);
 		} else {
-			productList = productRepo
-					.productSearchList(PageRequest.of(pageNumber, pageSize), "");
+			productList = productRepo.productSearchList(
+					PageRequest.of(pageNumber, pageSize), "");
 		}
-		model.addAttribute(NAME_ATTRIBUTE, productList );
+		model.addAttribute(NAME_ATTRIBUTE, productList);
 		model.addAttribute("isList", true);
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("search", searchTerm);
 		return RETURN_PAGE;
 	}
-	
+
 	@GetMapping(SHOW_PATH)
-	public String showPaymentType(@PathVariable("id") long  id, Model model) {
+	public String showPaymentType(@PathVariable("id") long id, Model model) {
 		Optional<Product> productObj = productRepo.findById(id);
 		if (productObj.isPresent()) {
 			model.addAttribute(NAME_ATTRIBUTE, productObj.get());
 			model.addAttribute("isDetail", true);
 			return RETURN_PAGE;
 		} else {
-			return showProductList(model, default_page, default_page_size, null);
+			return showProductList(model, default_page, default_page_size,
+					null);
 		}
 	}
-	
+
 	@GetMapping(ADD_PATH)
-	public String getPaymentType(@PathVariable("id") long  id, Model model) {
+	public String getPaymentType(@PathVariable("id") long id, Model model) {
 		Optional<Product> productObj = productRepo.findById(id);
 		if (productObj.isPresent()) {
 			model.addAttribute(NAME_ATTRIBUTE, productObj.get());
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
 		} else {
-			return showProductList(model, default_page, default_page_size, null);
+			return showProductList(model, default_page, default_page_size,
+					null);
 		}
 	}
 
 	@PostMapping(UPDATE_PATH)
 	public String updatePaymentType(@PathVariable("id") int id,
-			@Valid @ModelAttribute(NAME_ATTRIBUTE) Product paymentType, Errors errors,
-			Model model) {
+			@Valid @ModelAttribute(NAME_ATTRIBUTE) Product paymentType,
+			Errors errors, Model model) {
 		if (errors.hasErrors()) {
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
 		} else {
 			productRepo.save(paymentType);
-			return showProductList(model, default_page, default_page_size, null);
+			return showProductList(model, default_page, default_page_size,
+					null);
 		}
 	}
-	
+
 	@GetMapping(DELETE_PATH)
-	public String deleteProduct(@PathVariable("id") long  id, Model model) {
+	public String deleteProduct(@PathVariable("id") long id, Model model) {
 		try {
 			productRepo.deleteById(id);
 		} catch (DataIntegrityViolationException de) {
-			model.addAttribute("error", "Vui lòng xóa dữ liệu liên quan trước khi xóa dữ liệu này !");
+			model.addAttribute("error",
+					"Vui lòng xóa dữ liệu liên quan trước khi xóa dữ liệu này !");
 			return "error";
 		}
 		return showProductList(model, default_page, default_page_size, null);
@@ -128,14 +130,15 @@ public class ProductController {
 
 	@PostMapping(NEW_PATH)
 	public String createPaymentType(
-			@Valid @ModelAttribute(NAME_ATTRIBUTE) Product paymentType, Errors errors,
-			Model model) {
+			@Valid @ModelAttribute(NAME_ATTRIBUTE) Product paymentType,
+			Errors errors, Model model) {
 		if (errors.hasErrors()) {
 			model.addAttribute("isNew", true);
 			return RETURN_PAGE;
 		} else {
 			productRepo.save(paymentType);
-			return showProductList(model, default_page, default_page_size, null);
+			return showProductList(model, default_page, default_page_size,
+					null);
 		}
 	}
 }

@@ -26,32 +26,32 @@ public class OrderProduct {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private long id;
-	
+
 	// prevent toString recursive
 	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "order_id")
 	private Order order = new Order();
-	
+
 //	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product = new Product();
-	
+
 	@Column
 	private long price;
-	
+
 	@Column
 	private int quantity;
-	
-	@Column(name="total",  insertable = false, updatable = false)
+
+	@Column(name = "total", insertable = false, updatable = false)
 	private Long total;
-	
+
 	public OrderProduct(Order order, Product product, int price, int quantity) {
 		this.order = order;
 		this.product = product;
 		this.price = price;
 		this.quantity = quantity;
 	}
-	
+
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import vn.com.ecotechgroup.erp.entity.Order;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long > {
+public interface OrderRepository extends JpaRepository<Order, Long> {
 
 //	@Query(value = "SELECT "
 //		+ "o.id, "
@@ -28,22 +28,19 @@ public interface OrderRepository extends JpaRepository<Order, Long > {
 //		+ "LEFT JOIN product pro on pro.id = op.product_id "
 //		+ "GROUP BY o.id ;"
 //		, nativeQuery = true )
-	
-	@Query("SELECT o FROM Order o "
-			+ "LEFT JOIN o.orderProduct oo "
-			+ "LEFT JOIN o.orderProduct.product oop "
-			+ "WHERE "
-			+ "( :searchTerm is null "
-			+ "OR :searchTerm = '' "
+
+	@Query("SELECT o FROM Order o " + "LEFT JOIN o.orderProduct oo "
+			+ "LEFT JOIN o.orderProduct.product oop " + "WHERE "
+			+ "( :searchTerm is null " + "OR :searchTerm = '' "
 			+ "OR LOWER(o.description) LIKE %:searchTerm%  "
 			+ "OR LOWER(o.customer.name) LIKE %:searchTerm% "
 			+ "OR LOWER(o.paymentType.name) LIKE %:searchTerm% "
 			+ "OR LOWER(oo.product.name) LIKE %:searchTerm% "
 			+ "OR LOWER(oo.product.code) LIKE %:searchTerm% "
-			+ "OR ( is_null(:searchTerm) = false AND o.totalPrice = CAST(:searchTerm AS integer))) "
-			)
-	Page<Order> orderSearchList(Pageable pageable, @Param("searchTerm") String searchTerm);
-	
+			+ "OR ( is_null(:searchTerm) = false AND o.totalPrice = CAST(:searchTerm AS integer))) ")
+	Page<Order> orderSearchList(Pageable pageable,
+			@Param("searchTerm") String searchTerm);
+
 	// user
 //	@Query("SELECT o FROM Order o "
 //			+ "LEFT JOIN o.userOrdered ou "
@@ -60,23 +57,20 @@ public interface OrderRepository extends JpaRepository<Order, Long > {
 //			+ "OR LOWER(oop.description) LIKE %:searchTerm% "
 //			+ "OR o.totalPrice = CAST(TRIM(:searchTerm) AS integer) ) "
 //			)
-	
-	 
-	@Query("SELECT o FROM Order o "
-			+ "LEFT JOIN o.userOrdered ou "
+
+	@Query("SELECT o FROM Order o " + "LEFT JOIN o.userOrdered ou "
 			+ "LEFT JOIN o.orderProduct oo "
 			+ "LEFT JOIN o.orderProduct.product oop "
-			+ "WHERE o.userOrdered.id = :user_id "
-			+ "AND "
-			+ "( :searchTerm is null "
-			+ "OR :searchTerm = '' "
+			+ "WHERE o.userOrdered.id = :user_id " + "AND "
+			+ "( :searchTerm is null " + "OR :searchTerm = '' "
 			+ "OR LOWER(o.description) LIKE %:searchTerm%  "
 			+ "OR LOWER(o.customer.name) LIKE %:searchTerm% "
 			+ "OR LOWER(o.paymentType.name) LIKE %:searchTerm% "
 			+ "OR LOWER(oo.product.name) LIKE %:searchTerm% "
 			+ "OR LOWER(oo.product.code) LIKE %:searchTerm% "
-			+ "OR ( is_null(:searchTerm) = false AND o.totalPrice = CAST(:searchTerm AS integer))) "
-			)
-	Page<Order> orderSearchListUser(Pageable pageable, @Param("user_id") Long user_id, @Param("searchTerm") String searchTerm);
+			+ "OR ( is_null(:searchTerm) = false AND o.totalPrice = CAST(:searchTerm AS integer))) ")
+	Page<Order> orderSearchListUser(Pageable pageable,
+			@Param("user_id") Long user_id,
+			@Param("searchTerm") String searchTerm);
 
 }

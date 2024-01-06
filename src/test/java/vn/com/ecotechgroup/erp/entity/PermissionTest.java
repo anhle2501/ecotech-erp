@@ -13,18 +13,17 @@ import lombok.Data;
 @Data
 public class PermissionTest {
 
-	private Permission permission; 
-	
+	private Permission permission;
+
 	public PermissionTest() {
 		permission = new Permission();
 		permission.setDescription("test permission");
 		permission.setName("testpermission");
 	}
-	
 
 	@BeforeAll
 	static void init_user() {
-		
+
 	}
 
 	@BeforeEach

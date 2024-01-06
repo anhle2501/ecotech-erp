@@ -13,21 +13,18 @@ import lombok.Getter;
 @Getter
 public class ProductTest {
 
-	private Product product; 
+	private Product product;
 
 	private User user = new UserTest().getUser();
 
 	public ProductTest() {
-		product = Product.builder()
-				.code("BVTV").name("Product 1")
-				.unit("Bao").user(user).description("product1")
-				.build();
+		product = Product.builder().code("BVTV").name("Product 1").unit("Bao")
+				.user(user).description("product1").build();
 	}
-	
-	
+
 	@BeforeAll
 	static void init_paymentType() {
-		
+
 	}
 
 	@BeforeEach

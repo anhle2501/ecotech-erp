@@ -1,6 +1,7 @@
 package vn.com.ecotechgroup.erp.controller.user;
 
 import java.util.Optional;
+import java.util.OptionalInt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,6 +23,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.entity.User;
+import vn.com.ecotechgroup.erp.entity.projector.CustomerUserProjector;
 import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 
 @Controller
@@ -44,25 +46,20 @@ public class CustomerControllerUser {
 			@Valid @PathVariable("pageNumber") @Min(0) Integer pageNumber,
 			@Valid @PathVariable("pageSize") @Min(0) Integer pageSize,
 			@RequestParam(name = "search", required = false) String searchTerm,
-			@AuthenticationPrincipal User user
-			) {
-		// set current ú
-		System.out.println("dang chay");
-		System.out.println(user);
+			@AuthenticationPrincipal User user) {
+		// set current user
 		Page<Customer> customerList;
 		if (searchTerm != null) {
 			searchTerm = searchTerm.toLowerCase();
-			customerList = customerRepo
-					.customerSearchListUser(
-							PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()), 
-							user.getId(), 
-							searchTerm);
+			customerList = customerRepo.customerSearchListUser(
+					PageRequest.of(pageNumber, pageSize,
+							Sort.by("createdDate").descending()),
+					user.getId(), searchTerm);
 		} else {
-			;
-			customerList = customerRepo
-					.customerSearchListUser(PageRequest.of(pageNumber, pageSize, Sort.by("createAt").descending()),
-							user.getId(), 
-							null);
+			customerList = customerRepo.customerSearchListUser(
+					PageRequest.of(pageNumber, pageSize,
+							Sort.by("createdDate").descending()),
+					user == null ? null : user.getId(), null);
 		}
 		model.addAttribute("customer", customerList);
 		model.addAttribute("isList", true);
@@ -73,7 +70,8 @@ public class CustomerControllerUser {
 	}
 
 	@GetMapping("/{id}/show")
-	public String showCustomer(@PathVariable("id") long  id, Model model, @AuthenticationPrincipal User user) {
+	public String showCustomer(@PathVariable("id") long id, Model model,
+			@AuthenticationPrincipal User user) {
 		Optional<Customer> customerObj = customerRepo.findById(id);
 		if (customerObj.isPresent()) {
 			model.addAttribute("customer", customerObj.get());
@@ -86,7 +84,8 @@ public class CustomerControllerUser {
 	}
 
 	@GetMapping("/{id}")
-	public String getCustomer(@PathVariable("id") long  id, Model model, @AuthenticationPrincipal User user) {
+	public String getCustomer(@PathVariable("id") long id, Model model,
+			@AuthenticationPrincipal User user) {
 		Optional<Customer> customerObj = customerRepo.findById(id);
 		if (customerObj.isPresent()) {
 			model.addAttribute("customer", customerObj.get());
@@ -113,15 +112,18 @@ public class CustomerControllerUser {
 	}
 
 	@GetMapping("/delete/{id}")
-	public String deleteCustomer(@PathVariable("id") long  id, Model model, Error error, @AuthenticationPrincipal User user) {
+	public String deleteCustomer(@PathVariable("id") long id, Model model,
+			Error error, @AuthenticationPrincipal User user) {
 		try {
 			customerRepo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			System.out.println("khách hàng");
-			model.addAttribute("error", "Vui lòng xóa các dữ liệu có liên kết với dữ liệu này trước !");
+			model.addAttribute("error",
+					"Vui lòng xóa các dữ liệu có liên kết với dữ liệu này trước !");
 			return "error";
-		} 
-		return showCustomerList(model, default_page, default_page_size, null, user);
+		}
+		return showCustomerList(model, default_page, default_page_size, null,
+				user);
 	}
 
 	@GetMapping("/new-customer")
@@ -142,5 +144,10 @@ public class CustomerControllerUser {
 			return showCustomerList(model, default_page, default_page_size,
 					null, user);
 		}
+	}
+	
+	@GetMapping("/test-mock")
+	public String showTestMock() {
+		return "showTestMock";
 	}
 }

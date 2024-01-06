@@ -31,14 +31,15 @@
 											</div>
 										</div>
 								</div>
+						
 								<tr th:each="c, iterator : ${customer}">
 										<td scope="row" th:text="${c.id}"></td>
 										<td th:text="${c.name}"></td>
 										<td th:text="${c.address}"></td>
 										<td th:text="${c.taxCode}"></td>
 										<td th:text="${c.phone}"></td>
-										<td th:text="${c.user?.userName}"></td>
-										<td th:text="${#temporals.format(c.createAt, 'HH:mm a dd-MM-yyyy')}"></td>
+										<td th:text="${c.createdBy?.userName}"></td> 
+										<td th:text="${#temporals.format(c.createdDate, 'HH:mm a dd-MM-yyyy')}"></td>
 										<td th:text="xxx"></td>
 										<td th:text="${c.description}"></td>
 										<td>

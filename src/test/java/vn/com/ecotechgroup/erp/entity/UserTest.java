@@ -13,8 +13,8 @@ import lombok.Data;
 @Data
 public class UserTest {
 
-	private User user; 
-	
+	private User user;
+
 	public UserTest() {
 		user = new User();
 		user.setUserName("nhutanh99");
@@ -27,13 +27,12 @@ public class UserTest {
 		user.setNonExpired(true);
 		user.setNonLock(true);
 		user.setPwNonExpired(true);
-		
+
 	}
-	
 
 	@BeforeAll
 	static void init_user() {
-		
+
 	}
 
 	@BeforeEach

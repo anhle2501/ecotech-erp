@@ -1,10 +1,19 @@
 package vn.com.ecotechgroup.erp.service.imp;
 
+import java.util.Optional;
+import java.util.concurrent.ConcurrentMap;
+
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 import vn.com.ecotechgroup.erp.service.CustomerService;
@@ -14,7 +23,6 @@ public class CustomerServiceImp implements CustomerService {
 
 	private CustomerRepository customerRep;
 	
-	
 	@Autowired
 	public CustomerServiceImp(CustomerRepository customerRep) {
 		this.customerRep = customerRep;
@@ -22,38 +30,36 @@ public class CustomerServiceImp implements CustomerService {
 
 	@Override
 	public Customer save(Customer t) {
-		
+
 		return customerRep.save(t);
 	}
 
 	@Override
 	public Customer update(Customer t) {
-		
+
 		return customerRep.save(t);
 	}
 
 	@Override
 	public void delete(Long id) {
 		try {
-		customerRep.deleteById(id);
+			customerRep.deleteById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
+	@Cacheable(value = "customer", key = "#l")
 	public Customer getOne(Long l) {
-		
-		return customerRep.getReferenceById(l);
+		Customer customer = customerRep.findById(l).orElse(new Customer());
+		return customer;
 	}
 
 	@Override
 	public Page<Customer> getListPage(Pageable pageable, String searchTerm) {
-		
-		return customerRep
-				.customerSearchListAdmin(pageable, searchTerm);
+
+		return customerRep.customerSearchListAdmin(pageable, searchTerm);
 	}
 
-	
-	
 }

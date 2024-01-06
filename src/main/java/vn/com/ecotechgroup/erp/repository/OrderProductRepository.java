@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import vn.com.ecotechgroup.erp.entity.OrderProduct;
 
 @Repository
-public interface OrderProductRepository extends JpaRepository<OrderProduct, Long >{
+public interface OrderProductRepository
+		extends JpaRepository<OrderProduct, Long> {
 
 }

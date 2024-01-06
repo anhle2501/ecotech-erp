@@ -33,21 +33,21 @@ public class OrderServiceImp implements OrderService, UiService {
 
 	private PaymentTypeRepository paymentTypeRepo;
 	private CustomerRepository customerRepo;
-	
+
 	@Autowired
 	private OrderRepository orderRepo;
-	
-	
+
 	private ProductRepository productRepo;
 	private OrderProductRepository orderProductRepo;
 
 	private UserRepository userRepo;
 
 	@Autowired
-	public OrderServiceImp(PaymentTypeRepository paymentTypeRepo, CustomerRepository customerRepo,
+	public OrderServiceImp(PaymentTypeRepository paymentTypeRepo,
+			CustomerRepository customerRepo,
 //			OrderRepository orderRepo, 
-			ProductRepository productRepo, OrderProductRepository orderProductRepo,
-			UserRepository userRepo) {
+			ProductRepository productRepo,
+			OrderProductRepository orderProductRepo, UserRepository userRepo) {
 		this.paymentTypeRepo = paymentTypeRepo;
 		this.customerRepo = customerRepo;
 //		this.orderRepo = orderRepo;
@@ -82,17 +82,18 @@ public class OrderServiceImp implements OrderService, UiService {
 	public Page<Order> getListPage(Pageable pageable, String searchTerm) {
 		return orderRepo.orderSearchList(pageable, searchTerm);
 	}
-	
+
 	@Override
-	public Page<Order> getListPageUser(PageRequest of, Long user_id , String searchTerm) {
+	public Page<Order> getListPageUser(PageRequest of, Long user_id,
+			String searchTerm) {
 		return orderRepo.orderSearchListUser(of, user_id, searchTerm);
 	}
-
 
 	@Override
 	public void getInformation(Model model) {
 		List<PaymentType> paymentTypeList = paymentTypeRepo.findAll();
-		List<Customer> customerList = customerRepo.findAll(Sort.by(Sort.Direction.ASC, "name"));
+		List<Customer> customerList = customerRepo
+				.findAll(Sort.by(Sort.Direction.ASC, "name"));
 		List<Product> productList = productRepo.findAll();
 		model.addAttribute("paymentTypeList", paymentTypeList);
 		model.addAttribute("customerList", customerList);
@@ -100,7 +101,8 @@ public class OrderServiceImp implements OrderService, UiService {
 	}
 
 	@Override
-	public Order addProduct(Order order, Product product, int price, int quantity) {
+	public Order addProduct(Order order, Product product, int price,
+			int quantity) {
 //		OrderProduct orderProduct = new OrderProduct(order, product, price, quantity);
 //		orderProductRepo.save(orderProduct);
 		order.addProduct(product, price, quantity);
@@ -129,12 +131,13 @@ public class OrderServiceImp implements OrderService, UiService {
 		Optional<Order> order = Optional.of(getOne(orderId));
 		if (order.isPresent() == true) {
 			Order ord = order.get();
-			//update only when it is not confirm
+			// update only when it is not confirm
 			if (ord.getIsConfirm() != true) {
 				ord.setIsConfirm(true);
 				// set user
 				ord.setConfirmAt(LocalDateTime.now());
-				Optional<User> u = Optional.of(userRepo.findByUserName(user.getUserName()));
+				Optional<User> u = Optional
+						.of(userRepo.findByUserName(user.getUserName()));
 				if (u.isPresent() == true) {
 					User us = u.get();
 					ord.setConfirmByUser(us);
@@ -147,9 +150,10 @@ public class OrderServiceImp implements OrderService, UiService {
 	@Override
 	public void getInformationForUser(Model model, User user) {
 		List<PaymentType> paymentTypeList = paymentTypeRepo.findAll();
-		
-		List<Customer> customerList = customerRepo.getCustomerByUserOrderByName(user);
-			
+
+		List<Customer> customerList = customerRepo
+				.getCustomerByCreatedByOrderByName(user);
+
 		List<Product> productList = productRepo.findAll();
 		model.addAttribute("paymentTypeList", paymentTypeList);
 		model.addAttribute("customerList", customerList);

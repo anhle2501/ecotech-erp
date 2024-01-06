@@ -37,90 +37,88 @@ import vn.com.ecotechgroup.erp.entity.PaymentType;
 import vn.com.ecotechgroup.erp.entity.PaymentTypeTest;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
- 
+
 @AutoConfigureMockMvc
 @TestMethodOrder(OrderAnnotation.class)
-@ActiveProfiles(profiles = {"dev", "nosecurity"})
+@ActiveProfiles(profiles = { "dev", "nosecurity" })
 public class PaymentTypeRestRepositoryTest {
 
-	@Autowired	
-    private MockMvc mockMvc;
-	
+	@Autowired
+	private MockMvc mockMvc;
+
 	@LocalServerPort
-    private int port;
-    
+	private int port;
+
 	@Value("${host.name}")
 	private String hostName;
-	
+
 	private String featureName = "/api/paymentTypes";
-	
+
 	public String baseUrl;
-	
+
 	public static ResponseEntity<Customer> response;
 
 	private static PaymentType paymentTypeTest;
-    
-    @BeforeAll
-    public static void setUp() {
-    	PaymentTypeTest test = new PaymentTypeTest();
-    	paymentTypeTest = test.getPaymentType();
-    	paymentTypeTest.setDay(60);
-    	paymentTypeTest.setName("test payment");
-    }
-    
-    @BeforeEach
-    public void setup_baseUrl() {
-    	baseUrl = this.hostName + ":" + this.port + this.featureName;
-    }
-    
-    @Test
-    public void should_return_true_when_test_on_localhost() {
-    	assertEquals(hostName + ":" + this.port + this.featureName, baseUrl);
-    }
-    
-    
-    @Test
-    @Order(1)
-    public void should_return_customer_when_post_for_entity_using_pojo() throws JsonProcessingException, Exception {
- 	
-    	MvcResult result = mockMvc.perform(post(baseUrl).contentType(MediaType.APPLICATION_JSON)
-    			.content(new ObjectMapper().writeValueAsString(paymentTypeTest)))
-    			.andExpect(status().isCreated())
-    			.andReturn();
 
-    	String customerCreate = result.getResponse().getContentAsString();
-    	
-    	JsonNode root = new ObjectMapper().readTree(customerCreate);
-    	String selfRef = root.path("_links").path("self").path("href").asText();
-    	String id = selfRef.replace(baseUrl + "/", "");
-    	paymentTypeTest.setId(Long.valueOf(id));
-    }
-    
-  
-    @Test
-    @Order(2)
-    public void should_return_customer_when_get_for_entity() throws Exception {
-    	System.out.println(baseUrl + "/" + paymentTypeTest.getId());
-    	
-    	mockMvc.perform(get(baseUrl + "/" + paymentTypeTest.getId()))
-    			.andExpect(status().isOk())
-    			.andExpect(content().contentType("application/hal+json"))
-    			.andExpect(jsonPath("$.name", is(paymentTypeTest.getName())));
-    }
-	
-    
-    @Test
-    @Order(3)
-    public void should_delete_customer_when_delete() throws Exception {
-    	mockMvc.perform(delete(baseUrl + "/" + paymentTypeTest.getId()))
-    		.andExpect(status().isNoContent());
-    	mockMvc.perform(get(baseUrl + "/" + paymentTypeTest.getId()))
-		.andExpect(status().isNotFound());
-    }
-    
-    
+	@BeforeAll
+	public static void setUp() {
+		PaymentTypeTest test = new PaymentTypeTest();
+		paymentTypeTest = test.getPaymentType();
+		paymentTypeTest.setDay(60);
+		paymentTypeTest.setName("test payment");
+	}
+
+	@BeforeEach
+	public void setup_baseUrl() {
+		baseUrl = this.hostName + ":" + this.port + this.featureName;
+	}
+
+	@Test
+	public void should_return_true_when_test_on_localhost() {
+		assertEquals(hostName + ":" + this.port + this.featureName, baseUrl);
+	}
+
+	@Test
+	@Order(1)
+	public void should_return_customer_when_post_for_entity_using_pojo()
+			throws JsonProcessingException, Exception {
+
+		MvcResult result = mockMvc
+				.perform(post(baseUrl).contentType(MediaType.APPLICATION_JSON)
+						.content(new ObjectMapper()
+								.writeValueAsString(paymentTypeTest)))
+				.andExpect(status().isCreated()).andReturn();
+
+		String customerCreate = result.getResponse().getContentAsString();
+
+		JsonNode root = new ObjectMapper().readTree(customerCreate);
+		String selfRef = root.path("_links").path("self").path("href").asText();
+		String id = selfRef.replace(baseUrl + "/", "");
+		paymentTypeTest.setId(Long.valueOf(id));
+	}
+
+	@Test
+	@Order(2)
+	public void should_return_customer_when_get_for_entity() throws Exception {
+		System.out.println(baseUrl + "/" + paymentTypeTest.getId());
+
+		mockMvc.perform(get(baseUrl + "/" + paymentTypeTest.getId()))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType("application/hal+json"))
+				.andExpect(jsonPath("$.name", is(paymentTypeTest.getName())));
+	}
+
+	@Test
+	@Order(3)
+	public void should_delete_customer_when_delete() throws Exception {
+		mockMvc.perform(delete(baseUrl + "/" + paymentTypeTest.getId()))
+				.andExpect(status().isNoContent());
+		mockMvc.perform(get(baseUrl + "/" + paymentTypeTest.getId()))
+				.andExpect(status().isNotFound());
+	}
+
 	@AfterAll
 	public static void tearDown() {
-	
+
 	}
 }

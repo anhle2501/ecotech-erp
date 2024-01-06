@@ -34,86 +34,89 @@ public class PaymentTypeController {
 	private final String NAME_ATTRIBUTE = "paymentType";
 	private int default_page = 0;
 	private int default_page_size = 50;
-	
+
 	@Autowired
-	private PaymentTypeRepository paymentTypeRepo;	
-	
+	private PaymentTypeRepository paymentTypeRepo;
+
 	@ModelAttribute(name = NAME_ATTRIBUTE)
 	public PaymentType paymentType() {
 		return new PaymentType();
 	}
-	
+
 	@GetMapping("/{pageNumber}/{pageSize}")
 	public String showPaymentTypeList(Model model,
 			@Valid @PathVariable("pageNumber") @Min(0) Integer pageNumber,
 			@Valid @PathVariable("pageSize") @Min(0) Integer pageSize,
-			@RequestParam(name = "search", required = false) String searchTerm
-			) {
+			@RequestParam(name = "search", required = false) String searchTerm) {
 
 		Page<PaymentType> paymentTypeList;
 		if (searchTerm != null) {
-			paymentTypeList = paymentTypeRepo
-					.paymentTypeSearchList(
-							PageRequest.of(pageNumber, pageSize), searchTerm);
+			paymentTypeList = paymentTypeRepo.paymentTypeSearchList(
+					PageRequest.of(pageNumber, pageSize), searchTerm);
 		} else {
-			paymentTypeList = paymentTypeRepo
-					.paymentTypeSearchList(PageRequest.of(pageNumber, pageSize), "");
+			paymentTypeList = paymentTypeRepo.paymentTypeSearchList(
+					PageRequest.of(pageNumber, pageSize), "");
 		}
-		model.addAttribute(NAME_ATTRIBUTE, paymentTypeList );
+		model.addAttribute(NAME_ATTRIBUTE, paymentTypeList);
 		model.addAttribute("isList", true);
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("search", searchTerm);
 		return RETURN_PAGE;
 	}
-	
+
 	@GetMapping(SHOW_PATH)
-	public String showPaymentType(@PathVariable("id") long  id, Model model) {
+	public String showPaymentType(@PathVariable("id") long id, Model model) {
 		Optional<PaymentType> paymentTypeObj = paymentTypeRepo.findById(id);
 		if (paymentTypeObj.isPresent()) {
 			model.addAttribute(NAME_ATTRIBUTE, paymentTypeObj.get());
 			model.addAttribute("isDetail", true);
 			return RETURN_PAGE;
 		} else {
-			return showPaymentTypeList(model, default_page, default_page_size, null);
+			return showPaymentTypeList(model, default_page, default_page_size,
+					null);
 		}
 	}
-	
+
 	@GetMapping(ADD_PATH)
-	public String getPaymentType(@PathVariable("id") long  id, Model model) {
+	public String getPaymentType(@PathVariable("id") long id, Model model) {
 		Optional<PaymentType> paymentTypeObj = paymentTypeRepo.findById(id);
 		if (paymentTypeObj.isPresent()) {
 			model.addAttribute(NAME_ATTRIBUTE, paymentTypeObj.get());
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
 		} else {
-			return showPaymentTypeList(model, default_page, default_page_size, null);
+			return showPaymentTypeList(model, default_page, default_page_size,
+					null);
 		}
 	}
 
 	@PostMapping(UPDATE_PATH)
 	public String updatePaymentType(@PathVariable("id") int id,
-			@Valid @ModelAttribute(NAME_ATTRIBUTE) PaymentType paymentType, Errors errors,
-			Model model) {
+			@Valid @ModelAttribute(NAME_ATTRIBUTE) PaymentType paymentType,
+			Errors errors, Model model) {
 		System.out.println(paymentType);
 		if (errors.hasErrors()) {
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
 		} else {
 			paymentTypeRepo.save(paymentType);
-			return showPaymentTypeList(model, default_page, default_page_size, null);
+			return showPaymentTypeList(model, default_page, default_page_size,
+					null);
 		}
 	}
-	
+
 	@GetMapping(DELETE_PATH)
-	public String deletePaymentType(@PathVariable("id") long  id, Model model) {
+	public String deletePaymentType(@PathVariable("id") long id, Model model) {
 		try {
 			paymentTypeRepo.deleteById(id);
 		} catch (DataIntegrityViolationException de) {
-			model.addAttribute("error", "Vui lòng xóa dữ liệu liên quan trước khi xóa dữ liệu này !");
+			model.addAttribute("error",
+					"Vui lòng xóa dữ liệu liên quan trước khi xóa dữ liệu này !");
 			return "error";
 		}
-		return showPaymentTypeList(model, default_page, default_page_size, null);
+		return showPaymentTypeList(model, default_page, default_page_size,
+				null);
 	}
 
 	@GetMapping(NEW_PATH)
@@ -124,14 +127,15 @@ public class PaymentTypeController {
 
 	@PostMapping(NEW_PATH)
 	public String createPaymentType(
-			@Valid @ModelAttribute(NAME_ATTRIBUTE) PaymentType paymentType, Errors errors,
-			Model model) {
+			@Valid @ModelAttribute(NAME_ATTRIBUTE) PaymentType paymentType,
+			Errors errors, Model model) {
 		if (errors.hasErrors()) {
 			model.addAttribute("isNew", true);
 			return RETURN_PAGE;
 		} else {
 			paymentTypeRepo.save(paymentType);
-			return showPaymentTypeList(model, default_page, default_page_size, null);
+			return showPaymentTypeList(model, default_page, default_page_size,
+					null);
 		}
 	}
 }

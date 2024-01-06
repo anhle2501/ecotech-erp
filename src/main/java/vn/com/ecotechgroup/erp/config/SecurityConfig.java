@@ -26,11 +26,6 @@ public class SecurityConfig {
 
 	private HttpSecurity httpSecurity;
 
-//	@Bean
-//	public PasswordEncoder passwordEncoder() {
-//		return new BCryptPasswordEncoder();
-//	}
-
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -116,13 +111,6 @@ public class SecurityConfig {
 		return new JwtAuthenticationFilter();
 	}
 
-//	 @Bean
-//	    AuthenticationManager authenticationManager(AuthenticationManagerBuilder builder) throws Exception {
-//	        return builder
-//	        		.userDetailsService(userDetailsService(userRepository))
-//	        		.passwordEncoder(passwordEncoder()).and().build();
-//	    }
-
 	@Bean
 	public AuthenticationManager authenticationManager(
 			UserDetailsService userDetailsService,
@@ -144,9 +132,8 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	@Order(2)
-	public SecurityFilterChain webFilterChain(HttpSecurity http)
-			throws Exception {
+	@Order(1)
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http.authorizeHttpRequests()
 				.requestMatchers("/order/**", "/customer/**",
 						"/payment-type/**")
@@ -160,26 +147,27 @@ public class SecurityConfig {
 				.loginProcessingUrl("/authenticate")
 				.usernameParameter("username").passwordParameter("password")
 				.defaultSuccessUrl("/index", true).and().logout()
-				.logoutSuccessUrl("/login").permitAll()
-//		 	.and()
-//		 	 .exceptionHandling().accessDeniedPage("page/denied.html")
-				.and().build();
+				.logoutSuccessUrl("/login").permitAll().and().build();
 	}
 
 	@Bean
-	@Order(1)
+	@Order(2)
 	public SecurityFilterChain apiFilterChain(HttpSecurity http)
 			throws Exception {
 		return http.securityMatcher("/api/**").csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests((authorize) -> authorize
 						.requestMatchers("/api/login").permitAll()
-						.requestMatchers("/api/customers").hasRole("USER")
+						.requestMatchers("/api/customers/**", "/api/orders/**",
+								"/api/paymentType/**")
+						.hasAnyRole("USER", "ADMIN")
+
+						.requestMatchers("/api/cache/**").permitAll()
 						.requestMatchers("/api/refresh").permitAll())
 				.addFilterBefore(jwtAuthenticationFilter(),
 						UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement(session -> session
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				
+
 				.build();
 	}
 }

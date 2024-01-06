@@ -10,8 +10,8 @@ import vn.com.ecotechgroup.erp.entity.Permission;
 
 @Repository
 //@RestResource(exported = false)
-public interface PermissionRepository extends JpaRepository<Permission, Long>  {
-	
+public interface PermissionRepository extends JpaRepository<Permission, Long> {
+
 	List<Permission> findPermissionByNameStartingWith(String beginWith);
-	
+
 }

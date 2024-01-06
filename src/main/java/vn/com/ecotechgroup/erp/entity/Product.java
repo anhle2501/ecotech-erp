@@ -6,11 +6,11 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -53,35 +53,36 @@ public class Product {
 
 //	@ManyToMany(mappedBy = "productsList", fetch = FetchType.LAZY)
 //	private List<Order> orders;
-	
-	@Size(max = 10 , message = "Độ dài quá 10 ký tự !")
+
+	@Size(max = 10, message = "Độ dài quá 10 ký tự !")
 	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Đơn vị tính có định dạng liên tục !")
 	@Column(length = 10, unique = true)
 	private String unit;
-	
+
 	@OneToOne
 	@JoinColumn(name = "create_by", updatable = false)
 	@CreatedBy
+	@JsonManagedReference
 	private User user;
-	
+
 	@CreatedDate
 	@Column(updatable = false)
 	private LocalDateTime createAt;
-	
+
 	@OneToOne
 	@JoinColumn(name = "last_modified_by")
 	@LastModifiedBy
+	@JsonManagedReference
 	private User userModified;
-	
+
 	@LastModifiedDate
 	@Column
 	private LocalDateTime last_modified_date;
-	
+
 //	@ToString.Exclude
 //	@OneToMany(mappedBy = "product")
 //	private List<OrderProduct> orderProduct;
-	
-	
+
 //	public void addOrder(Order order, int price, int quantity) {
 //		OrderProduct newOrderProduct = new OrderProduct();
 //		newOrderProduct.setOrder(order);

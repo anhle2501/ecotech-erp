@@ -1,5 +1,6 @@
 package vn.com.ecotechgroup.erp.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,32 +19,33 @@ import lombok.ToString;
 @Entity
 @Table(name = "permission", schema = "ecotechgroup_erp")
 @Data
-public class Permission {
+public class Permission implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Long id;
-    
-    @Column(length = 45)
-    @NotBlank(message = "")
-    private String name;
+	private static final long serialVersionUID = 1L;
 
-    @Column(length = 1000)
-    @Size(max = 1000, message = "Độ dài quá 1000 ký tự !")
-    private String description;
-    
-    @ToString.Exclude
-    @ManyToMany(mappedBy = "listPermission")
-    private List<Role> roles = new ArrayList<>();
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
+	private Long id;
 
-	public Permission(String name,String description) {
+	@Column(length = 45)
+	@NotBlank(message = "")
+	private String name;
+
+	@Column(length = 1000)
+	@Size(max = 1000, message = "Độ dài quá 1000 ký tự !")
+	private String description;
+
+	@ToString.Exclude
+	@ManyToMany(mappedBy = "listPermission")
+	private List<Role> roles = new ArrayList<>();
+
+	public Permission(String name, String description) {
 		super();
 		this.name = name;
 		this.description = description;
 	}
-    
+
 	public Permission() {
 	}
 }
- 
