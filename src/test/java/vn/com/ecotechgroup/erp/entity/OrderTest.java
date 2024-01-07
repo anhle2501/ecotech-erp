@@ -31,7 +31,7 @@ public class OrderTest {
 	public OrderTest() {
 		order = Order.builder().customer(customer).paymentType(paymentType)
 				.id(1l).isConfirm(false).orderProduct(listOrderProduct)
-				.description("This is order description").userOrdered(user)
+				.description("This is order description")
 				.build();
 	}
 

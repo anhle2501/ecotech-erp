@@ -16,15 +16,18 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToOne;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import vn.com.ecotechgroup.erp.entity.User;
 
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 @Setter
 @Getter
+@SuperBuilder
+@NoArgsConstructor
 public abstract class AuditableData {
 
 	@JsonManagedReference

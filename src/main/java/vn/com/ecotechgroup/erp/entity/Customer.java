@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 import vn.com.ecotechgroup.erp.audit.AuditableData;
 
 @Builder
-//@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -58,26 +57,6 @@ public class Customer extends AuditableData implements Serializable {
 	@Pattern(regexp = "((\\d){8,})?", message = "Mã số thuế lớn hơn 8 ký tự !")
 	@Column(length = 20)
 	private String taxCode;
-
-//	@JsonManagedReference
-//	@OneToOne(fetch = FetchType.EAGER)
-//	@JoinColumn(name = "created_by", updatable = false) 
-//	@CreatedBy 
-//	private User user;
-//	
-//	@CreatedDate
-//	@Column(updatable = false)
-//	private LocalDateTime createdDate;
-//	
-//	@JsonManagedReference
-//	@OneToOne
-//	@JoinColumn(name = "last_modified_by")
-//	@LastModifiedBy
-//	private User userModified;
-//
-//	@LastModifiedDate
-//	@Column
-//	private LocalDateTime lastModifiedDate;
 
 	@Column(length = 1000)
 	@Size(max = 1000, message = "Độ dài quá 1000 ký tự !")

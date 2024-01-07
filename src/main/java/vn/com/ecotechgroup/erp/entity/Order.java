@@ -25,16 +25,20 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import vn.com.ecotechgroup.erp.audit.AuditableData;
 
-@Builder
+@SuperBuilder
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "an_order", schema = "ecotechgroup_erp")
 //@EntityListeners(AuditingEntityListener.class)
-public class Order implements Serializable {
+public class Order extends AuditableData implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,10 +46,6 @@ public class Order implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private long id;
-
-	@Column(updatable = false)
-	@CreatedDate // phai dung jpa auditing
-	private LocalDateTime createAt;
 
 //	@ManyToMany(fetch = FetchType.LAZY)
 //	@JoinTable(
@@ -71,24 +71,8 @@ public class Order implements Serializable {
 	@Column(length = 1000)
 	private String description;
 
-	@OneToOne
-	@JoinColumn(name = "last_modified_by")
-	@LastModifiedBy
-	@JsonManagedReference
-	private User userModified;
-
-	@LastModifiedDate
-	@Column
-	private LocalDateTime last_modified_date;
-
 	@Column
 	private long totalPrice;
-
-	@CreatedBy
-	@OneToOne
-	@JoinColumn(name = "user_id")
-	@JsonManagedReference
-	private User userOrdered;
 
 	@Column(name = "is_confirm")
 	private boolean isConfirm;
@@ -158,4 +142,6 @@ public class Order implements Serializable {
 		this.description = description;
 		this.totalPrice = totalPrice;
 	}
+	
+	
 }

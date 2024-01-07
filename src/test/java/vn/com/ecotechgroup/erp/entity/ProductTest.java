@@ -19,7 +19,9 @@ public class ProductTest {
 
 	public ProductTest() {
 		product = Product.builder().code("BVTV").name("Product 1").unit("Bao")
-				.user(user).description("product1").build();
+				.createdBy(user)
+				.description("product1").build();
+		
 	}
 
 	@BeforeAll
@@ -37,7 +39,7 @@ public class ProductTest {
 		assertThat(product.getName()).isEqualTo("Product 1");
 		assertThat(product.getUnit()).isEqualTo("Bao");
 		assertThat(product.getDescription()).isEqualTo("product1");
-		assertThat(product.getUser()).isEqualTo(user);
+		assertThat(product.getCreatedBy()).isEqualTo(user);
 	}
 
 	@AfterEach
