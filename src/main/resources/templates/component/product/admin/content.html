@@ -38,8 +38,8 @@
 								<td th:text="${c.code}"></td>
 								<td th:text="${c.name}"></td>
 								<td th:text="${c.unit}"></td>
-								<td th:text="${c.user?.userName}"></td>
-								<td th:text="${#temporals.format(c.createAt, 'HH:mm a dd-MM-yyyy')}"></td>
+								<td th:text="${c.createdBy?.userName}"></td>
+								<td th:text="${#temporals.format(c.createdDate, 'HH:mm a dd-MM-yyyy')}"></td>
 								<td th:text="${c.description}"></td>
 								<td>
 										<div class="btn-group" role="group" aria-label="Basic example">

@@ -9,12 +9,14 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,20 +27,16 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-import vn.com.ecotechgroup.erp.audit.AuditableData;
 
-@SuperBuilder
+@Builder
 @Data
-@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "an_order", schema = "ecotechgroup_erp")
-//@EntityListeners(AuditingEntityListener.class)
-public class Order extends AuditableData implements Serializable {
+@EntityListeners(AuditingEntityListener.class)
+public class Order implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,6 +44,10 @@ public class Order extends AuditableData implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private long id;
+
+	@Column(updatable = false)
+	@CreatedDate // phai dung jpa auditing
+	private LocalDateTime createAt;
 
 //	@ManyToMany(fetch = FetchType.LAZY)
 //	@JoinTable(
@@ -71,8 +73,24 @@ public class Order extends AuditableData implements Serializable {
 	@Column(length = 1000)
 	private String description;
 
+	@OneToOne
+	@JoinColumn(name = "last_modified_by")
+	@LastModifiedBy
+	@JsonManagedReference
+	private User userModified;
+
+	@LastModifiedDate
+	@Column
+	private LocalDateTime last_modified_date;
+
 	@Column
 	private long totalPrice;
+
+	@CreatedBy
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	@JsonManagedReference
+	private User userOrdered;
 
 	@Column(name = "is_confirm")
 	private boolean isConfirm;
@@ -142,6 +160,4 @@ public class Order extends AuditableData implements Serializable {
 		this.description = description;
 		this.totalPrice = totalPrice;
 	}
-	
-	
 }
