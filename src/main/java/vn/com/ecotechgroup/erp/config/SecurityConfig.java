@@ -134,7 +134,7 @@ public class SecurityConfig {
 	@Bean
 	@Order(1)
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http.authorizeHttpRequests()
+		return http.securityMatcher("/").authorizeHttpRequests()
 				.requestMatchers("/order/**", "/customer/**",
 						"/payment-type/**")
 				.hasAnyRole("ADMIN", "USER")
