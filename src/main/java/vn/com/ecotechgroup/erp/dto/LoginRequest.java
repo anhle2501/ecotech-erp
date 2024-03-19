@@ -1,4 +1,4 @@
-package vn.com.ecotechgroup.erp.entity;
+package vn.com.ecotechgroup.erp.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.Data;
 public class LoginRequest {
 
 	@NotBlank
-	private String userName;
+	private String username;
 
 	@NotBlank
 	private String password;

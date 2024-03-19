@@ -89,4 +89,10 @@ public class UserServiceImp implements UserService {
 		return userRepo.userSearchList(pageable, searchTerm, "userName");
 	}
 
+	@Override
+	public User getUserName(String userName) {
+		
+		return userRepo.findByUserName(userName);
+	}
+
 }
