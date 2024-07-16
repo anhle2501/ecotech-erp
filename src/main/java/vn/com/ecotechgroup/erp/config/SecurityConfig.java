@@ -1,7 +1,5 @@
 package vn.com.ecotechgroup.erp.config;
 
-import java.util.Arrays;
-
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,10 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import jakarta.websocket.Session;
 import vn.com.ecotechgroup.erp.entity.JwtAuthenticationFilter;
 import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.repository.UserRepository;
@@ -134,22 +130,11 @@ public class SecurityConfig {
 		registration.setEnabled(false);
 		return registration;
 	}
-	
-//	@Bean
-//	CorsConfigurationSource corsConfigurationSource() {
-//		CorsConfiguration configuration = new CorsConfiguration();
-//		configuration.setAllowedOrigins(Arrays.asList("http://localhost:1234"));
-//		configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","PATCH", "DELETE"));
-//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//		source.registerCorsConfiguration("/**", configuration);
-//		return source;
-//	}
 
 	@Bean
 	@Order(1)
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http.securityMatcher("/")
-				.authorizeHttpRequests()
+		return http.securityMatcher("/").authorizeHttpRequests()
 				.requestMatchers("/order/**", "/customer/**",
 						"/payment-type/**")
 				.hasAnyRole("ADMIN", "USER")
@@ -169,9 +154,7 @@ public class SecurityConfig {
 	@Order(2)
 	public SecurityFilterChain apiFilterChain(HttpSecurity http)
 			throws Exception {
-		return http
-				.cors(cors -> cors.disable())
-				.securityMatcher("/api/**").csrf(csrf -> csrf.disable())
+		return http.securityMatcher("/api/**").csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests((authorize) -> authorize
 						.requestMatchers("/api/login").permitAll()
 						.requestMatchers("/api/customers/**", "/api/orders/**",

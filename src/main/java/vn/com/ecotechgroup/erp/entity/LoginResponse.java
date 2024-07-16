@@ -1,4 +1,4 @@
-package vn.com.ecotechgroup.erp.dto;
+package vn.com.ecotechgroup.erp.entity;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -11,9 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class LoginResponse {
-	
 	@NotNull
 	private String accessToken;
-//	@NotNull
-//	private String refreshToken;
+	@NotNull
+	private String refreshToken;
 }
