@@ -17,7 +17,7 @@ public class CachedConfig {
 	@Bean
 	public JedisConnectionFactory connectionFactory() {
 		RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-		config.setHostName("localhost");
+		config.setHostName("192.168.100.44");
 		config.setPort(6379);
 		return new JedisConnectionFactory(config);
 	}

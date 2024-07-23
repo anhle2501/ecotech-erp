@@ -146,22 +146,4 @@ public class UserController {
 
 		}
 	}
-//	@Autowired
-//	UserRepository uRep;
-//	@Autowired
-//	RoleRepository rRep;
-//	@GetMapping("/test")
-//	public String test() {
-//		User u = uRep.findByUserName("nhutanh");
-//		System.out.println(u);
-//		
-//		List<Role> x = (List<Role>) u.getAuthorities();
-//		System.out.println(x);
-//		
-//		System.out.println(x.get(0).getAuthority());
-//		
-//		Role r = rRep.getReferenceById((long) 1);
-//		System.out.println(r);
-//		return "index";
-//	}
 }

@@ -21,7 +21,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import vn.com.ecotechgroup.erp.entity.JwtAuthenticationFilter;
 import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.repository.UserRepository;
 
@@ -110,10 +109,10 @@ public class SecurityConfig {
 //	    return expressionHandler;
 //	}
 
-	@Bean
-	public JwtAuthenticationFilter jwtAuthenticationFilter() {
-		return new JwtAuthenticationFilter();
-	}
+//	@Bean
+//	public JwtAuthenticationFilter jwtAuthenticationFilter() {
+//		return new JwtAuthenticationFilter();
+//	}
 
 	@Bean
 	public AuthenticationManager authenticationManager(
@@ -126,14 +125,14 @@ public class SecurityConfig {
 		return new ProviderManager(authenticationProvider);
 	}
 
-	@Bean
-	public FilterRegistrationBean<JwtAuthenticationFilter> tenantFilterRegistration(
-			JwtAuthenticationFilter filter) {
-		FilterRegistrationBean<JwtAuthenticationFilter> registration = new FilterRegistrationBean<>(
-				filter);
-		registration.setEnabled(false);
-		return registration;
-	}
+//	@Bean
+//	public FilterRegistrationBean<JwtAuthenticationFilter> tenantFilterRegistration(
+//			JwtAuthenticationFilter filter) {
+//		FilterRegistrationBean<JwtAuthenticationFilter> registration = new FilterRegistrationBean<>(
+//				filter);
+//		registration.setEnabled(false);
+//		return registration;
+//	}
 	
 //	@Bean
 //	CorsConfigurationSource corsConfigurationSource() {
@@ -148,43 +147,43 @@ public class SecurityConfig {
 	@Bean
 	@Order(1)
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http.securityMatcher("/")
+		return http.securityMatcher("/**")
 				.authorizeHttpRequests()
 				.requestMatchers("/order/**", "/customer/**",
-						"/payment-type/**")
-				.hasAnyRole("ADMIN", "USER")
-
+						"/payment-type/**").hasAnyRole("ADMIN", "USER")
 				.requestMatchers("/admin/**").hasRole("ADMIN")
 
 				.requestMatchers("/", "/register", "/js/**", "/css/**",
-						"/asset/**", "/index")
-				.permitAll().and().formLogin().loginPage("/login")
-				.loginProcessingUrl("/authenticate")
-				.usernameParameter("username").passwordParameter("password")
-				.defaultSuccessUrl("/index", true).and().logout()
-				.logoutSuccessUrl("/login").permitAll().and().build();
+						"/asset/**", "/index", "/error").permitAll()
+				.and()
+					.formLogin()
+						.loginPage("/login")
+						.loginProcessingUrl("/authenticate")
+						.usernameParameter("username").passwordParameter("password")
+						.defaultSuccessUrl("/index", true).and().logout()
+						.logoutSuccessUrl("/login").permitAll().and().build();
 	}
 
-	@Bean
-	@Order(2)
-	public SecurityFilterChain apiFilterChain(HttpSecurity http)
-			throws Exception {
-		return http
-				.cors(cors -> cors.disable())
-				.securityMatcher("/api/**").csrf(csrf -> csrf.disable())
-				.authorizeHttpRequests((authorize) -> authorize
-						.requestMatchers("/api/login").permitAll()
-						.requestMatchers("/api/customers/**", "/api/orders/**",
-								"/api/paymentType/**")
-						.hasAnyRole("USER", "ADMIN")
-
-						.requestMatchers("/api/cache/**").permitAll()
-						.requestMatchers("/api/refresh").permitAll())
-				.addFilterBefore(jwtAuthenticationFilter(),
-						UsernamePasswordAuthenticationFilter.class)
-				.sessionManagement(session -> session
-						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-				.build();
-	}
+//	@Bean
+//	@Order(2)
+//	public SecurityFilterChain apiFilterChain(HttpSecurity http)
+//			throws Exception {
+//		return http
+//				.cors(cors -> cors.disable())
+//				.securityMatcher("/api/**").csrf(csrf -> csrf.disable())
+//				.authorizeHttpRequests((authorize) -> authorize
+//						.requestMatchers("/api/login").permitAll()
+//						.requestMatchers("/api/customers/**", "/api/orders/**",
+//								"/api/paymentType/**")
+//						.hasAnyRole("USER", "ADMIN")
+//
+//						.requestMatchers("/api/cache/**").permitAll()
+//						.requestMatchers("/api/refresh").permitAll())
+//				.addFilterBefore(jwtAuthenticationFilter(),
+//						UsernamePasswordAuthenticationFilter.class)
+//				.sessionManagement(session -> session
+//						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//
+//				.build();
+//	}
 }

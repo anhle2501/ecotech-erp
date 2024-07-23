@@ -6,14 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
-import org.springframework.data.redis.connection.jedis.JedisConnection;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
-import jakarta.transaction.Transactional;
 
 @SpringBootApplication
+@EnableCaching
 public class ErpApplication {
 
 	@Value("${host.name}")

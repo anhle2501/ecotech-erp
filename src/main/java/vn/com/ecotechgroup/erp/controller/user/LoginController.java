@@ -23,7 +23,7 @@ import vn.com.ecotechgroup.erp.service.UserService;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("http://localhost:1234")
+//@CrossOrigin("http://localhost:1234")
 public class LoginController {
 
 	@Autowired
