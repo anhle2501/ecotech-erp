@@ -83,10 +83,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.33</version>
 		</dependency>-->
+		<!-- 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -127,6 +129,12 @@
     <groupId>redis.clients</groupId>
     <artifactId>jedis</artifactId>
   </dependency>
+  
+  <!-- for database migration -->
+  <dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-core</artifactId>
+</dependency>
   
   <dependency>
     <groupId>org.springframework.security</groupId>

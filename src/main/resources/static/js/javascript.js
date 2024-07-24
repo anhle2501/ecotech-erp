@@ -25,6 +25,12 @@ $(document).ready(function() {
 		theme: 'bootstrap-5'
 	});
 });
+
+$(document).ready(function() {
+	$('.customer-select-search').select2({
+		theme: 'bootstrap-5'
+	});
+});
 // add button new customer in new order
 
 	function handleAddButtonNewOrder(e){
