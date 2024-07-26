@@ -105,6 +105,10 @@ public class User implements UserDetails, Serializable{
 	@JsonBackReference
 	private List<Order> listOrders;
 
+	@ToString.Exclude
+	@OneToMany(mappedBy = "idUserBelong", fetch = FetchType.LAZY)
+	private List<Customer> listCustomers;
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return getGrantedAuthorities(getPermissions(listRole));

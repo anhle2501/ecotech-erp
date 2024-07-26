@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.entity.projector.UserRestProjector;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
@@ -22,4 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 			+ "OR u.description LIKE %:searchTerm% " + "order by :orderBy")
 	Page<User> userSearchList(Pageable pageable, String searchTerm,
 			String orderBy);
+
+	@Query("SELECT u FROM User u")
+	List<User> findAllUser();
 }

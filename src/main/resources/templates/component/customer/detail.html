@@ -1,17 +1,57 @@
 <div th:fragment="customer-detail">
 	<h3>Thông tin khách hàng</h3>
 	<form th:action="@{/customer/new-customer}" th:object="${customer}" method="POST">
-		<div class="input-group mb-3">
-		<span class="input-group-text">Tên *</span>
-		<input th:readonly="true" class="form-control" type="text" th:field="*{name}">
-		
-		</div>
-		
-		<div class="input-group mb-3">
-			<span class="input-group-text">Ghi chú</span>
-			<input th:readonly="true" class="form-control" type="text" th:field="*{description}">
-		</div>
-		
+
+
+			<input class="form-control" type="hidden" th:field="*{id}">
+			<div class="input-group mb-3">
+				<span class="input-group-text">Mã Khách hàng *</span>
+				<input class="form-control" type="text" th:field="*{code}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('code')}"
+					  th:errors="*{code}"></span>
+			</div>
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Tên khách hàng *</span>
+				<input class="form-control" type="text" th:field="*{name}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('name')}"
+					  th:errors="*{name}"></span>
+			</div>
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Địa chỉ</span>
+				<input class="form-control" type="text" th:field="*{address}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('address')}"
+					  th:errors="*{address}"></span>
+			</div>
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Mã số thuế</span>
+				<input class="form-control" type="text" th:field="*{taxCode}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('taxCode')}"
+					  th:errors="*{taxCode}"></span>
+			</div>
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Điện thoại</span>
+				<input class="form-control" type="text" th:field="*{phone}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('phone')}"
+					  th:errors="*{phone}"></span>
+			</div>
+
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Ghi chú</span>
+				<input class="form-control" type="text" th:field="*{description}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('description')}"
+					  th:errors="*{description}"></span>
+			</div>
+
+			<div class="input-group mb-3 d-none">
+				<span class="input-group-text">Khách của</span>
+				<input class="form-control" type="text" th:value="${customer.idUserBelong?.id}" th:name="idUserBelong" >
+			</div>
+
 		<button type="button" class="btn btn-secondary w-25"
 			th:onclick="@{|window.location.href='/customer/0/50'|}">Quay lại</button></span>
 	</form>
@@ -72,49 +112,57 @@
 
 <div th:fragment="update-customer">
 	<h3>Cập nhật khách hàng</h3>
-	<form th:action="@{|/customer/${id}|}" th:object="${customer}" method="POST">
-		  <input class="form-control" type="hidden" th:field="*{id}">
-		
-		<div class="input-group mb-3">
-			<span class="input-group-text">Mã khách hàng</span>
-			<input class="form-control" type="text" th:field="*{code}">
-			<span class="validationError input-group-text" th:if="${#fields.hasErrors('code')}"
-				th:errors="*{code}"></span>
-		</div>
-		
-		<div class="input-group mb-3">
-			<span class="input-group-text">Tên khách hàng *</span>
-			<input class="form-control" type="text" th:field="*{name}">
-			<span class="validationError input-group-text" th:if="${#fields.hasErrors('name')}"
-				th:errors="*{name}"></span>
-		</div>
-		
-		<div class="input-group mb-3">
-			<span class="input-group-text">Địa chỉ</span>
-			<input class="form-control" type="text" th:field="*{address}">
-			<span class="validationError input-group-text" th:if="${#fields.hasErrors('address')}"
-				th:errors="*{address}"></span>
-		</div>
-		
-		<div class="input-group mb-3">
-			<span class="input-group-text">Mã số thuế</span>
-			<input class="form-control" type="text" maxlength="10" th:field="*{taxCode}">
-			<span class="validationError input-group-text" th:if="${#fields.hasErrors('taxCode')}"
-				th:errors="*{taxCode}"></span>
-		</div>
-		
-		<div class="input-group mb-3">
-			<span class="input-group-text">Điện thoại</span>
-			<input class="form-control" type="text" th:field="*{phone}">
-			<span class="validationError input-group-text" th:if="${#fields.hasErrors('phone')}"
-				th:errors="*{phone}"></span>
-		</div>
-		
-		
-		<div class="input-group mb-3">
-			<span class="input-group-text">Mô tả</span>
-			<input class="form-control" type="text" th:field="*{description}">
-		</div>
+		<form th:action="@{|/customer/${id}|}" th:object="${customer}" method="POST">
+
+			<input class="form-control" type="hidden" th:field="*{id}">
+			<div class="input-group mb-3">
+				<span class="input-group-text">Mã Khách hàng *</span>
+				<input class="form-control" type="text" th:field="*{code}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('code')}"
+					  th:errors="*{code}"></span>
+			</div>
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Tên khách hàng *</span>
+				<input class="form-control" type="text" th:field="*{name}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('name')}"
+					  th:errors="*{name}"></span>
+			</div>
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Địa chỉ</span>
+				<input class="form-control" type="text" th:field="*{address}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('address')}"
+					  th:errors="*{address}"></span>
+			</div>
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Mã số thuế</span>
+				<input class="form-control" type="text" th:field="*{taxCode}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('taxCode')}"
+					  th:errors="*{taxCode}"></span>
+			</div>
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Điện thoại</span>
+				<input class="form-control" type="text" th:field="*{phone}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('phone')}"
+					  th:errors="*{phone}"></span>
+			</div>
+
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Ghi chú</span>
+				<input class="form-control" type="text" th:field="*{description}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('description')}"
+					  th:errors="*{description}"></span>
+			</div>
+
+			<div class="input-group mb-3 d-none">
+				<span class="input-group-text">Khách của</span>
+				<input class="form-control" type="text" th:value="${customer.idUserBelong?.id}" th:name="idUserBelong" >
+			</div>
+
 		
 		<button type="submit" class="btn btn-success w-25">Cập nhật</button>
 		<button type="button" class="btn btn-secondary w-25"

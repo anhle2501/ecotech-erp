@@ -2,20 +2,11 @@ package vn.com.ecotechgroup.erp.entity;
 
 import java.io.Serializable;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import vn.com.ecotechgroup.erp.audit.AuditableData;
 
 @Builder
@@ -62,4 +53,7 @@ public class Customer extends AuditableData implements Serializable {
 	@Size(max = 1000, message = "Độ dài quá 1000 ký tự !")
 	private String description;
 
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinColumn(name = "id_user_belong")
+	private User idUserBelong;
 }

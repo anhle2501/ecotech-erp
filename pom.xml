@@ -135,7 +135,9 @@
     <groupId>org.flywaydb</groupId>
     <artifactId>flyway-core</artifactId>
 </dependency>
-  
+
+		<!-- object mapper-->
+
   <dependency>
     <groupId>org.springframework.security</groupId>
     <artifactId>spring-security-test</artifactId>

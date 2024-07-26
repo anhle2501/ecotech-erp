@@ -67,6 +67,15 @@ public class CustomerTest {
 		assertThat(customer.getLastModifiedDate()).isEqualTo(now);
 	}
 
+	@Test
+	void get_customer_with_null_user() {
+		User user = new User();
+		user.setId(-9);
+		customer.setIdUserBelong(user);
+		assertThat(customer.getIdUserBelong()).isEqualTo(user);
+		assertThat(customer.getIdUserBelong().getId()).isEqualTo(-9);
+	}
+
 	@AfterEach
 	void tearDown() {
 	}
