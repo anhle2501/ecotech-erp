@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<div th:replace="~{component/head-tag::head-tag}"></div>
+<body>
+<div th:replace="~{component/header :: header}"></div>
+<main>
+    <div class="container-md text-left">
+        <div class="row">
+            <div class="col">
+                <div th:replace="~{component/navbar::navbar}"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+
+                <div th:if="${isList == true}">
+                    <div th:replace="~{component/region/admin/content::region}"></div>
+                </div>
+                <div th:if="${isNew == true}">
+                    <div th:replace="~{component/region/admin/detail::new-region}"></div>
+                </div>
+                <div th:if="${isDetail == true}">
+                    <div th:replace="~{component/region/admin/detail::region-detail}"></div>
+                </div>
+                <div th:if="${isUpdate == true}">
+                    <div th:replace="~{component/region/admin/detail::update-region}"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{component/footer::footer}"></div>
+</body>
+</html>

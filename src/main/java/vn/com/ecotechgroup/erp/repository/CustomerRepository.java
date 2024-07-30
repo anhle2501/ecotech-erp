@@ -32,8 +32,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 			@Param("searchTerm") String searchTerm);
 
 	// user page
-	@Query("SELECT c FROM Customer c " + "LEFT JOIN c.createdBy cc "  + " LEFT JOIN c.idUserBelong cbl "
-			+ "WHERE (cc.id = :user_id OR cbl.id = :user_id) " + "AND " + "(:searchTerm is null "
+	@Query("SELECT c FROM Customer c " + "LEFT JOIN c.createdBy cc "  + "  LEFT JOIN c.idUserBelong cbl "
+			+ "LEFT JOIN c.regions reg "
+			+ "WHERE (cc.id = :user_id OR cbl.id = :user_id OR (:user_id MEMBER OF reg.users)  ) " + "AND " + "(:searchTerm is null "
 			+ "OR lower(c.name) LIKE %:searchTerm% "
 			+ "OR lower(c.address) LIKE %:searchTerm% "
 			+ "OR c.phone LIKE %:searchTerm% "
@@ -45,6 +46,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 			@Param("searchTerm") String searchTerm);
 
 	@Query("SELECT c FROM Customer c " + "LEFT JOIN c.createdBy cc "  + " LEFT JOIN c.idUserBelong cbl "
-			+ "WHERE (cc.id = :user_id OR cbl.id = :user_id) " )
+			+ "LEFT JOIN c.regions reg "
+			+ "WHERE (cc.id = :user_id OR cbl.id = :user_id OR (:user_id MEMBER OF reg.users))")
 	List<Customer> findAllCustomerById(@Param("user_id") Long user_id);
 }

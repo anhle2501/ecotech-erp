@@ -158,6 +158,18 @@
 			<input class="form-control" type="text" th:field="*{description}">
 		</div>
 
+		<div class="input-group mb-3">
+			<span class="input-group-text">Danh sách vùng được phân: </span>
+			<select class="form-select region-select-search" id="regions" name="regions" multiple="multiple">
+				<!--                <option th:if="${region.customers.isEmpty() }" th:selected="true" th:value="-1" th:text="'Chưa cấp'"></option>-->
+				<option th:each="p : ${regionList}"
+						th:value="${p.id}" th:text="${p.name}"
+						th:selected="${#sets.contains(user.regions, p)}"
+				>
+				</option>
+			</select>
+		</div>
+
 		<button type="submit" class="btn btn-success w-25">Cập nhật</button>
 		<button type="button" class="btn btn-secondary w-25" th:onclick="@{|window.location.href='/admin/user/0/50'|}">Quay
 			lại</button></span>

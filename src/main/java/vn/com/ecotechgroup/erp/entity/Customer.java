@@ -1,6 +1,9 @@
 package vn.com.ecotechgroup.erp.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -12,8 +15,8 @@ import vn.com.ecotechgroup.erp.audit.AuditableData;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 @Entity
 @Table(name = "customer", schema = "ecotechgroup_erp")
 public class Customer extends AuditableData implements Serializable {
@@ -56,4 +59,28 @@ public class Customer extends AuditableData implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "id_user_belong")
 	private User idUserBelong;
+
+
+	@ManyToMany(mappedBy = "customers", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+	private Set<Region> regions = new HashSet<>();
+
+	@Override
+	public final boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Customer customer)) return false;
+
+        return id == customer.id && Objects.equals(code, customer.code) && Objects.equals(name, customer.name) && Objects.equals(address, customer.address) && Objects.equals(phone, customer.phone) && Objects.equals(taxCode, customer.taxCode) && Objects.equals(description, customer.description);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = Long.hashCode(id);
+		result = 31 * result + Objects.hashCode(code);
+		result = 31 * result + Objects.hashCode(name);
+		result = 31 * result + Objects.hashCode(address);
+		result = 31 * result + Objects.hashCode(phone);
+		result = 31 * result + Objects.hashCode(taxCode);
+		result = 31 * result + Objects.hashCode(description);
+		return result;
+	}
 }

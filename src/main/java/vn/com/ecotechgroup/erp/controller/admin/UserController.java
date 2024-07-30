@@ -1,5 +1,6 @@
 package vn.com.ecotechgroup.erp.controller.admin;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import vn.com.ecotechgroup.erp.entity.Region;
 import vn.com.ecotechgroup.erp.entity.User;
+import vn.com.ecotechgroup.erp.repository.RegionRepository;
 import vn.com.ecotechgroup.erp.service.UserService;
 
 @Controller
@@ -36,6 +39,9 @@ public class UserController {
 	private int default_page_size = 50;
 
 	private UserService userService;
+
+	@Autowired
+	private RegionRepository regionRepository;
 
 	@Autowired
 	public UserController(UserService userService) {
@@ -98,7 +104,9 @@ public class UserController {
 			@Valid @ModelAttribute(NAME_ATTRIBUTE) User user, Errors errors,
 			Model model) {
 		if (errors.hasErrors()) {
+			List<Region> rl = regionRepository.findAll();
 			model.addAttribute("isUpdate", true);
+			model.addAttribute("regionList", rl);
 			return RETURN_PAGE;
 		} else {
 			userService.update(user);

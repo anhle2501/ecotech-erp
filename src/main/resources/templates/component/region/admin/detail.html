@@ -1,0 +1,103 @@
+<div th:fragment="region-detail">
+    <h3>Thông tin phương thức thanh </h3>
+    <form th:action="@{|/admin/region/${id}|}" th:object="${region}"
+          method="POST">
+
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Tên vùng*</span>
+            <input th:readonly="true" class="form-control" type="text" th:field="*{name}">
+            <span class="validationError input-group-text" th:if="${#fields.hasErrors('name')}"
+                  th:errors="*{name}"></span>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Mô tả</span>
+            <input th:readonly="true" class="form-control" type="text" th:field="*{description}">
+            <span class="validationError input-group-text" th:if="${#fields.hasErrors('description')}"
+                  th:errors="*{description}"></span>
+        </div>
+
+        <button type="button" class="btn btn-secondary w-25"
+                th:onclick="@{|window.location.href='/admin/region/0/50'|}">Quay lại</button></span>
+    </form>
+
+</div>
+
+
+<div th:fragment="new-region">
+    <h3>Thêm phân vùng</h3>
+
+    <form th:action="@{/admin/region/new-region}" th:object="${region}"
+          method="POST">
+
+        <label class="form-label" for="*{name}">Tên *</label>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('name')}"
+              th:errors="*{name}"></span>
+        <input class="form-control" type="text" th:field="*{name}" >
+        <br/>
+
+        <label class="form-label" for="*{description}">Ghi chú</label>
+        <input class="form-control" type="text" th:field="*{description}" >
+        <br/>
+        <button type="submit" class="btn btn-success w-25">Tạo</button>
+        <button type="button" class="btn btn-secondary w-25"
+                th:onclick="@{|window.location.href='/admin/region/0/50'|}">Quay lại</button></span>
+
+    </form>
+
+</div>
+
+<div th:fragment="update-region">
+    <h3>Cập nhật phân vùng</h3>
+    <form th:action="@{|/admin/region/${id}|}" th:object="${region}"
+          method="POST">
+
+        <input class="form-control" type="hidden" th:field="*{id}">
+        <div class="input-group mb-3">
+            <span class="input-group-text">Tên vùng *</span>
+            <input class="form-control" type="text" th:field="*{name}">
+            <span class="validationError input-group-text" th:if="${#fields.hasErrors('name')}"
+                  th:errors="*{name}"></span>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Ghi chú</span>
+            <input class="form-control" type="text" th:field="*{description}">
+            <span class="validationError input-group-text" th:if="${#fields.hasErrors('description')}"
+                  th:errors="*{description}"></span>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Danh sách khách của vùng: </span>
+            <select class="form-select region-select-search" id="customers" name="customers" multiple="multiple">
+<!--                <option th:if="${region.customers.isEmpty() }" th:selected="true" th:value="-1" th:text="'Chưa cấp'"></option>-->
+                <option th:each="p : ${customerList}"
+                        th:value="${p.id}" th:text="${p.name}"
+                        th:selected="${#sets.contains(region.customers, p)}"
+                >
+                </option>
+            </select>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Danh nhân viên của vùng: </span>
+            <select class="form-select region-select-search" id="users" name="users" multiple="multiple">
+                <!--                <option th:if="${region.customers.isEmpty() }" th:selected="true" th:value="-1" th:text="'Chưa cấp'"></option>-->
+                <option th:each="p : ${userList}"
+                        th:value="${p.id}" th:text="${p.userName}"
+                        th:selected="${#sets.contains(region.users, p)}"
+                >
+                </option>
+            </select>
+        </div>
+
+        <span class="">
+				  <button type="submit" class="btn btn-success w-25">Cập nhật</button> 
+				  <button type="button" class="btn btn-secondary w-25"
+                          th:onclick="@{|window.location.href='/admin/region/0/50'|}">Quay lại</button></span>
+
+    </form>
+
+</div>

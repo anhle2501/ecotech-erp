@@ -145,9 +145,5 @@ public class CustomerControllerUser {
 					null, user);
 		}
 	}
-	
-	@GetMapping("/test-mock")
-	public String showTestMock() {
-		return "showTestMock";
-	}
+
 }

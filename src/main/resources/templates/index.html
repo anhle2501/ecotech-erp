@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <div th:replace="~{component/head-tag::head-tag}"></div>
 
 <body>
@@ -11,6 +12,12 @@
 					<div th:replace="~{component/navbar::navbar}"></div>
 				</div>
 			</div>
+
+			<div sec:authorize=hasRole('USER')>GLOBAL ECOTECH THÔNG BÁO </div>
+
+			<br/>
+			<br/>
+
 			<div class="row">
 				<div class="col">Trang chủ đặt hàng công ty Global Ecotech</div>
        

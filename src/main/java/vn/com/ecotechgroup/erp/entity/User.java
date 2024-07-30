@@ -91,12 +91,11 @@ public class User implements UserDetails, Serializable{
 //	@Column(insertable = false)
 //	private String refreshToken;
 
-	@ToString.Exclude
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id_au"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(schema = "ecotechgroup_erp",name = "user_role", joinColumns = @JoinColumn(name = "user_id_au"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	@JsonManagedReference
-	private List<Role> listRole = new ArrayList<>();
+	private List<Role> listRole;
 
 	@ToString.Exclude
 	@OneToMany(mappedBy = "userOrdered", fetch = FetchType.EAGER, cascade = {
@@ -108,6 +107,10 @@ public class User implements UserDetails, Serializable{
 	@ToString.Exclude
 	@OneToMany(mappedBy = "idUserBelong", fetch = FetchType.LAZY)
 	private List<Customer> listCustomers;
+
+	@ToString.Exclude
+	@ManyToMany(mappedBy = "users", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+	private List<Region> regions;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -150,6 +153,7 @@ public class User implements UserDetails, Serializable{
 		for (String privilege : permission) {
 			authorities.add(new SimpleGrantedAuthority(privilege));
 		}
+		System.out.println(authorities);
 		return authorities;
 	}
 

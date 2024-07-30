@@ -152,7 +152,7 @@ public class OrderServiceImp implements OrderService, UiService {
 		List<PaymentType> paymentTypeList = paymentTypeRepo.findAll();
 
 		List<Customer> customerList = customerRepo
-				.getCustomerByCreatedByOrderByName(user);
+				.findAllCustomerById(user.getId());
 
 		List<Product> productList = productRepo.findAll();
 		model.addAttribute("paymentTypeList", paymentTypeList);

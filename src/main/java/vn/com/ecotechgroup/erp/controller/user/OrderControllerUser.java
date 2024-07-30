@@ -25,6 +25,7 @@ import jakarta.validation.constraints.Min;
 import vn.com.ecotechgroup.erp.entity.Order;
 import vn.com.ecotechgroup.erp.entity.Product;
 import vn.com.ecotechgroup.erp.entity.User;
+import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 import vn.com.ecotechgroup.erp.service.OrderService;
 import vn.com.ecotechgroup.erp.service.ProductService;
 
@@ -43,6 +44,9 @@ public class OrderControllerUser {
 
 	private OrderService orderService;
 	private ProductService productService;
+
+	@Autowired
+	private CustomerRepository customerRepository;
 
 	@Autowired
 	public void setProductService(ProductService productService) {

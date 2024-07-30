@@ -1,4 +1,4 @@
-<div th:fragment="navbar">
+<div th:fragment="navbar" xmlns:sec="http://www.w3.org/1999/xhtml">
 	
 	<div sec:authorize="hasRole('USER')">
 		<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -15,6 +15,7 @@
 					<li class="nav-item"><a class="nav-link" th:href="@{/customer/0/50}">Khách hàng </a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/order/0/50}">Đặt hàng </a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/payment-type/0/50}">PTTT</a></li>
+				</ul>
 			</div>
 
 
@@ -39,6 +40,8 @@
 					<li class="nav-item"><a class="nav-link" th:href="@{/admin/product/0/50}">Sản phẩm </a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/admin/payment-type/0/50}">PTTT</a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/admin/user/0/50}">Người dùng</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/admin/region/0/50}">Phân vùng</a></li>
+				</ul>
 			</div>
 
 		</nav>

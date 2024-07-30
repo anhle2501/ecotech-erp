@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -83,7 +84,7 @@ public class Order implements Serializable {
 	@Column
 	private LocalDateTime last_modified_date;
 
-	@Column
+	@Column(columnDefinition = "bigint default 0")
 	private long totalPrice;
 
 	@CreatedBy
@@ -158,6 +159,6 @@ public class Order implements Serializable {
 		this.customer = customer;
 		this.paymentType = paymentType;
 		this.description = description;
-		this.totalPrice = totalPrice;
+		Optional.of(totalPrice).ifPresentOrElse( (value -> this.totalPrice = value), () -> this.totalPrice = 0);
 	}
 }
