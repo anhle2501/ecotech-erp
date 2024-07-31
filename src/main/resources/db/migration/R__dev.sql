@@ -25,3 +25,6 @@ CREATE TABLE if not exists ecotechgroup_erp.region_user
     CONSTRAINT fk_region_user foreign key (region_id) references ecotechgroup_erp.region,
     CONSTRAINT fk_region_user2 foreign key (user_id) references ecotechgroup_erp."user"
     );
+
+alter table ecotechgroup_erp.an_order
+    drop constraint uc_an_order_last_modified_by;
