@@ -32,7 +32,8 @@
 										</div>
 								</div>
 								<tr th:each="c, iterator : ${customer}">
-										<td scope="row" th:text="${c.id}"></td>
+										<td scope="row" th:text="${c.id}" class="d-none" ></td>
+									<td th:text="${c.code}" ></td>
 										<td th:text="${c.name}"></td>
 										<td th:text="${c.address}"></td>
 										<td th:text="${c.taxCode}"></td>

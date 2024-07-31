@@ -49,7 +49,7 @@ public class Product extends AuditableData implements Serializable {
 
 	@Size(max = 10, message = "Độ dài quá 10 ký tự !")
 	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Đơn vị tính có định dạng liên tục !")
-	@Column(length = 10, unique = true)
+	@Column(length = 10, unique = false)
 	private String unit;
 
 	

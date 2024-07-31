@@ -151,6 +151,16 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<configuration>
+					<url>jdbc:postgresql://192.168.100.44:8888/ecotechgroup_erp</url>
+					<user>softwaredev</user>
+					<password>Lenhutanh2501</password>
+					<defaultSchema>ecotechgroup_erp</defaultSchema>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

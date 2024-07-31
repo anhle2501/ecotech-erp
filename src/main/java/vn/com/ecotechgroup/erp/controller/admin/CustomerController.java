@@ -64,6 +64,7 @@ public class CustomerController {
 		Page<Customer> customerList;
 		if (searchTerm != null) {
 			searchTerm = searchTerm.toLowerCase();
+			System.out.println(searchTerm);
 			customerList = cService.getListPage(PageRequest.of(pageNumber,
 					pageSize, Sort.by("createdDate").descending()), searchTerm);
 		} else {
