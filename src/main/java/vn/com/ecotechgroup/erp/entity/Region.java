@@ -17,6 +17,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Region {
 
     @Id
@@ -33,19 +34,22 @@ public class Region {
     @JoinTable(name = "customer_region", schema = "ecotechgroup_erp",
             joinColumns = @JoinColumn(name = "region_id"),
             inverseJoinColumns = @JoinColumn(name = "customer_id"))
+    @ToString.Exclude
     private Set<Customer> customers = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "region_user", schema = "ecotechgroup_erp",
             joinColumns = @JoinColumn(name = "region_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @ToString.Exclude
     private Set<User> users = new HashSet<>();
 
     @Override
-    public final boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Region region)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Region region = (Region) o;
         return id == region.id && Objects.equals(name, region.name) && Objects.equals(description, region.description);
     }
 

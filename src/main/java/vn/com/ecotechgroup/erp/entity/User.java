@@ -95,7 +95,7 @@ public class User implements UserDetails, Serializable{
 			CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinTable(schema = "ecotechgroup_erp",name = "user_role", joinColumns = @JoinColumn(name = "user_id_au"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	@JsonManagedReference
-	private List<Role> listRole;
+	private List<Role> listRole = new ArrayList<>();
 
 	@ToString.Exclude
 	@OneToMany(mappedBy = "userOrdered", fetch = FetchType.EAGER, cascade = {

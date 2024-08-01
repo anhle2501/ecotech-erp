@@ -23,8 +23,8 @@
 	</div>
 
 	<div sec:authorize="hasRole('ADMIN')">
-		<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<a class="navbar-brand" th:href="@{/}">Admin</a>
+		<nav th:fragment="navbar" class="navbar navbar-expand-lg bg-success">
+			<a class="navbar-brand text-light" th:href="@{/}">Admin</a>
 			<!-- 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarColor02" aria-controls="navbarColor02"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -33,14 +33,14 @@
 
 
 			<div class="" id="navbarColor01">
-				<ul class="navbar-nav bg-dark mr-auto flex-container">
+				<ul class="navbar-nav bg-success mr-auto flex-container">
 					<!--<span class="sr-only">(current)</span>-->
-					<li class="nav-item"><a class="nav-link" th:href="@{/admin/customer/0/50}">Khách hàng </a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/admin/order/0/50}">Đặt hàng </a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/admin/product/0/50}">Sản phẩm </a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/admin/payment-type/0/50}">PTTT</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/admin/user/0/50}">Người dùng</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/admin/region/0/50}">Phân vùng</a></li>
+					<li class="nav-item"><a class="nav-link text-light" th:href="@{/admin/customer/0/50}">Khách hàng </a></li>
+					<li class="nav-item"><a class="nav-link text-light" th:href="@{/admin/order/0/50}">Đặt hàng </a></li>
+					<li class="nav-item"><a class="nav-link text-light" th:href="@{/admin/product/0/50}">Sản phẩm </a></li>
+					<li class="nav-item"><a class="nav-link text-light" th:href="@{/admin/payment-type/0/50}">PTTT</a></li>
+					<li class="nav-item"><a class="nav-link text-light " th:href="@{/admin/user/0/50}">Người dùng</a></li>
+					<li class="nav-item"><a class="nav-link text-light" th:href="@{/admin/region/0/50}">Phân vùng</a></li>
 				</ul>
 			</div>
 

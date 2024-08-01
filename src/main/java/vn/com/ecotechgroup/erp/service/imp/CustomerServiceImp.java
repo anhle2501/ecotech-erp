@@ -15,13 +15,18 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import vn.com.ecotechgroup.erp.entity.Customer;
+import vn.com.ecotechgroup.erp.entity.Region;
 import vn.com.ecotechgroup.erp.repository.CustomerRepository;
+import vn.com.ecotechgroup.erp.repository.RegionRepository;
 import vn.com.ecotechgroup.erp.service.CustomerService;
 
 @Service
 public class CustomerServiceImp implements CustomerService {
 
+	@Autowired
 	private CustomerRepository customerRep;
+	@Autowired
+	private RegionRepository regionRep;
 	
 	@Autowired
 	public CustomerServiceImp(CustomerRepository customerRep) {
@@ -30,13 +35,15 @@ public class CustomerServiceImp implements CustomerService {
 
 	@Override
 	public Customer save(Customer t) {
-
 		return customerRep.save(t);
 	}
 
 	@Override
 	public Customer update(Customer t) {
-
+		t.getRegions().forEach( r -> {
+			Optional<Region> region = regionRep.findById(r.getId());
+			region.ifPresent( e -> e.getCustomers().add(t));
+		});
 		return customerRep.save(t);
 	}
 

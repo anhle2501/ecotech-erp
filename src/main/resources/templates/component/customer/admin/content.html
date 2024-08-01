@@ -9,7 +9,7 @@
 								<th scope="col">Điện thoại</th>
 								<th scope="col">Người tạo</th>
 								<th scope="col">Thời gian</th>
-								<th scope="col">Chia sẻ thông tin cho</th>
+
 								<th scope="col">Mô tả</th>
 								<th scope="col">Hành động</th>
 
@@ -40,7 +40,7 @@
 										<td th:text="${c.phone}"></td>
 										<td th:text="${c.createdBy?.userName}"></td>
 										<td th:text="${#temporals.format(c.createdDate, 'HH:mm a dd-MM-yyyy')}"></td>
-										<td th:text="xxx"></td>
+
 										<td th:text="${c.description}"></td>
 										<td>
 												<div class="btn-group" role="group"

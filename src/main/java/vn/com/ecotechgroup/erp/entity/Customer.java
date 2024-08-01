@@ -39,16 +39,16 @@ public class Customer extends AuditableData implements Serializable {
 	private String name;
 
 	@Size(max = 45, message = "Độ dài quá 200 ký tự !")
-	@Column(length = 200)
+	@Column(length = 1000)
 	private String address;
 
 	@Size(max = 45, message = "Độ dài quá 10 ký tự !")
-	@Pattern(regexp = "(\\d){10}", message = "Số điện thoại gồm 10 chữ số !")
+//	@Pattern(regexp = "(\\d){10}", message = "Số điện thoại gồm 10 chữ số !")
 	@Column(length = 10)
 	private String phone;
 
 	@Size(max = 45, message = "Độ dài quá 20 ký tự !")
-	@Pattern(regexp = "((\\d){8,})?", message = "Mã số thuế lớn hơn 8 ký tự !")
+//	@Pattern(regexp = "((\\d){8,})?", message = "Mã số thuế lớn hơn 8 ký tự !")
 	@Column(length = 20)
 	private String taxCode;
 
@@ -65,11 +65,12 @@ public class Customer extends AuditableData implements Serializable {
 	private Set<Region> regions = new HashSet<>();
 
 	@Override
-	public final boolean equals(Object o) {
+	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof Customer customer)) return false;
+		if (o == null || getClass() != o.getClass()) return false;
 
-        return id == customer.id && Objects.equals(code, customer.code) && Objects.equals(name, customer.name) && Objects.equals(address, customer.address) && Objects.equals(phone, customer.phone) && Objects.equals(taxCode, customer.taxCode) && Objects.equals(description, customer.description);
+		Customer customer = (Customer) o;
+		return id == customer.id && Objects.equals(code, customer.code) && Objects.equals(name, customer.name) && Objects.equals(address, customer.address) && Objects.equals(phone, customer.phone) && Objects.equals(taxCode, customer.taxCode) && Objects.equals(description, customer.description) && Objects.equals(idUserBelong, customer.idUserBelong);
 	}
 
 	@Override
@@ -81,6 +82,7 @@ public class Customer extends AuditableData implements Serializable {
 		result = 31 * result + Objects.hashCode(phone);
 		result = 31 * result + Objects.hashCode(taxCode);
 		result = 31 * result + Objects.hashCode(description);
+		result = 31 * result + Objects.hashCode(idUserBelong);
 		return result;
 	}
 }

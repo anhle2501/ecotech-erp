@@ -1,6 +1,7 @@
 package vn.com.ecotechgroup.erp.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +20,6 @@ import vn.com.ecotechgroup.erp.audit.AuditableData;
 
 //@EntityListeners(AuditingEntityListener.class)
 @Data
-@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
@@ -48,9 +48,26 @@ public class Product extends AuditableData implements Serializable {
 	private String description;
 
 	@Size(max = 10, message = "Độ dài quá 10 ký tự !")
-	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Đơn vị tính có định dạng liên tục !")
+//	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Đơn vị tính có định dạng liên tục !")
 	@Column(length = 10, unique = false)
 	private String unit;
 
-	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Product product = (Product) o;
+		return id == product.id && Objects.equals(code, product.code) && Objects.equals(name, product.name) && Objects.equals(description, product.description) && Objects.equals(unit, product.unit);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = Long.hashCode(id);
+		result = 31 * result + Objects.hashCode(code);
+		result = 31 * result + Objects.hashCode(name);
+		result = 31 * result + Objects.hashCode(description);
+		result = 31 * result + Objects.hashCode(unit);
+		return result;
+	}
 }

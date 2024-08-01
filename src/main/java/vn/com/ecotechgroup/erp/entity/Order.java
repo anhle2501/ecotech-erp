@@ -116,7 +116,7 @@ public class Order implements Serializable {
 			OrderProduct newOrderProduct = new OrderProduct(this, product,
 					price, quantity);
 			orderProduct.add(newOrderProduct);
-			this.setTotalPrice(price * quantity);
+			this.setTotalPrice( (long) price * quantity);
 		} else {
 			OrderProduct newOrderProduct = new OrderProduct(this, product,
 					price, quantity);
@@ -125,7 +125,7 @@ public class Order implements Serializable {
 			List<Long> priceList = products.stream()
 					.map(p -> p.getPrice() * p.getQuantity()).toList();
 			long total = (long) priceList.stream().reduce(0L,
-					(subtotal, element) -> (subtotal + element));
+                    Long::sum);
 			this.setTotalPrice(total);
 		}
 	}

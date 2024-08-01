@@ -9,8 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import vn.com.ecotechgroup.erp.entity.Region;
 import vn.com.ecotechgroup.erp.entity.Role;
 import vn.com.ecotechgroup.erp.entity.User;
+import vn.com.ecotechgroup.erp.repository.RegionRepository;
 import vn.com.ecotechgroup.erp.repository.RoleRepository;
 import vn.com.ecotechgroup.erp.repository.UserRepository;
 import vn.com.ecotechgroup.erp.service.UserService;
@@ -20,7 +22,8 @@ public class UserServiceImp implements UserService {
 
 	private UserRepository userRepo;
 	private PasswordEncoder passwordEncoder;
-
+	@Autowired
+	private RegionRepository regionRep;
 	private RoleRepository roleRepo;
 
 	@Autowired
@@ -69,6 +72,12 @@ public class UserServiceImp implements UserService {
 		if (!isChange) {
 			t.setPassword(passwordEncoder.encode(pw));
 		}
+
+		//update region
+		t.getRegions().forEach( r -> {
+			Optional<Region> region = regionRep.findById(r.getId());
+			region.ifPresent( e -> e.getUsers().add(t));
+		});
 		return userRepo.save(t);
 	}
 

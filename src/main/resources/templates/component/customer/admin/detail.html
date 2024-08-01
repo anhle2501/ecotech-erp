@@ -191,13 +191,25 @@
 				  th:errors="*{description}"></span>
 		</div>
 
+<!--		<div class="input-group mb-3">-->
+<!--			<span class="input-group-text">Khách của</span>-->
+<!--			<select class="form-select customer-select-search" th:field="*{idUserBelong}">-->
+<!--				<option th:if="${customer.idUserBelong == null}" th:selected="true" th:value="-1" th:text="'Chưa cấp'"></option>-->
+<!--				<option th:each="p : ${userList}"-->
+<!--						th:value="${p.id}" th:text="${p.userName}"-->
+<!--						th:selected="${p.id == customer.idUserBelong?.id}">-->
+<!--				</option>-->
+<!--			</select>-->
+<!--		</div>-->
+
 		<div class="input-group mb-3">
-			<span class="input-group-text">Khách của</span>
-			<select class="form-select customer-select-search" th:field="*{idUserBelong}">
-				<option th:if="${customer.idUserBelong == null}" th:selected="true" th:value="-1" th:text="'Chưa cấp'"></option>
-				<option th:each="p : ${userList}"
-						th:value="${p.id}" th:text="${p.userName}"
-						th:selected="${p.id == customer.idUserBelong?.id}">
+			<span class="input-group-text">Khách thuộc vùng: </span>
+			<select class="form-select region-select-search" id="regions" name="regions" multiple="multiple">
+				<!--                <option th:if="${region.customers.isEmpty() }" th:selected="true" th:value="-1" th:text="'Chưa cấp'"></option>-->
+				<option th:each="p : ${regionList}"
+						th:value="${p.id}" th:text="${p.name}"
+						th:selected="${#sets.contains(customer.regions, p)}"
+				>
 				</option>
 			</select>
 		</div>

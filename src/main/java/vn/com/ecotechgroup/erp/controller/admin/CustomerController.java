@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import vn.com.ecotechgroup.erp.entity.Customer;
+import vn.com.ecotechgroup.erp.entity.PaymentType;
+import vn.com.ecotechgroup.erp.entity.Region;
 import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.repository.CustomerRepository;
+import vn.com.ecotechgroup.erp.repository.RegionRepository;
 import vn.com.ecotechgroup.erp.repository.UserRepository;
 import vn.com.ecotechgroup.erp.service.CustomerService;
 import vn.com.ecotechgroup.erp.service.imp.CustomerServiceImp;
@@ -37,6 +40,9 @@ public class CustomerController {
 	private CustomerRepository customerRepo;
 	@Autowired
 	private CustomerService cService;
+
+	@Autowired
+	private RegionRepository regionRepository;
 
 	@Autowired
 	private UserRepository uRep;
@@ -100,10 +106,15 @@ public class CustomerController {
 	public String getCustomer(@PathVariable("id") long id, Model model) {
 		Optional<Customer> customerObj = customerRepo.findById(id);
 		Optional<List<User>> userList = Optional.ofNullable(uRep.findAllUser());
+		Optional<List<Region>> regionList = Optional.of(regionRepository.findAll());
+
 		if (customerObj.isPresent()) {
 			model.addAttribute("customer", customerObj.get());
+			System.out.println(customerObj.get().toString());
+			System.out.println(regionList.get().toString());
 			model.addAttribute("isUpdate", true);
 			userList.ifPresent(users -> model.addAttribute("userList", users));
+			regionList.ifPresent(regions -> model.addAttribute("regionList", regions));
 			return "page/admin/customer";
 		} else {
 			return showCustomerList(model, default_page, default_page_size,
@@ -120,7 +131,7 @@ public class CustomerController {
 			return "page/admin/customer";
 		} else {
 			try {
-				customerRepo.save(customer);
+				cService.update(customer);
 			} catch (DataIntegrityViolationException e) {
 				model.addAttribute("error", "Tên khách hàng đã tồn tại !");
 				return "error";

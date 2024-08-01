@@ -91,6 +91,8 @@ public class UserController {
 	public String getUser(@PathVariable("id") long id, Model model) {
 		Optional<User> userObj = Optional.ofNullable(userService.getOne(id));
 		if (userObj.isPresent()) {
+			List<Region> rl = regionRepository.findAll();
+			model.addAttribute("regionList", rl);
 			model.addAttribute(NAME_ATTRIBUTE, userObj.get());
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
@@ -104,9 +106,7 @@ public class UserController {
 			@Valid @ModelAttribute(NAME_ATTRIBUTE) User user, Errors errors,
 			Model model) {
 		if (errors.hasErrors()) {
-			List<Region> rl = regionRepository.findAll();
 			model.addAttribute("isUpdate", true);
-			model.addAttribute("regionList", rl);
 			return RETURN_PAGE;
 		} else {
 			userService.update(user);
