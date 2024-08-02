@@ -69,7 +69,6 @@ public class OrderServiceImp implements OrderService, UiService {
 
 	@Override
 	public void delete(Long orderId) {
-		System.out.println(orderId);
 		orderRepo.deleteById(orderId);
 	}
 

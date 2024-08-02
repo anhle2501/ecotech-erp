@@ -26,5 +26,8 @@ CREATE TABLE if not exists ecotechgroup_erp.region_user
     CONSTRAINT fk_region_user2 foreign key (user_id) references ecotechgroup_erp."user"
     );
 
-alter table ecotechgroup_erp.product
-drop constraint uc_product_created_by;
+alter table ecotechgroup_erp.customer
+alter column name type varchar(200) using name::varchar(200);
+
+alter table ecotechgroup_erp.customer
+alter column address type varchar(1000) using address::varchar(1000);

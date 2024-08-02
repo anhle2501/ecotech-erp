@@ -34,11 +34,11 @@ public class Customer extends AuditableData implements Serializable {
 	private String code;
 
 	@NotBlank(message = "Không được để trống !")
-	@Size(min = 5, max = 100, message = "Độ dài từ 5-100 ký tự !")
-	@Column(length = 100, unique = true)
+	@Size(min = 5, max = 200, message = "Độ dài từ 5-200 ký tự !")
+	@Column(length = 200, unique = true)
 	private String name;
 
-	@Size(max = 45, message = "Độ dài quá 200 ký tự !")
+	@Size(max = 1000, message = "Độ dài quá 1000 ký tự !")
 	@Column(length = 1000)
 	private String address;
 
