@@ -1,10 +1,10 @@
 package vn.com.ecotechgroup.erp.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 
+import org.hibernate.annotations.Formula;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,6 +32,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import static java.util.Collections.sort;
 
 @Entity
 @Table(name = "user", schema = "ecotechgroup_erp")
@@ -63,6 +65,7 @@ public class User implements UserDetails, Serializable{
 	@Column(length = 45)
 	@Length(max = 45, message = "Ít hơn 45 ký tự!")
 	private String lastName;
+
 	@Column(insertable = false, updatable = false)
 	private String fullName;
 	@Column(length = 45)
@@ -205,4 +208,48 @@ public class User implements UserDetails, Serializable{
 		return userName;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		User user = (User) o;
+		return id == user.id && nonLock == user.nonLock && nonExpired == user.nonExpired && pwNonExpired == user.pwNonExpired && enable == user.enable && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(mobilePhone, user.mobilePhone) && Objects.equals(description, user.description);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = Long.hashCode(id);
+		result = 31 * result + Objects.hashCode(userName);
+		result = 31 * result + Objects.hashCode(password);
+		result = 31 * result + Objects.hashCode(firstName);
+		result = 31 * result + Objects.hashCode(lastName);
+		result = 31 * result + Objects.hashCode(mobilePhone);
+		result = 31 * result + Objects.hashCode(description);
+		result = 31 * result + Boolean.hashCode(nonLock);
+		result = 31 * result + Boolean.hashCode(nonExpired);
+		result = 31 * result + Boolean.hashCode(pwNonExpired);
+		result = 31 * result + Boolean.hashCode(enable);
+		return result;
+	}
+
+	public boolean compareRegion(List<Region> regions) {
+		Collections.sort(this.regions, new Comparator<Region>() {
+			@Override
+			public int compare(Region o1, Region o2) {
+				if (o1.getId() <= o2.getId()) { return 1;}
+				if (o1.getId() >= o2.getId()) { return -1;}
+				return 0;
+			}
+		});
+		Collections.sort(regions, new Comparator<Region>() {
+			@Override
+			public int compare(Region o1, Region o2) {
+				if (o1.getId() <= o2.getId()) { return 1;}
+				if (o1.getId() >= o2.getId()) { return -1;}
+				return 0;
+			}
+		});
+        return this.regions.equals(regions);
+	}
 }

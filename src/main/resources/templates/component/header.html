@@ -1,4 +1,4 @@
-<header th:fragment="header" class="text-center">
+<header th:fragment="header" class="text-center" xmlns:sec="http://www.w3.org/1999/xhtml">
  <span sec:authorize="isAuthenticated()">
 	Tên đăng nhập:
 		<span sec:authentication="principal.username">The value of the "name" property

@@ -1,7 +1,6 @@
 package vn.com.ecotechgroup.erp.controller.user;
 
 import java.util.Optional;
-import java.util.OptionalInt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,7 +22,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.entity.User;
-import vn.com.ecotechgroup.erp.entity.projector.CustomerUserProjector;
 import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 
 @Controller
@@ -54,12 +52,12 @@ public class CustomerControllerUser {
 			customerList = customerRepo.customerSearchListUser(
 					PageRequest.of(pageNumber, pageSize,
 							Sort.by("createdDate").descending()),
-					user.getId(), searchTerm);
+					(Long) user.getId(), searchTerm);
 		} else {
 			customerList = customerRepo.customerSearchListUser(
 					PageRequest.of(pageNumber, pageSize,
 							Sort.by("createdDate").descending()),
-					user == null ? null : user.getId(), null);
+					user == null ? null : (Long) user.getId(), null);
 		}
 		model.addAttribute("customer", customerList);
 		model.addAttribute("isList", true);

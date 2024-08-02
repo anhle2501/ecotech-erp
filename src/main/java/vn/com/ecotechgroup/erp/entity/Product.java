@@ -36,7 +36,7 @@ public class Product extends AuditableData implements Serializable {
 
 	@Column(length = 45, unique = true)
 	@Size(max = 45, message = "Độ dài quá 45 ký tự !")
-	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Mã có định dạng liên tục !")
+//	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Mã có định dạng liên tục !")
 	private String code;
 
 	@Size(min = 5, max = 100, message = "Độ dài từ 5-100 ký tự !")

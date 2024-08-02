@@ -1,4 +1,4 @@
-package vn.com.ecotechgroup.erp.entity.projector;
+package vn.com.ecotechgroup.erp.restcontroller.projector;
 
 import java.time.LocalDateTime;
 

@@ -18,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Region {
+public class Region implements Comparable<Region> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,5 +59,13 @@ public class Region {
         result = 31 * result + Objects.hashCode(name);
         result = 31 * result + Objects.hashCode(description);
         return result;
+    }
+
+    @Override
+    public int compareTo(Region o) {
+        if (o.getId() != this.getId()) return -1;
+        if (o.getName().compareTo(this.getName()) != 0) return -1;
+        if (o.getDescription().compareTo(this.getDescription()) != 0) return -1;
+        return 0;
     }
 }

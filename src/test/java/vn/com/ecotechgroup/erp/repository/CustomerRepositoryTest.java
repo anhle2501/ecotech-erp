@@ -92,7 +92,7 @@ public class CustomerRepositoryTest {
 
     @Test
     void testFindAllCustomerById() {
-        List<Customer> customers = customerRepository.findAllCustomerById(user.getId());
+        List<Customer> customers = customerRepository.findAllCustomerForUser(user.getId());
 
         assertThat(customers).hasSize(2);
     }

@@ -62,22 +62,31 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public User update(User t) {
 		// get old pw
-		String oldPw = userRepo.getReferenceById(t.getId()).getPassword();
+		User oldUser = userRepo.getReferenceById(t.getId());
+		String oldPw = oldUser.getPassword();
 		String pw = t.getPassword();
 		// encrypt password
-		boolean isChange = passwordEncoder.matches(t.getPassword(), oldPw);
+		boolean mathces = passwordEncoder.matches(oldPw, pw);
+		boolean eequal = passwordEncoder.encode(pw).equals(oldUser.getPassword());
 		// it pw change -> set new pw
-		if (!isChange) {
+		if (!mathces
+				&& !passwordEncoder.encode(pw).equals(oldUser.getPassword())) {
 			t.setPassword(passwordEncoder.encode(pw));
+		} else {
+			t.setPassword(oldPw);
 		}
 
 		//update region
-		t.getRegions().forEach( r -> {
-			Optional<Region> region = regionRep.findById(r.getId());
-			region.ifPresent( e -> e.getUsers().add(t));
-		});
+		if (t.getRegions() != null && oldUser.getRegions() != null && !t.compareRegion(oldUser.getRegions()) ) {
+			t.getRegions().forEach( r -> {
+				Optional<Region> region = regionRep.findById(r.getId());
+				region.ifPresent( e -> e.getUsers().add(t));
+			});
+		}
+
 		return userRepo.save(t);
 	}
 

@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import vn.com.ecotechgroup.erp.entity.Customer;
 import vn.com.ecotechgroup.erp.entity.User;
-import vn.com.ecotechgroup.erp.entity.projector.CustomerUserProjector;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
@@ -48,5 +48,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	@Query("SELECT c FROM Customer c " + "LEFT JOIN c.createdBy cc "  + " LEFT JOIN c.idUserBelong cbl "
 			+ "LEFT JOIN c.regions reg "
 			+ "WHERE (cc.id = :user_id OR cbl.id = :user_id OR (:user_id MEMBER OF reg.users))")
-	List<Customer> findAllCustomerById(@Param("user_id") Long user_id);
+	List<Customer> findAllCustomerForUser(@Param("user_id") Long user_id);
 }
