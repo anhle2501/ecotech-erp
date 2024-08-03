@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.transaction.Transactional;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +32,7 @@ import vn.com.ecotechgroup.erp.service.OrderService;
 import vn.com.ecotechgroup.erp.service.UiService;
 
 @Service
+@Slf4j
 public class OrderServiceImp implements OrderService, UiService {
 
 	private PaymentTypeRepository paymentTypeRepo;
@@ -41,6 +45,8 @@ public class OrderServiceImp implements OrderService, UiService {
 	private OrderProductRepository orderProductRepo;
 
 	private UserRepository userRepo;
+    @Autowired
+    private OrderRepository orderRepository;
 
 	@Autowired
 	public OrderServiceImp(PaymentTypeRepository paymentTypeRepo,
@@ -68,7 +74,14 @@ public class OrderServiceImp implements OrderService, UiService {
 	}
 
 	@Override
+	@Transactional
 	public void delete(Long orderId) {
+		Optional<Order> orderDeleted = orderRepo.findById(orderId);
+		orderDeleted.ifPresentOrElse(e -> {
+					orderProductRepo.deleteAll(e.getOrderProduct());
+				}
+
+		, () -> log.info("Không tìm thấy đơn đặt hàng !"));
 		orderRepo.deleteById(orderId);
 	}
 

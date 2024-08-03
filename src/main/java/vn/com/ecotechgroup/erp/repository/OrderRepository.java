@@ -30,14 +30,17 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 //		, nativeQuery = true )
 
 	@Query("SELECT o FROM Order o " + "LEFT JOIN o.orderProduct oo "
-			+ "LEFT JOIN o.orderProduct.product oop " + "WHERE "
+			+ "WHERE "
 			+ "( :searchTerm is null " + "OR :searchTerm = '' "
 			+ "OR LOWER(o.description) LIKE %:searchTerm%  "
+			+ "OR LOWER(o.customer.code) LIKE %:searchTerm% "
 			+ "OR LOWER(o.customer.name) LIKE %:searchTerm% "
 			+ "OR LOWER(o.paymentType.name) LIKE %:searchTerm% "
 			+ "OR LOWER(oo.product.name) LIKE %:searchTerm% "
 			+ "OR LOWER(oo.product.code) LIKE %:searchTerm% "
-			+ "OR ( is_null(:searchTerm) = false AND o.totalPrice = CAST(:searchTerm AS integer))) ")
+			+ "OR LOWER(o.userOrdered.userName) LIKE %:searchTerm% "
+			+ "OR LOWER(o.userOrdered.fullName) LIKE %:searchTerm% "
+			 + ")")
 	Page<Order> orderSearchList(Pageable pageable,
 			@Param("searchTerm") String searchTerm);
 
@@ -60,7 +63,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	@Query("SELECT o FROM Order o " + "LEFT JOIN o.userOrdered ou "
 			+ "LEFT JOIN o.orderProduct oo "
-			+ "LEFT JOIN o.orderProduct.product oop "
 			+ "WHERE o.userOrdered.id = :user_id " + "AND "
 			+ "( :searchTerm is null " + "OR :searchTerm = '' "
 			+ "OR LOWER(o.description) LIKE %:searchTerm%  "
@@ -68,7 +70,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 			+ "OR LOWER(o.paymentType.name) LIKE %:searchTerm% "
 			+ "OR LOWER(oo.product.name) LIKE %:searchTerm% "
 			+ "OR LOWER(oo.product.code) LIKE %:searchTerm% "
-			+ "OR ( is_null(:searchTerm) = false AND o.totalPrice = CAST(:searchTerm AS integer))) ")
+			+ ")")
 	Page<Order> orderSearchListUser(Pageable pageable,
 			@Param("user_id") Long user_id,
 			@Param("searchTerm") String searchTerm);

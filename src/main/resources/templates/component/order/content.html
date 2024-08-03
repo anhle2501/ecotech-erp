@@ -26,7 +26,7 @@
 				<div>
 					<div class="row">
 						<div class="col ">
-							<div th:replace="~{component/search-box::searchBox(name=order)}"></div>
+							<div th:replace="~{component/search-box::searchBox(name='order', info='tên,mã,sản phẩm,tạo bởi')}"></div>
 						</div>
 						<div class="col d-flex ">
 							<div class="btn-group w-100">
@@ -71,9 +71,10 @@
 								<button th:onclick="@{|window.location.href='/order/${c.id}/show'|}" type="button"
 									class="btn btn-info">Xem</button>
 								<button type="button" th:onclick="@{|window.location.href='/order/${c.id}'|}"
-									class="btn btn-warning">Sửa</button>
+										th:class="${ (c.isConfirm == true) ? 'd-none' : 'btn btn-warning'}"
+								>Sửa</button>
 								<button th:onclick="@{|window.location.href='/order/delete/${c.id}'|}" type="submit"
-									class="btn btn-danger">Xoá</button>
+										th:class="${ (c.isConfirm == true) ? 'd-none' : 'btn btn-danger'}">Xoá</button>
 							</div>
 						</td>
 					</tr>
@@ -82,5 +83,5 @@
 		</table>
 
 	</div>
-	<div th:replace="~{component/pagination::page(name=${order}, link=order, pageRange=5)}"></div>
+	<div th:replace="~{component/pagination::page(name=${order}, link='order', pageRange=5)}"></div>
 </div>

@@ -19,7 +19,7 @@
 						<div >
 								<div class="row">
 										<div class="col ">
-											<div th:replace="~{component/search-box::searchBox(name=customer)}"></div>
+											<div th:replace="~{component/search-box::searchBox(name='customer', info='tên, mã...')}"></div>
 										</div>
 										<div class="col">
 											<div class="btn-group w-100">
@@ -58,5 +58,5 @@
 				</tbody>
 		</table>
 		<div
-				th:replace="~{component/pagination::page(name=${customer}, link=customer, pageRange=5)}"></div>
+				th:replace="~{component/pagination::page(name=${customer}, link='customer', pageRange=5)}"></div>
 </div>

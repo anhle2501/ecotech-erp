@@ -52,7 +52,7 @@ public class CustomerControllerUser {
 			customerList = customerRepo.customerSearchListUser(
 					PageRequest.of(pageNumber, pageSize,
 							Sort.by("createdDate").descending()),
-					(Long) user.getId(), searchTerm);
+					user == null ? null : (Long) user.getId(), searchTerm);
 		} else {
 			customerList = customerRepo.customerSearchListUser(
 					PageRequest.of(pageNumber, pageSize,

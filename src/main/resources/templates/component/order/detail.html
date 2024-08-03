@@ -74,7 +74,7 @@
 		<label class="form-check-label" for="flexSwitchCheckDefault">Phê duyệt</label>
 	</div>
 
-	<a th:href="@{/admin/order/0/50}"><button type="button" class="btn btn-secondary w-25">
+	<a th:href="@{/order/0/50}"><button type="button" class="btn btn-secondary w-25">
 		Quay lại
 	</button></a>
 	</form>
@@ -214,6 +214,10 @@
 		</div>
 
 <div th:fragment="update-order">
+
+	<div th:if="${order.isConfirm == true}">Đơn hàng đã được duyệt, bạn không thể sửa</div>
+
+	<div th:if="${order.isConfirm == false}">
 
 	<form th:action="@{  ${id} ? '/order/' + ${id} : '/order' }" method="POST" th:object="${order}">
 		<h3 class="d-inline">Cập nhật đơn hàng</h3><span th:class="${ (order.isConfirm == true ) ? 'badge text-bg-success m-2 ' : 'badge text-bg-secondary m-2 '}" th:text="${ (order.isConfirm == true) ? 'Đã duyệt' : 'Chưa duyệt'} "> </span>
@@ -360,4 +364,6 @@
 			Quay lại
 		</button></a>
 	</form>
+
+	</div>
 </div>
