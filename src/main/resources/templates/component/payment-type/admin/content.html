@@ -32,7 +32,7 @@
 						<tr th:each="c, iterator : ${paymentType}" th:with="count=0">
 								<td scope="row" th:text="${c.id}"></td>
 								<td th:text="${c.name}"></td>
-								<td th:text="${c.day}"></td>
+								<td th:text="${c.debtDay}"></td>
 								<td th:text="${c.createdBy?.userName}"></td>
 								<td th:text="${#temporals.format(c.createdDate, 'HH:mm a dd-MM-yyyy')}"></td>
 								<td th:text="${c.description}"></td>

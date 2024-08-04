@@ -32,7 +32,7 @@ public abstract class AuditableData {
 
 	@JsonManagedReference
 	@CreatedBy
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne
 	@JoinColumn(name = "created_by", updatable = false)
 	protected User createdBy;
 

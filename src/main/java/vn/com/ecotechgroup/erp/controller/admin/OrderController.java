@@ -181,6 +181,11 @@ public class OrderController {
 			model.addAttribute("isList", true);
 			return RETURN_PAGE;
 		} else {
+			// check select value of customer to update and erase
+//			if (order.getCustomer().getId() != user.getId()) {
+//
+//			}
+
 			// if confirm update user who conform
 			if (order.getIsConfirm() == true) {
 				orderService.confirmOrder(order.getId(), user);
@@ -199,7 +204,6 @@ public class OrderController {
 	@Transactional
 	public String deleteOrder(@PathVariable("id") Long id, Model model) {
 		try {
-			System.out.println(id);
 			orderService.delete(id);
 //			System.out.println(tRep); 
 
@@ -280,7 +284,7 @@ public class OrderController {
 		return showOrderList(model, default_page, default_page_size, null);
 	}
 
-	@GetMapping(value = "/{id}/confirm")
+	@GetMapping("/{id}/confirm")
 	public String confirmOrder(Model model, @PathVariable("id") long id,
 			@AuthenticationPrincipal User user) {
 		orderService.confirmOrder(id, user);

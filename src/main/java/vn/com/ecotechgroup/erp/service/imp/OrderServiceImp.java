@@ -28,6 +28,7 @@ import vn.com.ecotechgroup.erp.repository.OrderRepository;
 import vn.com.ecotechgroup.erp.repository.PaymentTypeRepository;
 import vn.com.ecotechgroup.erp.repository.ProductRepository;
 import vn.com.ecotechgroup.erp.repository.UserRepository;
+import vn.com.ecotechgroup.erp.service.OrderRepositoryCustom;
 import vn.com.ecotechgroup.erp.service.OrderService;
 import vn.com.ecotechgroup.erp.service.UiService;
 
@@ -47,6 +48,9 @@ public class OrderServiceImp implements OrderService, UiService {
 	private UserRepository userRepo;
     @Autowired
     private OrderRepository orderRepository;
+
+	@Autowired
+	private OrderRepositoryCustom orderRepoCustom;
 
 	@Autowired
 	public OrderServiceImp(PaymentTypeRepository paymentTypeRepo,
@@ -77,12 +81,17 @@ public class OrderServiceImp implements OrderService, UiService {
 	@Transactional
 	public void delete(Long orderId) {
 		Optional<Order> orderDeleted = orderRepo.findById(orderId);
-		orderDeleted.ifPresentOrElse(e -> {
-					orderProductRepo.deleteAll(e.getOrderProduct());
+		orderDeleted.ifPresentOrElse(o -> {
+					o.setCustomer(null);
+					o.setPaymentType(null);
+					o.setUserOrdered(null);
+
+					System.out.println("delete star");
+					orderRepo.delete(o);
 				}
 
 		, () -> log.info("Không tìm thấy đơn đặt hàng !"));
-		orderRepo.deleteById(orderId);
+
 	}
 
 	@Override
@@ -172,4 +181,7 @@ public class OrderServiceImp implements OrderService, UiService {
 		model.addAttribute("productListShow", productList);
 	}
 
+	public Page<Order> getOrdersWithOrdinal(Pageable pageable) {
+		return orderRepoCustom.findAllWithOrdinal(pageable);
+	}
 }

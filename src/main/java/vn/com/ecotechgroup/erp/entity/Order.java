@@ -40,15 +40,7 @@ public class Order implements Serializable {
 	@CreatedDate // phai dung jpa auditing
 	private LocalDateTime createAt;
 
-//	@ManyToMany(fetch = FetchType.LAZY)
-//	@JoinTable(
-//			name = "order_product",
-//			joinColumns = @JoinColumn(name = "order_id"),
-//			inverseJoinColumns = @JoinColumn(name = "product_id")
-//			)
-//	private List<Product> productsList;
-
-	@OneToMany(mappedBy = "order", cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, orphanRemoval = true)
 	@JsonManagedReference
 	private List<OrderProduct> orderProduct = new ArrayList<>();
 
@@ -100,6 +92,9 @@ public class Order implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "confirm_by")
 	private User confirmByUser;
+
+//	@Transient
+//	private Long ordinalNumber;
 
 	public void addProduct(Product product, int price, int quantity) {
 		if (this.getOrderProduct().size() == 0) {

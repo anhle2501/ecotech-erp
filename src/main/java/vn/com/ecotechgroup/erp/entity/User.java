@@ -36,7 +36,7 @@ import lombok.ToString;
 import static java.util.Collections.sort;
 
 @Entity
-@Table(name = "user", schema = "ecotechgroup_erp")
+@Table(name = "\"user\"", schema = "ecotechgroup_erp")
 @NoArgsConstructor(access = AccessLevel.PUBLIC, force = true)
 @Data
 public class User implements UserDetails, Serializable{

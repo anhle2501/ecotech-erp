@@ -85,14 +85,14 @@ public class CustomerRepositoryTest {
     @Test
     void testCustomerSearchListUser() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Customer> page = customerRepository.customerSearchListUser(pageable, user.getId(), "Customer");
+        Page<Customer> page = customerRepository.customerSearchListUser(pageable, (Long) user.getId(), "Customer");
 
         assertThat(page.getContent()).hasSize(2);
     }
 
     @Test
     void testFindAllCustomerById() {
-        List<Customer> customers = customerRepository.findAllCustomerForUser(user.getId());
+        List<Customer> customers = customerRepository.findAllCustomerForUser( (Long) user.getId());
 
         assertThat(customers).hasSize(2);
     }

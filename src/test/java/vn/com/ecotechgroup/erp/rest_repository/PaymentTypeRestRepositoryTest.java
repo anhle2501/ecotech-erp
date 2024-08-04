@@ -64,7 +64,7 @@ public class PaymentTypeRestRepositoryTest {
 	public static void setUp() {
 		PaymentTypeTest test = new PaymentTypeTest();
 		paymentTypeTest = test.getPaymentType();
-		paymentTypeTest.setDay(60);
+		paymentTypeTest.setDebtDay(60);
 		paymentTypeTest.setName("test payment");
 	}
 

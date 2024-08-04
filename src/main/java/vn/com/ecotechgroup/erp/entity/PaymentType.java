@@ -1,31 +1,27 @@
 package vn.com.ecotechgroup.erp.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Check;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import vn.com.ecotechgroup.erp.audit.AuditableData;
 
-@SuperBuilder
-@Data
-@EqualsAndHashCode(callSuper = false)
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "payment_type", schema = "ecotechgroup_erp")
-//@EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
+@SuperBuilder
 public class PaymentType extends AuditableData implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -43,8 +39,26 @@ public class PaymentType extends AuditableData implements Serializable {
 	@Size(max = 1000, message = "Độ dài quá 1000 ký tự !")
 	private String description;
 
-	@Column
-	@Max(value = 255, message = "Tối đa nợ 255 ngày.")
-	private int day;
+	@Column(name="debt_day", columnDefinition = "integer default 0")
+	@Max(value = 255, message = "Nợ tối đa 255 ngày!")
+	@Min(value = 0, message = "Nợ tối thiểu 0")
+	private int debtDay;
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		PaymentType that = (PaymentType) o;
+		return id == that.id && debtDay == that.debtDay && Objects.equals(name, that.name) && Objects.equals(description, that.description);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = Long.hashCode(id);
+		result = 31 * result + Objects.hashCode(name);
+		result = 31 * result + Objects.hashCode(description);
+		result = 31 * result + debtDay;
+		return result;
+	}
 }

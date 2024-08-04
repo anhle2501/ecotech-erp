@@ -13,9 +13,9 @@
 				
 				<div class="input-group mb-3">
 					<span class="input-group-text">Số ngày nợ</span>
-					<input th:readonly="true" class="form-control" type="text" th:field="*{day}">
-					<span class="validationError input-group-text" th:if="${#fields.hasErrors('day')}"
-						th:errors="*{day}"></span>
+					<input th:readonly="true" class="form-control" type="text" th:field="*{debtDay}">
+					<span class="validationError input-group-text" th:if="${#fields.hasErrors('debtDay')}"
+						th:errors="*{debtDay}"></span>
 				</div>
 				
 				<div class="input-group mb-3">
@@ -46,12 +46,12 @@
 			          th:errors="*{name}"></span>
 				  <input class="form-control" type="text" th:field="*{name}" > 
 				   <br/> 
-				   <label class="form-label" for="*{day}">Số ngày nợ</label> 
+				   <label class="form-label" for="*{debtDay}">Số ngày nợ</label> 
 				   <span class="validationError"
-			          th:if="${#fields.hasErrors('day')}"
-			          th:errors="*{day}"></span>
+			          th:if="${#fields.hasErrors('debtDay')}"
+			          th:errors="*{debtDay}"></span>
 				  
-				  <input class="form-control" type="text" th:field="*{day}" >
+				  <input class="form-control" type="text" th:field="*{debtDay}" >
 				  <br/> 
 				  <label class="form-label" for="*{description}">Ghi chú</label> 
 				  <input class="form-control" type="text" th:field="*{description}" >
@@ -75,12 +75,12 @@
 			          th:errors="*{name}"></span>
 				  <input class="form-control" type="text" th:field="*{name}" > 
 				    <br/> 
-				  <label class="form-label" for="*{day}">Số ngày nợ</label> 
+				  <label class="form-label" for="*{debtDay}">Số ngày nợ</label> 
 				   <span class="validationError"
-			          th:if="${#fields.hasErrors('day')}"
-			          th:errors="*{day}"></span>
+			          th:if="${#fields.hasErrors('debtDay')}"
+			          th:errors="*{debtDay}"></span>
 				  
-				  <input class="form-control" type="text" th:field="*{day}" >
+				  <input class="form-control" type="text" th:field="*{debtDay}" >
 				  <br/> 
 				  <label class="form-label" for="*{description}">Ghi chú</label> 
 				  <input class="form-control" type="text" th:field="*{description}" >

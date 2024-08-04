@@ -18,7 +18,7 @@ public class PaymentTypeTest {
 	private User user = new UserTest().getUser();
 
 	public PaymentTypeTest() {
-		paymentType = PaymentType.builder().day(30).description("30 ngày")
+		paymentType = PaymentType.builder().debtDay(30).description("30 ngày")
 				.createdBy(user).name("Thanh toán").build();
 	}
 
@@ -35,7 +35,7 @@ public class PaymentTypeTest {
 	void get_info_attribute() {
 		assertThat(paymentType.getDescription()).isEqualTo("30 ngày");
 		assertThat(paymentType.getName()).isEqualTo("Thanh toán");
-		assertThat(paymentType.getDay()).isEqualTo(30);
+		assertThat(paymentType.getDebtDay()).isEqualTo(30);
 		assertThat(paymentType.getCreatedBy()).isEqualTo(user);
 	}
 
