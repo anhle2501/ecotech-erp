@@ -9,14 +9,11 @@ import vn.com.ecotechgroup.erp.entity.Region;
 import vn.com.ecotechgroup.erp.entity.Role;
 import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.entity.dto.UserDTO;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
+import vn.com.ecotechgroup.erp.service.UserService;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-//    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
 //    @Mapping(source = "listRole", target = "listRole", qualifiedByName = "mapRoles")
 //    @Mapping(source = "regions", target = "regions", qualifiedByName = "mapRegions")

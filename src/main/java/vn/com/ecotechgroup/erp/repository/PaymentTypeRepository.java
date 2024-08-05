@@ -13,8 +13,10 @@ import vn.com.ecotechgroup.erp.entity.PaymentType;
 public interface PaymentTypeRepository
 		extends JpaRepository<PaymentType, Long> {
 
-	@Query("SELECT p FROM PaymentType p " + "WHERE p.name LIKE %:searchTerm% "
-			+ "OR p.description LIKE %:searchTerm% ")
+	@Query("SELECT p FROM PaymentType p WHERE " +
+			"( :searchTerm IS NULL OR :searchTerm = '' " +
+			"OR p.name LIKE %:searchTerm% " +
+			"OR p.description LIKE %:searchTerm% )")
 	Page<PaymentType> paymentTypeSearchList(Pageable pageable,
 			@Param("searchTerm") String searchTerm);
 

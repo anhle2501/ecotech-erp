@@ -95,7 +95,7 @@
 														th:value="${p.id}" th:text="|Tên: ${p.name} |"></option>
 										</div>
 								</select>
-								<a class="btn btn-success" th:href="@{/customer/new-customer}">Thêm</a>
+								<a class="btn btn-success" th:href="@{/admin/customer/new-customer}">Thêm</a>
 									
 						</div>
 						
@@ -107,7 +107,7 @@
 												<option th:value="${p.id}" th:text="|Mã sp: ${p.code} - Tên sp: ${p.name}|"></option>
 										</div>
 								</select>
-								<a class="btn btn-success" th:href="@{/product/new-product}">Thêm</a>
+								<a class="btn btn-success" th:href="@{/admin/product/new-product}">Thêm</a>
 						</div>
 
 						<div class="d-md-flex gap-3">
@@ -194,7 +194,7 @@
 												<div th:each="p: ${paymentTypeList}">
 														<option
 																th:selected="${#arrays.contains(p.id, newOrder.paymentType.id)}"
-																th:value="${p.id}" th:text="|Tên: ${p.name} Mô tả: ${p.description} Số ngày nợ: ${p.day}|"></option>
+																th:value="${p.id}" th:text="|Tên: ${p.name} Mô tả: ${p.description} Số ngày nợ: ${p.debtDay}|"></option>
 												</div>
 										</select>
 								</div>

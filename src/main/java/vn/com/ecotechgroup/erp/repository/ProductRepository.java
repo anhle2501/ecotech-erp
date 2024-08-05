@@ -13,8 +13,10 @@ import vn.com.ecotechgroup.erp.entity.Product;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	@Query("SELECT p FROM Product p " + "WHERE "
-			+ "p.name LIKE %:searchTerm% "
-			+ "OR p.code LIKE %:searchTerm% "
-			+ "OR p.description LIKE %:searchTerm% ")
+			+ "( :searchTerm is null " + "OR :searchTerm = '' "
+			+ "OR LOWER(p.name) LIKE %:searchTerm% "
+			+ "OR LOWER(p.code) LIKE %:searchTerm% "
+			+ "OR LOWER(p.description) LIKE %:searchTerm% "
+			+ ")")
 	Page<Product> productSearchList(Pageable pageable, String searchTerm);
 }

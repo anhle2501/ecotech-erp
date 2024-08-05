@@ -12,12 +12,12 @@
 				</thead>
 				<tbody>
 						<h3>Danh sách phương thức thanh toán</h3>
-						<div class="row">
-								<div class="col ">
+						<div class="d-flex flex-column flex-md-row">
+								<div class="w-100">
 										<div
 												th:replace="~{component/search-box::searchBox(name=payment-type)}"></div>
 								</div>
-								<div class="col ">
+								<div class="w-100">
 									<div class="btn-group w-100">
 												<button type="button" class="btn btn-secondary w-50" style="margin-right:-5px; height:60px"
 														th:onclick="window.history.back()">Quay lại</button>

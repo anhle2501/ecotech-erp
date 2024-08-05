@@ -27,11 +27,11 @@
 			<tbody>
 				<h3>Danh sách đặt hàng</h3>
 				<div>
-					<div class="row">
-						<div class="col ">
+					<div class="d-flex flex-column flex-md-row">
+						<div class="w-100">
 							<div th:replace="~{component/search-box::searchBox(name='admin/order', info='tên,mã,sản phẩm,tạo bởi')}"></div>
 						</div>
-						<div class="col d-flex ">
+						<div class="w-100">
 							<div class="btn-group w-100">
 								<button type="button" class="btn btn-secondary w-50"
 									style="margin-right:-5px; height:60px" th:onclick="window.history.back()">Quay

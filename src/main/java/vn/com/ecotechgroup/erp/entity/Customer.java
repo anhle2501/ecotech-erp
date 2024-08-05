@@ -29,8 +29,8 @@ public class Customer extends AuditableData implements Serializable {
 	private long id;
 
 	@Size(max = 45, message = "Độ dài quá 45 ký tự !")
-	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Mã có định dạng liên tục !")
-	@Column(length = 45, unique = true)
+//	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Mã có định dạng liên tục !")
+	@Column(length = 45, unique = true, updatable = false, nullable = false)
 	private String code;
 
 	@NotBlank(message = "Không được để trống !")

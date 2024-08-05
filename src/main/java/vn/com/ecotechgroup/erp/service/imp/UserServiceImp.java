@@ -26,7 +26,7 @@ public class UserServiceImp implements UserService {
 	private PasswordEncoder passwordEncoder;
 	private RegionRepository regionRep;
 	private RoleRepository roleRepo;
-	private final UserMapper userMapper;
+	private UserMapper userMapper;
 
 	@Autowired
 	public UserServiceImp(UserRepository userRepo, RoleRepository roleRepo,

@@ -1,0 +1,1 @@
+CREATE SEQUENCE customer_code_seq START 472 INCREMENT 1;

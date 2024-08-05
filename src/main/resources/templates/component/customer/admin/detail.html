@@ -82,12 +82,12 @@
 
 	<form th:action="@{/admin/customer/new-customer}" th:object="${customer}" method="POST">
 
-		<div class="input-group mb-3">
-			<span class="input-group-text">Mã Khách hàng *</span>
-			<input class="form-control" type="text" th:field="*{code}">
-			<span class="validationError input-group-text" th:if="${#fields.hasErrors('code')}"
-				  th:errors="*{code}"></span>
-		</div>
+<!--		<div class="input-group mb-3">-->
+<!--			<span class="input-group-text">Mã Khách hàng *</span>-->
+<!--			<input class="form-control" type="text" th:field="*{code}">-->
+<!--			<span class="validationError input-group-text" th:if="${#fields.hasErrors('code')}"-->
+<!--				  th:errors="*{code}"></span>-->
+<!--		</div>-->
 
 		<div class="input-group mb-3">
 			<span class="input-group-text">Tên khách hàng *</span>
@@ -148,12 +148,12 @@
 	<form th:action="@{|/admin/customer/${id}|}" th:object="${customer}" method="POST">
 
 		<input class="form-control" type="hidden" th:field="*{id}">
-		<div class="input-group mb-3">
-			<span class="input-group-text">Mã Khách hàng *</span>
-			<input class="form-control" type="text" th:field="*{code}">
-			<span class="validationError input-group-text" th:if="${#fields.hasErrors('code')}"
-				th:errors="*{code}"></span>
-		</div>
+<!--		<div class="input-group mb-3">-->
+<!--			<span class="input-group-text">Mã Khách hàng *</span>-->
+<!--			<input class="form-control" type="text" th:field="*{code}">-->
+<!--			<span class="validationError input-group-text" th:if="${#fields.hasErrors('code')}"-->
+<!--				th:errors="*{code}"></span>-->
+<!--		</div>-->
 
 		<div class="input-group mb-3">
 			<span class="input-group-text">Tên khách hàng *</span>

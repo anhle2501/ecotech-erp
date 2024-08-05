@@ -34,13 +34,13 @@ public class Product extends AuditableData implements Serializable {
 	@Column(name = "id", unique = true, nullable = false)
 	private long id;
 
-	@Column(length = 45, unique = true)
-	@Size(max = 45, message = "Độ dài quá 45 ký tự !")
+	@Column(length = 100, unique = true)
+	@Size(max = 100, message = "Độ dài quá 45 ký tự !")
 //	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Mã có định dạng liên tục !")
 	private String code;
 
-	@Size(min = 5, max = 100, message = "Độ dài từ 5-100 ký tự !")
-	@Column(length = 100, unique = true)
+	@Size(min = 5, max = 500, message = "Độ dài từ 5-100 ký tự !")
+	@Column(length = 500, unique = true)
 	private String name;
 
 	@Column(length = 1000)
