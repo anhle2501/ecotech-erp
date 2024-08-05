@@ -5,14 +5,17 @@
 		<table class="table table-striped ">
 			<thead>
 				<tr>
-					<th scope="col">Mã</th>
+					<th scope="col">STT</th>
+					<th scope="col">Ngày đặt hàng</th>
 					<th scope="col">Khách hàng</th>
-					<th scope="col">Mã hàng</th>
-					<th scope="col">Sản phẩm</th>
-					<th scope="col">Giá trị</th>
+					<th scope="col">Giá trị ĐH</th>
 					<th scope="col">PTTT</th>
-					<th scope="col">Mô tả</th>
-					<th scope="col">Ngày tạo</th>
+<!--					<th scope="col">Mã hàng</th>-->
+					<th scope="col">Sản phẩm</th>
+
+
+<!--					<th scope="col">Mô tả</th>-->
+
 					<th scope="col">Người tạo</th>
 					<th scope="col">Duyệt</th>
 					<th scope="col">Người duyệt</th>
@@ -42,17 +45,20 @@
 					<tr th:each="c, iterator : ${order}">
 						<!-- ${iterator.index + 1} -->
 						<td scope="row" th:text="${c.id}"></td>
+						<td th:text="${#temporals.format(c.createAt, 'HH:mm a dd-MM-yyyy')}"></td>
 						<td th:text="${c.customer?.name}"></td>
+						<td th:text="${#numbers.formatDecimal(c.totalPrice, 0, 'POINT', 0, 'POINT')}"></td>
+						<td th:text="${c.paymentType?.name}"></td>
 						<td th:if="${c.orderProduct.size() == 0}" th:text="${'Không có sản phẩm'}" colspan="2">
 
 
 						</td>
-						<td th:if="${c.orderProduct.size() > 0}" th:text="${c.orderProduct[0].product.code}">
+<!--						<td th:if="${c.orderProduct.size() > 0}" th:text="${c.orderProduct[0].product.code}">-->
 						<td th:if="${c.orderProduct?.size() > 0}" th:text="${c.orderProduct[0].product.name}"></td>
-						<td th:text="${c.totalPrice}"></td>
-						<td th:text="${c.paymentType?.name}"></td>
-						<td th:text="${c.description}"></td>
-						<td th:text="${#temporals.format(c.createAt, 'HH:mm a dd-MM-yyyy')}"></td>
+
+
+<!--						<td th:text="${c.description}"></td>-->
+
 						<td th:text="${c.userOrdered?.userName}"></td>
 
 						<td>

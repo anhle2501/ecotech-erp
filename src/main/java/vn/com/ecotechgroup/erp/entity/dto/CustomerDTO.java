@@ -1,4 +1,4 @@
-package vn.com.ecotechgroup.erp.dto;
+package vn.com.ecotechgroup.erp.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

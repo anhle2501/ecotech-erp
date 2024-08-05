@@ -70,6 +70,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 			+ "OR LOWER(o.paymentType.name) LIKE %:searchTerm% "
 			+ "OR LOWER(oo.product.name) LIKE %:searchTerm% "
 			+ "OR LOWER(oo.product.code) LIKE %:searchTerm% "
+			+ "OR LOWER(o.userOrdered.userName) LIKE %:searchTerm% "
+			+ "OR LOWER(o.userOrdered.fullName) LIKE %:searchTerm% "
 			+ ")")
 	Page<Order> orderSearchListUser(Pageable pageable,
 			@Param("user_id") Long user_id,

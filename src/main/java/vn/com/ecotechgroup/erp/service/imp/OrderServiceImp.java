@@ -171,9 +171,9 @@ public class OrderServiceImp implements OrderService, UiService {
 	@Override
 	public void getInformationForUser(Model model, User user) {
 		List<PaymentType> paymentTypeList = paymentTypeRepo.findAll();
-
+		Long id = user.getId();
 		List<Customer> customerList = customerRepo
-				.findAllCustomerForUser(Long.valueOf(user.getId()));
+				.findAllCustomerForUser(id);
 
 		List<Product> productList = productRepo.findAll();
 		model.addAttribute("paymentTypeList", paymentTypeList);

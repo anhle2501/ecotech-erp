@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.com.ecotechgroup.erp.entity.Region;
 import vn.com.ecotechgroup.erp.entity.Role;
 import vn.com.ecotechgroup.erp.entity.User;
+import vn.com.ecotechgroup.erp.entity.dto.UserDTO;
+import vn.com.ecotechgroup.erp.entity.mapper.UserMapper;
 import vn.com.ecotechgroup.erp.repository.RegionRepository;
 import vn.com.ecotechgroup.erp.repository.RoleRepository;
 import vn.com.ecotechgroup.erp.repository.UserRepository;
@@ -22,95 +24,101 @@ public class UserServiceImp implements UserService {
 
 	private UserRepository userRepo;
 	private PasswordEncoder passwordEncoder;
-	@Autowired
 	private RegionRepository regionRep;
 	private RoleRepository roleRepo;
+	private final UserMapper userMapper;
 
 	@Autowired
 	public UserServiceImp(UserRepository userRepo, RoleRepository roleRepo,
-			PasswordEncoder passwordEncoder) {
+			PasswordEncoder passwordEncoder,
+						  RegionRepository regionRep,
+						  UserMapper userMapper) {
 		this.userRepo = userRepo;
 		this.roleRepo = roleRepo;
 		this.passwordEncoder = passwordEncoder;
-
+		this.regionRep = regionRep;
+		this.userMapper = userMapper;
 	}
 
 	@Override
 	public boolean checkUserNameDuplicate(String userName) {
-		Optional<User> optU = Optional
-				.ofNullable(userRepo.findByUserName(userName));
-		if (optU.isEmpty())
-			return false;
-		return true;
+		return userRepo.findByUserName(userName) != null;
 	}
 
-	@Override
-	public User save(User t) {
-		// add user
-		String pw = t.getPassword();
-		// encrypt password
-		pw = passwordEncoder.encode(pw);
-		t.setPassword(pw);
+
+	public User save(User user) {
+		// Encrypt password
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		// add role
 		Role role = roleRepo.getRoleByName("ROLE_USER");
-		System.out.println(role);
-		t.getListRole().add(role);
-		User user = userRepo.save(t);
-		return user;
+		user.getListRole().add(role);
+
+		// save and return
+        return userRepo.save(user);
 
 	}
 
 	@Override
 	@Transactional
-	public User update(User t) {
-		// get old pw
-		User oldUser = userRepo.getReferenceById(t.getId());
-		String oldPw = oldUser.getPassword();
-		String pw = t.getPassword();
-		// encrypt password
-		boolean mathces = passwordEncoder.matches(oldPw, pw);
-		boolean eequal = passwordEncoder.encode(pw).equals(oldUser.getPassword());
-		// it pw change -> set new pw
-		if (!mathces
-				&& !passwordEncoder.encode(pw).equals(oldUser.getPassword())) {
-			t.setPassword(passwordEncoder.encode(pw));
-		} else {
-			t.setPassword(oldPw);
+	public UserDTO update(UserDTO userDTO) {
+		User oldUser = userRepo.findById(userDTO.getId())
+				.orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+		// Update user entity from DTO except for password
+		userMapper.updateUserFromDTO(userDTO, oldUser);
+
+		if (userDTO.getRegions() != null) {
+			oldUser.getRegions().removeIf(region ->
+					userDTO.getRegions().stream().noneMatch(r -> r.getId() == region.getId())
+			);
+
+			for (Region regionDTO : userDTO.getRegions()) {
+				Optional<Region> existingRegion = regionRep.findById(regionDTO.getId());
+				if (existingRegion.isPresent()) {
+					Region region = existingRegion.get();
+					if (!oldUser.getRegions().contains(region)) {
+						region.getUsers().add(oldUser);
+						oldUser.getRegions().add(region);
+					}
+				} else {
+					Region newRegion = new Region();
+					newRegion.setName(regionDTO.getName());
+					newRegion.setDescription(regionDTO.getDescription());
+					newRegion.getUsers().add(oldUser);
+					regionRep.save(newRegion);
+					oldUser.getRegions().add(newRegion);
+				}
+			}
 		}
 
-		//update region
-		if (t.getRegions() != null && oldUser.getRegions() != null && !t.compareRegion(oldUser.getRegions()) ) {
-			t.getRegions().forEach( r -> {
-				Optional<Region> region = regionRep.findById(r.getId());
-				region.ifPresent( e -> e.getUsers().add(t));
-			});
-		}
-
-		return userRepo.save(t);
+		User updatedUser = userRepo.save(oldUser);
+		return userMapper.userToUserDTO(updatedUser);
 	}
 
 	@Override
 	public void delete(Long id) {
-		User user = userRepo.getReferenceById(id);
-		userRepo.delete(user);
+		userRepo.deleteById(id);
 	}
 
 	@Override
-	@Transactional
-	public User getOne(Long id) {
-		return userRepo.getReferenceById(id);
+	public UserDTO getOne(Long id) {
+		User user = userRepo.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("User not found"));
+		return userMapper.userToUserDTO(user);
 	}
 
 	@Override
-	public Page<User> getListPage(Pageable pageable, String searchTerm) {
-		return userRepo.userSearchList(pageable, searchTerm, "userName");
+	public Page<UserDTO> getListPage(Pageable pageable, String searchTerm) {
+		Page<User> users = userRepo.userSearchList(pageable, searchTerm, "userName");
+		return users.map(userMapper::userToUserDTO);
 	}
 
 	@Override
-	public User getUserName(String userName) {
-		
-		return userRepo.findByUserName(userName);
+	@Transactional(readOnly = true)
+	public UserDTO getUserName(String userName) {
+		User user = userRepo.findByUserName(userName);
+		return userMapper.userToUserDTO(user);
 	}
 
 }

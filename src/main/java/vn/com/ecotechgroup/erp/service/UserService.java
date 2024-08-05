@@ -1,12 +1,26 @@
 package vn.com.ecotechgroup.erp.service;
 
-import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import vn.com.ecotechgroup.erp.entity.User;
+import vn.com.ecotechgroup.erp.entity.dto.UserDTO;
 
-public interface UserService extends CrudService<User> {
+public interface UserService{
 
-	public boolean checkUserNameDuplicate(String userName);
-	
-	public User getUserName(String userName);
+	boolean checkUserNameDuplicate(String userName);
+
+	void delete(Long id);
+
+	UserDTO getOne(Long id);
+
+	UserDTO getUserName(String userName);
+
+	UserDTO update(UserDTO userDTO);
+
+	User save(User user);
+
+	Page<UserDTO> getListPage(Pageable of, String searchTerm);
 
 }

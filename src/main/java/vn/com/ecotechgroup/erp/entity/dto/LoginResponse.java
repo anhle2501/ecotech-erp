@@ -1,4 +1,4 @@
-package vn.com.ecotechgroup.erp.dto;
+package vn.com.ecotechgroup.erp.entity.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
