@@ -72,11 +72,11 @@ public class CustomerController {
 			searchTerm = searchTerm.toLowerCase();
 			System.out.println(searchTerm);
 			customerList = cService.getListPage(PageRequest.of(pageNumber,
-					pageSize, Sort.by("createdDate").descending()), searchTerm);
+					pageSize, Sort.by("createdDate").ascending()), searchTerm);
 		} else {
 
 			customerList = customerRepo.findAll(PageRequest.of(pageNumber,
-					pageSize, Sort.by("createdDate").descending()));
+					pageSize, Sort.by("createdDate").ascending()));
 		}
 		model.addAttribute("customer", customerList);
 		model.addAttribute("isList", true);

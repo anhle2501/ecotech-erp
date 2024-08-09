@@ -51,12 +51,12 @@ public class CustomerControllerUser {
 			searchTerm = searchTerm.toLowerCase();
 			customerList = customerRepo.customerSearchListUser(
 					PageRequest.of(pageNumber, pageSize,
-							Sort.by("createdDate").descending()),
+							Sort.by("createdDate").ascending()),
 					user == null ? null : (Long) user.getId(), searchTerm);
 		} else {
 			customerList = customerRepo.customerSearchListUser(
 					PageRequest.of(pageNumber, pageSize,
-							Sort.by("createdDate").descending()),
+							Sort.by("createdDate").ascending()),
 					user == null ? null : (Long) user.getId(), null);
 		}
 		model.addAttribute("customer", customerList);

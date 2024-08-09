@@ -2,7 +2,7 @@
 		<table class="table table-striped">
 				<thead>
 						<tr>
-<!--								<th scope="col">Mã</th>-->
+								<th scope="col">Mã</th>
 								<th scope="col">Tên khách hàng</th>
 								<th scope="col">Địa chỉ</th>
 								<th scope="col">MST</th>
@@ -32,7 +32,7 @@
 								</div>
 						
 								<tr th:each="c, iterator : ${customer}">
-<!--										<td scope="row" th:text="${c.id}"></td>-->
+										<td scope="row" th:text="${c.code}"></td>
 										<td th:text="${c.name}"></td>
 										<td th:text="${c.address}"></td>
 										<td th:text="${c.taxCode}"></td>
