@@ -49,7 +49,7 @@
 						<td th:text="${c.customer?.name}"></td>
 						<td th:text="${#numbers.formatDecimal(c.totalPrice, 0, 'POINT', 0, 'POINT')}"></td>
 						<td th:text="${c.paymentType?.name}"></td>
-						<td th:if="${c.orderProduct.size() == 0}" th:text="${'Không có sản phẩm'}" colspan="2">
+						<td th:if="${c.orderProduct.size() == 0}" th:text="${'Không có sản phẩm'}" colspan="1">
 
 
 						</td>

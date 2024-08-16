@@ -29,20 +29,24 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 //		+ "GROUP BY o.id ;"
 //		, nativeQuery = true )
 
-	@Query("SELECT o FROM Order o " + "LEFT JOIN o.orderProduct oo "
-			+ "WHERE "
-			+ "( :searchTerm is null " + "OR :searchTerm = '' "
-			+ "OR LOWER(o.description) LIKE %:searchTerm%  "
-			+ "OR LOWER(o.customer.code) LIKE %:searchTerm% "
-			+ "OR LOWER(o.customer.name) LIKE %:searchTerm% "
-			+ "OR LOWER(o.paymentType.name) LIKE %:searchTerm% "
-			+ "OR LOWER(oo.product.name) LIKE %:searchTerm% "
-			+ "OR LOWER(oo.product.code) LIKE %:searchTerm% "
-			+ "OR LOWER(o.userOrdered.userName) LIKE %:searchTerm% "
-			+ "OR LOWER(o.userOrdered.fullName) LIKE %:searchTerm% "
-			 + ")")
+@Query("SELECT o FROM Order o " +
+		"LEFT JOIN o.orderProduct oo " +
+		"LEFT JOIN oo.product op " +
+		"WHERE (:searchTerm is null OR :searchTerm = '' )" +
+		"OR LOWER(o.description) LIKE %:searchTerm%  " +
+		"OR LOWER(o.customer.code) LIKE %:searchTerm% " +
+		"OR LOWER(o.customer.name) LIKE %:searchTerm% " +
+		"OR LOWER(o.paymentType.name) LIKE %:searchTerm% " +
+		"OR oo is null " +
+		"OR (oo is not null and LOWER(op.name) LIKE %:searchTerm% )" +
+		"OR (oo is not null and LOWER(op.code) LIKE %:searchTerm% )" +
+		"OR LOWER(o.userOrdered.userName) LIKE %:searchTerm% " +
+		"OR LOWER(o.userOrdered.fullName) LIKE %:searchTerm% "
+		)
 	Page<Order> orderSearchList(Pageable pageable,
 			@Param("searchTerm") String searchTerm);
+
+
 
 	// user
 //	@Query("SELECT o FROM Order o "
@@ -63,13 +67,15 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	@Query("SELECT o FROM Order o " + "LEFT JOIN o.userOrdered ou "
 			+ "LEFT JOIN o.orderProduct oo "
+			+ "LEFT JOIN oo.product op "
 			+ "WHERE o.userOrdered.id = :user_id " + "AND "
 			+ "( :searchTerm is null " + "OR :searchTerm = '' "
 			+ "OR LOWER(o.description) LIKE %:searchTerm%  "
 			+ "OR LOWER(o.customer.name) LIKE %:searchTerm% "
 			+ "OR LOWER(o.paymentType.name) LIKE %:searchTerm% "
-			+ "OR LOWER(oo.product.name) LIKE %:searchTerm% "
-			+ "OR LOWER(oo.product.code) LIKE %:searchTerm% "
+			+ "OR oo is null " +
+			"OR (oo is not null and LOWER(op.name) LIKE %:searchTerm% )"
+			+ "OR (oo is not null and LOWER(op.code) LIKE %:searchTerm% )"
 			+ "OR LOWER(o.userOrdered.userName) LIKE %:searchTerm% "
 			+ "OR LOWER(o.userOrdered.fullName) LIKE %:searchTerm% "
 			+ ")")

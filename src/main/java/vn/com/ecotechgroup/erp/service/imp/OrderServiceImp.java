@@ -1,6 +1,7 @@
 package vn.com.ecotechgroup.erp.service.imp;
 
 import java.time.LocalDateTime;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -68,7 +69,7 @@ public class OrderServiceImp implements OrderService, UiService {
 
 	@Override
 	public Order save(Order order) {
-
+		log.info(String.valueOf(order));
 		return orderRepo.save(order);
 	}
 
@@ -82,16 +83,16 @@ public class OrderServiceImp implements OrderService, UiService {
 	public void delete(Long orderId) {
 		Optional<Order> orderDeleted = orderRepo.findById(orderId);
 		orderDeleted.ifPresentOrElse(o -> {
+					log.info("Delete " + String.valueOf(o));
+					o.setConfirmByUser(null);
+					o.setUserOrdered(null);
 					o.setCustomer(null);
 					o.setPaymentType(null);
-					o.setUserOrdered(null);
-
-					System.out.println("delete star");
-					orderRepo.delete(o);
+					o.setUserModified(null);
+					Order order = orderRepo.save(o);  // Save the order to update associations
+					orderRepo.deleteById(order.getId());  // Then delet
 				}
-
 		, () -> log.info("Không tìm thấy đơn đặt hàng !"));
-
 	}
 
 	@Override

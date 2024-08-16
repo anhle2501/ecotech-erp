@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.*;
 
+import lombok.*;
 import org.hibernate.annotations.Formula;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,18 +28,16 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import static java.util.Collections.sort;
 
 @Entity
 @Table(name = "\"user\"", schema = "ecotechgroup_erp")
 @NoArgsConstructor(access = AccessLevel.PUBLIC, force = true)
-@Data
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
 public class User implements UserDetails, Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -54,6 +53,7 @@ public class User implements UserDetails, Serializable{
 	private String userName;
 
 	@JsonIgnore
+	@ToString.Exclude
 	@Column(length = 45, nullable = false)
 	@NotBlank(message = "Không để trống!")
 	@Length(min = 8, max = 1000, message = "Nhiều hơn 8 ký tự!")
@@ -100,12 +100,12 @@ public class User implements UserDetails, Serializable{
 	@JsonManagedReference
 	private List<Role> listRole = new ArrayList<>();
 
-	@ToString.Exclude
-	@OneToMany(mappedBy = "userOrdered", fetch = FetchType.EAGER, cascade = {
-			CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-			CascadeType.REFRESH })
-	@JsonBackReference
-	private List<Order> listOrders;
+//	@ToString.Exclude
+//	@OneToMany(mappedBy = "userOrdered", fetch = FetchType.EAGER, cascade = {
+//			CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+//			CascadeType.REFRESH })
+//	@JsonBackReference
+//	private List<Order> listOrders;
 
 	@ToString.Exclude
 	@OneToMany(mappedBy = "idUserBelong", fetch = FetchType.LAZY)
@@ -156,7 +156,6 @@ public class User implements UserDetails, Serializable{
 		for (String privilege : permission) {
 			authorities.add(new SimpleGrantedAuthority(privilege));
 		}
-		System.out.println(authorities);
 		return authorities;
 	}
 
@@ -252,4 +251,6 @@ public class User implements UserDetails, Serializable{
 		});
         return this.regions.equals(regions);
 	}
+
+
 }

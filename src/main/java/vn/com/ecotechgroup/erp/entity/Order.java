@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -15,18 +17,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Builder
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "an_order", schema = "ecotechgroup_erp")
 @EntityListeners(AuditingEntityListener.class)
+@ToString
 public class Order implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -40,7 +39,7 @@ public class Order implements Serializable {
 	@CreatedDate // phai dung jpa auditing
 	private LocalDateTime createAt;
 
-	@OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, targetEntity = OrderProduct.class, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<OrderProduct> orderProduct = new ArrayList<>();
 
@@ -50,7 +49,6 @@ public class Order implements Serializable {
 
 	@OneToOne
 	@JoinColumn(name = "payment_type_id")
-//	@NotNull(message="Không được để trống !")
 	private PaymentType paymentType = new PaymentType();
 
 	@Column(length = 1000)
@@ -145,5 +143,30 @@ public class Order implements Serializable {
 		this.paymentType = paymentType;
 		this.description = description;
 		Optional.of(totalPrice).ifPresentOrElse( (value -> this.totalPrice = value), () -> this.totalPrice = 0);
+	}
+
+	@Override
+	public final boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Order order)) return false;
+
+        return id == order.id && totalPrice == order.totalPrice && isConfirm == order.isConfirm && Objects.equals(createAt, order.createAt) && Objects.equals(customer, order.customer) && Objects.equals(paymentType, order.paymentType) && Objects.equals(description, order.description) && Objects.equals(userModified, order.userModified) && Objects.equals(last_modified_date, order.last_modified_date) && Objects.equals(userOrdered, order.userOrdered) && Objects.equals(confirmAt, order.confirmAt) && Objects.equals(confirmByUser, order.confirmByUser);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = Long.hashCode(id);
+		result = 31 * result + Objects.hashCode(createAt);
+		result = 31 * result + Objects.hashCode(customer);
+		result = 31 * result + Objects.hashCode(paymentType);
+		result = 31 * result + Objects.hashCode(description);
+		result = 31 * result + Objects.hashCode(userModified);
+		result = 31 * result + Objects.hashCode(last_modified_date);
+		result = 31 * result + Long.hashCode(totalPrice);
+		result = 31 * result + Objects.hashCode(userOrdered);
+		result = 31 * result + Boolean.hashCode(isConfirm);
+		result = 31 * result + Objects.hashCode(confirmAt);
+		result = 31 * result + Objects.hashCode(confirmByUser);
+		return result;
 	}
 }
