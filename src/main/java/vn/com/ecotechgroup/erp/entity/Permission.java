@@ -3,22 +3,20 @@ package vn.com.ecotechgroup.erp.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
 @Table(name = "permission", schema = "ecotechgroup_erp")
-@Data
+@Getter
+@Setter
 public class Permission implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -37,8 +35,9 @@ public class Permission implements Serializable {
 	private String description;
 
 	@ToString.Exclude
-	@ManyToMany(mappedBy = "listPermission")
-	private List<Role> roles = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	private List<Role> listRole = new ArrayList<>();
 
 	public Permission(String name, String description) {
 		super();
@@ -47,5 +46,22 @@ public class Permission implements Serializable {
 	}
 
 	public Permission() {
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Permission that = (Permission) o;
+		return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(description, that.description);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = Objects.hashCode(id);
+		result = 31 * result + Objects.hashCode(name);
+		result = 31 * result + Objects.hashCode(description);
+		return result;
 	}
 }
