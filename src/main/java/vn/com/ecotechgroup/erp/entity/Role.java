@@ -2,7 +2,9 @@ package vn.com.ecotechgroup.erp.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -43,15 +45,16 @@ public class Role implements Serializable {
 
 	@ToString.Exclude
 	@JsonBackReference
-	@ManyToMany(mappedBy = "listRole", cascade = { CascadeType.REFRESH,
-			CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST })
-	private List<User> users = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name = "user_role", schema = "ecotechgroup_erp",
+			joinColumns = @JoinColumn(name = "role_id"),
+			inverseJoinColumns = @JoinColumn(name = "user_id_au"))
+	private List<User> listUsers = new ArrayList<>();
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.REFRESH,
-			CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST })
 	@JsonBackReference
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
-	private List<Permission> listPermission = new ArrayList<>();
+	private Set<Permission> listPermission = new HashSet<>();
 
 	public Role(String name, String description) {
 		this.name = name;

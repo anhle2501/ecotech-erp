@@ -1,0 +1,78 @@
+<div th:fragment="role-detail">
+		<h3>Thông tin vai trò </h3>
+		<form th:action="@{|/admin/role/${id}|}" th:object="${role}"
+				method="POST">
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Tên vai trò*</span>
+				<input th:readonly="true" class="form-control" type="text" th:field="*{name}">
+			</div>
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Mô tả*</span>
+				<input th:readonly="true" class="form-control" type="text" th:field="*{description}">
+			</div>
+
+				  	  <button type="button" class="btn btn-secondary w-25"
+						th:onclick="@{|window.location.href='/admin/role/0/50'|}">Quay lại</button></span>
+		</form>
+	
+</div>
+
+
+<div th:fragment="new-role">
+		<h3>Thêm vai trò</h3>
+	
+		<form th:action="@{/admin/role/new-role}" th:object="${role}"
+				method="POST">
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Tên vai trò*</span>
+				<input class="form-control" type="text" th:field="*{name}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('name')}"
+					  th:errors="*{name}"></span>
+			</div>
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Ghi chú*</span>
+				<input class="form-control" type="text" th:field="*{description}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('name')}"
+					  th:errors="*{description}"></span>
+			</div>
+				  <br/>
+				  <button type="submit" class="btn btn-success w-25">Tạo</button> 
+				  	  <button type="button" class="btn btn-secondary w-25"
+						th:onclick="@{|window.location.href='/admin/role/0/50'|}">Quay lại</button></span>
+				
+		</form>
+		
+</div>
+
+<div th:fragment="update-role">
+		<h3>Cập nhật vai trò</h3>
+		<form th:action="@{|/admin/role/${id}|}" th:object="${role}"
+				method="POST">
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Tên vai trò*</span>
+				<input class="form-control" type="text" th:field="*{name}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('name')}"
+					  th:errors="*{name}"></span>
+			</div>
+
+			<div class="input-group mb-3">
+				<span class="input-group-text">Ghi chú*</span>
+				<input class="form-control" type="text" th:field="*{description}">
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('name')}"
+					  th:errors="*{description}"></span>
+			</div>
+
+				  <br/>
+				  <span class="">
+				  <button type="submit" class="btn btn-success w-25">Cập nhật</button> 
+				  <button type="button" class="btn btn-secondary w-25"
+						th:onclick="@{|window.location.href='/admin/role/0/50'|}">Quay lại</button></span>
+
+		</form>
+		
+</div>
