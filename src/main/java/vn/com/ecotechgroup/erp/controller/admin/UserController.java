@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import vn.com.ecotechgroup.erp.entity.Region;
+import vn.com.ecotechgroup.erp.entity.Role;
 import vn.com.ecotechgroup.erp.entity.User;
 import vn.com.ecotechgroup.erp.entity.dto.UserDTO;
 import vn.com.ecotechgroup.erp.repository.RegionRepository;
+import vn.com.ecotechgroup.erp.repository.RoleRepository;
 import vn.com.ecotechgroup.erp.service.UserService;
 
 @Controller
@@ -44,6 +46,9 @@ public class UserController {
 
 	@Autowired
 	private RegionRepository regionRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Autowired
 	public UserController(UserService userService) {
@@ -85,7 +90,6 @@ public class UserController {
 	public String showUser(@PathVariable("id") long id, Model model) {
 		Optional<UserDTO> userObj = Optional.ofNullable(userService.getOne((Long) id));
 		if (userObj.isPresent()) {
-			System.out.println(userObj);
 			model.addAttribute(NAME_ATTRIBUTE, userObj.get());
 			model.addAttribute("isDetail", true);
 			return RETURN_PAGE;
@@ -99,7 +103,9 @@ public class UserController {
 		Optional<UserDTO> userObj = Optional.ofNullable(userService.getOne(id));
 		if (userObj.isPresent()) {
 			List<Region> rl = regionRepository.findAll();
+			List<Role> rol = roleRepository.findAll();
 			model.addAttribute("regionList", rl);
+			model.addAttribute("roleLists", rol);
 			model.addAttribute(NAME_ATTRIBUTE, userObj.get());
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
@@ -114,6 +120,11 @@ public class UserController {
 							 Model model) {
 		if (errors.hasErrors()) {
 			model.addAttribute("isUpdate", true);
+			model.addAttribute("user", userDTO);
+			List<Region> rl = regionRepository.findAll();
+			List<Role> rol = roleRepository.findAll();
+			model.addAttribute("regionList", rl);
+			model.addAttribute("roleLists", rol);
 			return RETURN_PAGE;
 		} else {
 			userService.update(userDTO);

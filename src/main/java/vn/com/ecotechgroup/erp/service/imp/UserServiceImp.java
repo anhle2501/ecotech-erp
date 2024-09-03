@@ -1,6 +1,9 @@
 package vn.com.ecotechgroup.erp.service.imp;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +25,7 @@ import vn.com.ecotechgroup.erp.service.UserService;
 @Service
 public class UserServiceImp implements UserService {
 
+	private final RegionRepository regionRepository;
 	private UserRepository userRepo;
 	private PasswordEncoder passwordEncoder;
 	private RegionRepository regionRep;
@@ -30,14 +34,15 @@ public class UserServiceImp implements UserService {
 
 	@Autowired
 	public UserServiceImp(UserRepository userRepo, RoleRepository roleRepo,
-			PasswordEncoder passwordEncoder,
+						  PasswordEncoder passwordEncoder,
 						  RegionRepository regionRep,
-						  UserMapper userMapper) {
+						  UserMapper userMapper, RegionRepository regionRepository) {
 		this.userRepo = userRepo;
 		this.roleRepo = roleRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.regionRep = regionRep;
 		this.userMapper = userMapper;
+		this.regionRepository = regionRepository;
 	}
 
 	@Override
@@ -65,33 +70,24 @@ public class UserServiceImp implements UserService {
 		User oldUser = userRepo.findById(userDTO.getId())
 				.orElseThrow(() -> new IllegalArgumentException("User not found"));
 
+		// set list role
+		List<Region> regions = Optional.ofNullable(userDTO.getRegionsId()).orElseGet(ArrayList::new).stream()
+				.map(roleId -> regionRepository.findById(roleId)
+						.orElseThrow(() -> new IllegalArgumentException("Invalid role ID: " + roleId)))
+				.collect(Collectors.toList());
+		userDTO.setRegions(regions);
+
+		// set list role
+		List<Role> roles = Optional.ofNullable(userDTO.getListRoleId()).orElseGet(ArrayList::new).stream()
+				.map(ids -> roleRepo.findById(ids)
+						.orElseThrow(() -> new IllegalArgumentException("Invalid role ID: " + ids)))
+				.collect(Collectors.toList());
+		userDTO.setListRole(roles);
+
 		// Update user entity from DTO except for password
 		userMapper.updateUserFromDTO(userDTO, oldUser);
 
-		if (userDTO.getRegions() != null) {
-			oldUser.getRegions().removeIf(region ->
-					userDTO.getRegions().stream().noneMatch(r -> r.getId() == region.getId())
-			);
-
-			for (Region regionDTO : userDTO.getRegions()) {
-				Optional<Region> existingRegion = regionRep.findById(regionDTO.getId());
-				if (existingRegion.isPresent()) {
-					Region region = existingRegion.get();
-					if (!oldUser.getRegions().contains(region)) {
-						region.getUsers().add(oldUser);
-						oldUser.getRegions().add(region);
-					}
-				} else {
-					Region newRegion = new Region();
-					newRegion.setName(regionDTO.getName());
-					newRegion.setDescription(regionDTO.getDescription());
-					newRegion.getUsers().add(oldUser);
-					regionRep.save(newRegion);
-					oldUser.getRegions().add(newRegion);
-				}
-			}
-		}
-
+		// Set the converted list back to userDTO
 		User updatedUser = userRepo.save(oldUser);
 		return userMapper.userToUserDTO(updatedUser);
 	}

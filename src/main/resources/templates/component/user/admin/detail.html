@@ -154,11 +154,27 @@
 
 		<div class="input-group mb-3">
 			<span class="input-group-text">Danh sách vùng được phân: </span>
-			<select class="form-select region-select-search" id="regions" name="regions" multiple="multiple">
+			<span class="validationError input-group-text" th:if="${#fields.hasErrors('regionsId')}"
+				  th:errors="*{regionsId}"></span>
+			<select class="form-select region-select-search" id="regionsId" name="regionsId" multiple="multiple">
 				<!--                <option th:if="${region.customers.isEmpty() }" th:selected="true" th:value="-1" th:text="'Chưa cấp'"></option>-->
 				<option th:each="p : ${regionList}"
 						th:value="${p.id}" th:text="${p.name}"
 						th:selected="${#sets.contains(user.regions, p)}"
+				>
+				</option>
+			</select>
+		</div>
+
+		<div class="input-group mb-3">
+			<span class="input-group-text">Danh sách vai trò phân: </span>
+			<span class="validationError input-group-text" th:if="${#fields.hasErrors('listRole')}"
+				  th:errors="*{listRole}"></span>
+			<select class="form-select role-select-search" id="listRoleId" name="listRoleId" multiple="multiple">
+				<!--                <option th:if="${region.customers.isEmpty() }" th:selected="true" th:value="-1" th:text="'Chưa cấp'"></option>-->
+				<option th:each="rl : ${roleLists}"
+						th:value="${rl.id}" th:text="${rl.name}"
+						th:selected="${#sets.contains(user.listRole, rl)}"
 				>
 				</option>
 			</select>

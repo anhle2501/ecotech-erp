@@ -112,7 +112,8 @@ public class User implements UserDetails, Serializable{
 	private List<Customer> listCustomers;
 
 	@ToString.Exclude
-	@ManyToMany(mappedBy = "users", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinTable(schema = "ecotechgroup_erp",name = "region_user", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "region_id"))
 	private List<Region> regions;
 
 	@Override

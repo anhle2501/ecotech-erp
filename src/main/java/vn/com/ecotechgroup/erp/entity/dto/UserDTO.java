@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import vn.com.ecotechgroup.erp.entity.Region;
 import vn.com.ecotechgroup.erp.entity.Role;
 
-import java.util.List;
+import java.util.List;import java.util.Set;
 
 
 @AllArgsConstructor
@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 public class UserDTO {
 
-    private long id;
+    private Long id;
     @NotBlank(message = "Không để trống!")
     @Length(max = 45, message = "Ít hơn 45 ký tự!")
     private String userName;
@@ -32,7 +32,9 @@ public class UserDTO {
     private boolean nonExpired;
     private boolean nonLock;
     private boolean pwNonExpired;
+    private List<Long> listRoleId;
     private List<Role> listRole;
     private List<Region> regions;
+    private List<Long> regionsId;
 
 }
