@@ -35,14 +35,14 @@
 			<div class="" id="navbarColor01">
 				<ul class="navbar-nav bg-success mr-auto flex-container">
 					<!--<span class="sr-only">(current)</span>-->
-					<li class="nav-item"><a class="nav-link text-light" th:href="@{/admin/customer/0/50}">Khách hàng </a></li>
-					<li class="nav-item"><a class="nav-link text-light" th:href="@{/admin/order/0/50}">Đặt hàng </a></li>
-					<li class="nav-item"><a class="nav-link text-light" th:href="@{/admin/product/0/50}">Sản phẩm </a></li>
-					<li class="nav-item"><a class="nav-link text-light" th:href="@{/admin/payment-type/0/50}">PTTT</a></li>
-					<li class="nav-item"><a class="nav-link text-light " th:href="@{/admin/user/0/50}">Người dùng</a></li>
-					<li class="nav-item"><a class="nav-link text-light" th:href="@{/admin/region/0/50}">Phân vùng</a></li>
-					<li class="nav-item"><a class="nav-link text-light" th:href="@{/admin/role/0/50}">Vai trò</a></li>
-					<li class="nav-item"><a class="nav-link text-light" th:href="@{/admin/permission/0/50}">Quyền hạn</a></li>
+					<li sec:authorize="hasAuthority('customer:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/customer/0/50}">Khách hàng </a></li>
+					<li sec:authorize="hasAuthority('order:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/order/0/50}">Đặt hàng </a></li>
+					<li sec:authorize="hasAuthority('product:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/product/0/50}">Sản phẩm </a></li>
+					<li sec:authorize="hasAuthority('payment-type:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/payment-type/0/50}">PTTT</a></li>
+					<li sec:authorize="hasAuthority('user:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light " th:href="@{/admin/user/0/50}">Người dùng</a></li>
+					<li sec:authorize="hasAuthority('region:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/region/0/50}">Phân vùng</a></li>
+					<li sec:authorize="hasAuthority('role:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/role/0/50}">Vai trò</a></li>
+					<li sec:authorize="hasRole('ADMIN')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/permission/0/50}">Quyền hạn</a></li>
 				</ul>
 			</div>
 

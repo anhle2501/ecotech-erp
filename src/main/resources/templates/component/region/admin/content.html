@@ -1,4 +1,4 @@
-<div th:fragment="region">
+<div th:fragment="region" xmlns:sec="http://www.w3.org/1999/xhtml">
     <table class="table table-striped">
         <thead>
         <tr>
@@ -21,6 +21,7 @@
                     <button type="button" class="btn btn-secondary w-50" style="margin-right:-5px; height:60px"
                             th:onclick="window.history.back()">Quay lại</button>
                     <button type="button" class="btn btn-success w-50" style="margin-left:0px; height:60px"
+                            sec:authorize="hasAuthority('region:create') or hasRole('ADMIN')"
                             th:onclick="window.location.href='/admin/region/new-region'">Thêm</button>
 
                 </div>
@@ -36,9 +37,11 @@
                             th:onclick="@{|window.location.href='/admin/region/${c.id}/show'|}"
                             type="button" class="btn btn-info">Xem</button>
                     <button type="button"
+                            sec:authorize="hasAuthority('region:update') or hasRole('ADMIN')"
                             th:onclick="@{|window.location.href='/admin/region/${c.id}'|}"
                             class="btn btn-warning">Sửa</button>
                     <button
+                            sec:authorize="hasAuthority('region:delete') or hasRole('ADMIN')"
                             th:onclick="@{|window.location.href='/admin/region/delete/${c.id}'|}"
                             type="submit" class="btn btn-danger">Xoá</button>
                 </div>

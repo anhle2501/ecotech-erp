@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml">
 <div th:replace="~{component/head-tag::head-tag}"></div>
 <body>
 		<div th:replace="~{component/header :: header}"></div>
@@ -11,7 +11,7 @@
 								</div>
 						</div>
 						<div class="row">
-								<div class="col">
+								<div class="col" sec:authorize="hasAuthority('product:read') or hasRole('ADMIN')">
 								
 										<div th:if="${isList == true}">
 												<div th:replace="~{component/product/admin/content::product}"></div>

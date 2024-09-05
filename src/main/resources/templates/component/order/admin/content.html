@@ -1,4 +1,4 @@
-<div th:fragment="order">
+<div th:fragment="order" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 	<div class="overflow-auto w-100">
 
@@ -36,7 +36,8 @@
 								<button type="button" class="btn btn-secondary w-50"
 									style="margin-right:-5px; height:60px" th:onclick="window.history.back()">Quay
 									lại</button>
-								<button type="button" class="btn btn-success w-50" style="margin-left:0px; height:60px"
+								<button sec:authorize="hasAuthority('order:create') or hasRole('ADMIN')"
+										type="button" class="btn btn-success w-50" style="margin-left:0px; height:60px"
 									th:onclick="window.location.href='/admin/order/new-order'">Thêm</button>
 							</div>
 						</div>
@@ -72,13 +73,17 @@
 
 						<td>
 							<div class="btn-group" role="group" aria-label="Basic example">
-								<button th:if="${c.isConfirm != true}" th:onclick="@{|window.location.href='/admin/order/${c.id}/confirm'|}" type="button"
+								<button
+										sec:authorize="hasAuthority('order:update') or hasRole('ADMIN')"
+										th:if="${c.isConfirm != true}" th:onclick="@{|window.location.href='/admin/order/${c.id}/confirm'|}" type="button"
 									class="btn btn-success timer">Duyệt</button>
 								<button th:onclick="@{|window.location.href='/admin/order/${c.id}/show'|}" type="button"
 									class="btn btn-info">Xem</button>
 								<button type="button" th:onclick="@{|window.location.href='/admin/order/${c.id}'|}"
+										sec:authorize="hasAuthority('order:update') or hasRole('ADMIN')"
 									class="btn btn-warning">Sửa</button>
-								<button th:onclick="@{|window.location.href='/admin/order/delete/${c.id}'|}" type="submit"
+								<button sec:authorize="hasAuthority('order:delete') or hasRole('ADMIN')"
+										th:onclick="@{|window.location.href='/admin/order/delete/${c.id}'|}" type="submit"
 									class="btn btn-danger">Xoá</button>
 							</div>
 						</td>
