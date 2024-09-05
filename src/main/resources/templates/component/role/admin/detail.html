@@ -66,6 +66,70 @@
 				<span class="validationError input-group-text" th:if="${#fields.hasErrors('name')}"
 					  th:errors="*{description}"></span>
 			</div>
+			<div class="input-group mb-3">
+				<span class="input-group-text">Danh sách quyền hạn: </span>
+				<span class="validationError input-group-text" th:if="${#fields.hasErrors('listPermission')}"
+					  th:errors="*{listPermission}"></span>
+				<select class="form-select permission-select-search" id="listPermission" name="listPermission" multiple="multiple">
+<!--					                <option th:if="${region.customers.isEmpty() }" th:selected="true" th:value="-1" th:text="'Chưa cấp'"></option>-->
+					<option th:each="p : ${listPermissions}"
+							th:value="${p.id}" th:text="${p.description}"
+							th:selected="${#sets.contains(role.listPermission, p)}"
+					>
+					</option>
+
+<!--					<optgroup label="Quyền admin">-->
+<!--						<option th:each="perm : ${listPermissions}"-->
+<!--								th:if="${perm.name.startsWith('admin:')}"-->
+<!--								th:value="${perm.id}"-->
+<!--								th:text="${perm.description}">-->
+<!--						</option>-->
+<!--					</optgroup>-->
+<!--					<optgroup label="Quyền Người dùng">-->
+<!--						<option th:each="perm : ${listPermissions}"-->
+<!--								th:if="${!perm.name.startsWith('user:')}"-->
+<!--								th:value="${perm.id}"-->
+<!--								th:text="${perm.description}">-->
+<!--						</option>-->
+<!--					</optgroup>-->
+<!--					<optgroup label="Quyền Đặt hàng">-->
+<!--						<option th:each="perm : ${listPermissions}"-->
+<!--								th:if="${!perm.name.startsWith('order:')}"-->
+<!--								th:value="${perm.id}"-->
+<!--								th:text="${perm.description}">-->
+<!--						</option>-->
+<!--					</optgroup>-->
+<!--					<optgroup label="Quyền Sản phẩm">-->
+<!--						<option th:each="perm : ${listPermissions}"-->
+<!--								th:if="${!perm.name.startsWith('product:')}"-->
+<!--								th:value="${perm}"-->
+<!--								th:text="${perm}">-->
+<!--						</option>-->
+<!--					</optgroup>-->
+<!--					<optgroup label="Quyền Phân vùng">-->
+<!--						<option th:each="perm : ${listPermissions}"-->
+<!--								th:if="${!perm.name.startsWith('region:')}"-->
+<!--								th:value="${perm}"-->
+<!--								th:text="${perm}">-->
+<!--						</option>-->
+<!--					</optgroup>-->
+<!--					<optgroup label="Quyền Vai trò">-->
+<!--						<option th:each="perm : ${listPermissions}"-->
+<!--								th:if="${!perm.name.startsWith('role:')}"-->
+<!--								th:value="${perm}"-->
+<!--								th:text="${perm}">-->
+<!--						</option>-->
+<!--					</optgroup>-->
+<!--					<optgroup label="Quyền Quyền hạn">-->
+<!--						<option th:each="perm : ${listPermissions}"-->
+<!--								th:if="${!perm.name.startsWith('payment-type:')}"-->
+<!--								th:value="${perm}"-->
+<!--								th:text="${perm}">-->
+<!--						</option>-->
+<!--					</optgroup>-->
+<!--				</select>-->
+			</div>
+
 
 				  <br/>
 				  <span class="">

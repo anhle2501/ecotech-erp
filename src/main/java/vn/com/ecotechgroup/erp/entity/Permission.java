@@ -17,6 +17,7 @@ import lombok.ToString;
 @Table(name = "permission", schema = "ecotechgroup_erp")
 @Getter
 @Setter
+@ToString
 public class Permission implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -35,8 +36,8 @@ public class Permission implements Serializable {
 	private String description;
 
 	@ToString.Exclude
-	@ManyToMany
-	@JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	@ManyToMany(mappedBy = "listPermission")
+//	@JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private List<Role> listRole = new ArrayList<>();
 
 	public Permission(String name, String description) {

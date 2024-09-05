@@ -43,6 +43,15 @@ $(document).ready(function() {
 		theme: 'bootstrap-5'
 	});
 });
+
+$(document).ready(function() {
+	$('.permission-select-search').select2({
+		theme: 'bootstrap-5',
+		sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
+		closeOnSelect: false,
+		multiple: true
+	});
+});
 // add button new customer in new order
 
 	function handleAddButtonNewOrder(e){

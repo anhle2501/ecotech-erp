@@ -151,12 +151,13 @@ public class User implements UserDetails, Serializable{
 	}
 	
 
-	private List<GrantedAuthority> getGrantedAuthorities(
+	private Set<GrantedAuthority> getGrantedAuthorities(
 			List<String> permission) {
-		List<GrantedAuthority> authorities = new ArrayList<>();
+		Set<GrantedAuthority> authorities = new HashSet<>();
 		for (String privilege : permission) {
 			authorities.add(new SimpleGrantedAuthority(privilege));
 		}
+		System.out.println(authorities);
 		return authorities;
 	}
 

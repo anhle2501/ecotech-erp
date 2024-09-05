@@ -45,14 +45,14 @@ public class Role implements Serializable {
 
 	@ToString.Exclude
 	@JsonBackReference
-	@ManyToMany
-	@JoinTable(name = "user_role", schema = "ecotechgroup_erp",
-			joinColumns = @JoinColumn(name = "role_id"),
-			inverseJoinColumns = @JoinColumn(name = "user_id_au"))
+	@ManyToMany(mappedBy = "listRole")
+//	@JoinTable(name = "user_role", schema = "ecotechgroup_erp",
+//			joinColumns = @JoinColumn(name = "role_id"),
+//			inverseJoinColumns = @JoinColumn(name = "user_id_au"))
 	private List<User> listUsers = new ArrayList<>();
 
 	@JsonBackReference
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
 	@JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
 	private Set<Permission> listPermission = new HashSet<>();
 

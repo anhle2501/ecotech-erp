@@ -6,13 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import vn.com.ecotechgroup.erp.entity.Permission;
 import vn.com.ecotechgroup.erp.entity.Role;
+import vn.com.ecotechgroup.erp.repository.PermissionRepository;
 import vn.com.ecotechgroup.erp.repository.RoleRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -32,6 +36,9 @@ public class RoleController {
 	@Autowired
 	private RoleRepository roleRepo;
 
+	@Autowired
+	private PermissionRepository permissionRepository;
+
 	@ModelAttribute(name = NAME_ATTRIBUTE)
 	public Role role() {
 		return new Role();
@@ -46,10 +53,10 @@ public class RoleController {
 		Page<Role> roleList;
 		if (searchTerm != null) {
 			roleList = roleRepo.roleSearchList(
-					PageRequest.of(pageNumber, pageSize), searchTerm);
+					PageRequest.of(pageNumber, pageSize, Sort.by("name").descending()), searchTerm);
 		} else {
 			roleList = roleRepo.roleSearchList(
-					PageRequest.of(pageNumber, pageSize), "");
+					PageRequest.of(pageNumber, pageSize, Sort.by("name").descending()), "");
 		}
 		model.addAttribute(NAME_ATTRIBUTE, roleList);
 		model.addAttribute("isList", true);
@@ -63,7 +70,10 @@ public class RoleController {
 	public String showRole(@PathVariable("id") long id, Model model) {
 		Optional<Role> roleObj = roleRepo.findById(id);
 		if (roleObj.isPresent()) {
+			System.out.println(roleObj.get().toString());
+			List<Permission> permissionList = permissionRepository.findAll(Sort.by("name").descending());
 			model.addAttribute(NAME_ATTRIBUTE, roleObj.get());
+			model.addAttribute("listPermissions", permissionList);
 			model.addAttribute("isDetail", true);
 			return RETURN_PAGE;
 		} else {
@@ -76,8 +86,11 @@ public class RoleController {
 	public String getRole(@PathVariable("id") long id, Model model) {
 		Optional<Role> roleObj = roleRepo.findById(id);
 		if (roleObj.isPresent()) {
+			System.out.println(roleObj.get());
+			List<Permission> permissionList = permissionRepository.findAll(Sort.by("name").descending());
 			model.addAttribute(NAME_ATTRIBUTE, roleObj.get());
 			model.addAttribute("isUpdate", true);
+			model.addAttribute("listPermissions", permissionList);
 			return RETURN_PAGE;
 		} else {
 			return showRoleList(model, default_page, default_page_size,
@@ -91,6 +104,9 @@ public class RoleController {
 			Errors errors, Model model) {
 		System.out.println(role);
 		if (errors.hasErrors()) {
+			List<Permission> permissionList = permissionRepository.findAll(Sort.by("name").descending());
+			model.addAttribute(NAME_ATTRIBUTE, role);
+			model.addAttribute("permissionList", permissionList);
 			model.addAttribute("isUpdate", true);
 			return RETURN_PAGE;
 		} else {

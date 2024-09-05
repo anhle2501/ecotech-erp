@@ -74,8 +74,6 @@ public class SecurityConfig {
 		return username -> {
 			User user = userRepository.findByUserName(username);
 			if (user != null) {
-				System.out.println(user.getListRole());
-				System.out.println(user.getAuthorities());
 				return user;
 			}
 			throw new UsernameNotFoundException(
@@ -154,6 +152,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests()
 				.requestMatchers("/order/**", "/customer/**",
 						"/payment-type/**").hasAnyRole("ADMIN", "USER")
+
 				.requestMatchers("/admin/**").hasRole("ADMIN")
 
 				.requestMatchers("/", "/register", "/js/**", "/css/**",
