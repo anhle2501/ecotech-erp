@@ -39,7 +39,7 @@ public class Order implements Serializable {
 	@CreatedDate // phai dung jpa auditing
 	private LocalDateTime createAt;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, targetEntity = OrderProduct.class, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, targetEntity = OrderProduct.class, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference
 	private List<OrderProduct> orderProduct = new ArrayList<>();
 

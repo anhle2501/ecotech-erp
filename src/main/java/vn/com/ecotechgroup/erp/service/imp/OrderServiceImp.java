@@ -142,8 +142,9 @@ public class OrderServiceImp implements OrderService, UiService {
 	@Override
 	public void removeProduct(Order order, long productId) {
 		// cascade delete dont have so need to delete 2 time at 2 place
+		order.getOrderProduct().stream().filter(e -> e.getId() != productId);
 		order.removeProduct(productId);
-		orderProductRepo.deleteById(productId);
+//		orderProductRepo.saveAll(order.getOrderProduct());
 		save(order);
 	}
 

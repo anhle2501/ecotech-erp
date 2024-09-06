@@ -153,7 +153,10 @@ public class SecurityConfig {
 				.requestMatchers("/order/**", "/customer/**",
 						"/payment-type/**").hasAnyRole("ADMIN", "USER")
 
-				.requestMatchers("/admin/**").hasRole("ADMIN")
+				.requestMatchers("/admin/**").hasAnyAuthority(
+						"admin:read", "order:read", "customer:read", "payment-type:read",
+						"role:read", "region:read", "product:read", "user:read"
+				)
 
 				.requestMatchers("/", "/register", "/js/**", "/css/**",
 						"/asset/**", "/index", "/error").permitAll()

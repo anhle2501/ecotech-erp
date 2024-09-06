@@ -22,7 +22,7 @@
 		</nav>
 	</div>
 
-	<div sec:authorize="hasRole('ADMIN')">
+	<div sec:authorize="hasRole('ADMIN') or hasAuthority('admin:read')">
 		<nav th:fragment="navbar" class="navbar navbar-expand-lg bg-success">
 			<a class="navbar-brand text-light" th:href="@{/}">Admin</a>
 			<!-- 		<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -35,13 +35,13 @@
 			<div class="" id="navbarColor01">
 				<ul class="navbar-nav bg-success mr-auto flex-container">
 					<!--<span class="sr-only">(current)</span>-->
-					<li sec:authorize="hasAuthority('customer:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/customer/0/50}">Khách hàng </a></li>
-					<li sec:authorize="hasAuthority('order:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/order/0/50}">Đặt hàng </a></li>
-					<li sec:authorize="hasAuthority('product:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/product/0/50}">Sản phẩm </a></li>
-					<li sec:authorize="hasAuthority('payment-type:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/payment-type/0/50}">PTTT</a></li>
-					<li sec:authorize="hasAuthority('user:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light " th:href="@{/admin/user/0/50}">Người dùng</a></li>
-					<li sec:authorize="hasAuthority('region:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/region/0/50}">Phân vùng</a></li>
-					<li sec:authorize="hasAuthority('role:read') or hasAuthority('admin:read')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/role/0/50}">Vai trò</a></li>
+					<li sec:authorize="(hasAuthority('customer:read') and hasAuthority('admin:read')) or hasRole('ADMIN')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/customer/0/50}">Khách hàng </a></li>
+					<li sec:authorize="(hasAuthority('order:read') and hasAuthority('admin:read')) or hasRole('ADMIN')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/order/0/50}">Đặt hàng </a></li>
+					<li sec:authorize="(hasAuthority('product:read') and hasAuthority('admin:read')) or hasRole('ADMIN')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/product/0/50}">Sản phẩm </a></li>
+					<li sec:authorize="(hasAuthority('payment-type:read') and hasAuthority('admin:read')) or hasRole('ADMIN')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/payment-type/0/50}">PTTT</a></li>
+					<li sec:authorize="(hasAuthority('user:read') and hasAuthority('admin:read')) or hasRole('ADMIN')" class="nav-item"><a class="nav-link text-light " th:href="@{/admin/user/0/50}">Người dùng</a></li>
+					<li sec:authorize="(hasAuthority('region:read') and hasAuthority('admin:read')) or hasRole('ADMIN')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/region/0/50}">Phân vùng</a></li>
+					<li sec:authorize="(hasAuthority('role:read') and hasAuthority('admin:read')) or hasRole('ADMIN')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/role/0/50}">Vai trò</a></li>
 					<li sec:authorize="hasRole('ADMIN')" class="nav-item"><a class="nav-link text-light" th:href="@{/admin/permission/0/50}">Quyền hạn</a></li>
 				</ul>
 			</div>
