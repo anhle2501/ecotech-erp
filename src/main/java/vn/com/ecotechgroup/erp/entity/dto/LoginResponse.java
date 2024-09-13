@@ -14,6 +14,6 @@ public class LoginResponse {
 	
 	@NotNull
 	private String accessToken;
-//	@NotNull
-//	private String refreshToken;
+	@NotNull
+	private String refreshToken;
 }

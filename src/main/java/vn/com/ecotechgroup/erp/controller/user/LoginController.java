@@ -37,7 +37,7 @@ public class LoginController {
 		// Xác thực từ username và password.
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(
-						loginRequest.getUserName(),
+						loginRequest.getUsername(),
 						loginRequest.getPassword()));
 
 		// Nếu không xảy ra exception tức là thông tin hợp lệ
