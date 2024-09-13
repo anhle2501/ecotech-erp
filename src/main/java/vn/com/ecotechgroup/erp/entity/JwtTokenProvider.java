@@ -27,7 +27,8 @@ public class JwtTokenProvider {
 	// Thời gian có hiệu lực của chuỗi jwt
 	private static final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 15; // 15
 																		// minutes
-	private static final long REFRESH_TOKEN_EXPIRATION = 1000 * 60 * 60 * 24 * 7; // 7 days
+	private static final long REFRESH_TOKEN_EXPIRATION = 1000 * 60 * 60 * 24
+			* 7; // 7 days
 
 	@Autowired
 	public UserDetailsService userService;
@@ -59,6 +60,7 @@ public class JwtTokenProvider {
 	}
 
 	public boolean isAccessTokenExpired(String token) {
+		System.out.println("isAccessTokenExpired");
 		return isTokenExpired(token);
 	}
 
@@ -76,7 +78,6 @@ public class JwtTokenProvider {
 
 	public String generateToken(User user, long expiration) {
 		Map<String, Object> claims = new HashMap<>();
-		claims.put("permissions", user.getPermissionsOnly(user.getListRole()));
 		return createToken(claims, user.getUsername(), expiration);
 	}
 

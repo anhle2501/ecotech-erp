@@ -86,10 +86,10 @@ public class User implements UserDetails, Serializable{
 	@Column(insertable = false)
 	private boolean enable;
 
-//	@JsonIgnore
-//	@Column(insertable = false)
-//	private String accessToken;
-//	
+	@JsonIgnore
+	@Column(insertable = false)
+	private String accessToken;
+
 //	@JsonIgnore
 //	@Column(insertable = false)
 //	private String refreshToken;
@@ -135,21 +135,6 @@ public class User implements UserDetails, Serializable{
 		}
 		return permission;
 	}
-	
-	public List<String> getPermissionsOnly(List<Role> roles) {
-
-		List<String> permission = new ArrayList<>();
-		List<Permission> collection = new ArrayList<>();
-
-		for (Role role : roles) {
-			collection.addAll(role.getListPermission());
-		}
-		for (Permission item : collection) {
-			permission.add(item.getName());
-		}
-		return permission;
-	}
-	
 
 	private Set<GrantedAuthority> getGrantedAuthorities(
 			List<String> permission) {
