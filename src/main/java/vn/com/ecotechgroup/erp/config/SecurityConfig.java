@@ -74,6 +74,7 @@ public class SecurityConfig {
 		return username -> {
 			User user = userRepository.findByUserName(username);
 			if (user != null) {
+				System.out.println(user);
 				return user;
 			}
 			throw new UsernameNotFoundException(
@@ -153,10 +154,7 @@ public class SecurityConfig {
 				.requestMatchers("/order/**", "/customer/**",
 						"/payment-type/**").hasAnyRole("ADMIN", "USER")
 
-				.requestMatchers("/admin/**").hasAnyAuthority(
-						"admin:read", "order:read", "customer:read", "payment-type:read",
-						"role:read", "region:read", "product:read", "user:read"
-				)
+				.requestMatchers("/admin/**").hasAnyAuthority("admin:read", "order:read", "customer:read", "payment-type:read", "role:read", "region:read", "product:read", "user:read", "ROLE_ADMIN")
 
 				.requestMatchers("/", "/register", "/js/**", "/css/**",
 						"/asset/**", "/index", "/error").permitAll()
