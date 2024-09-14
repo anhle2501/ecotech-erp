@@ -74,7 +74,7 @@
 						<td>
 							<div class="btn-group" role="group" aria-label="Basic example">
 								<button
-										sec:authorize="hasAuthority('order:update') or hasRole('ADMIN')"
+										sec:authorize="hasAuthority('order:confirm') or hasRole('ADMIN')"
 										th:if="${c.isConfirm != true}" th:onclick="@{|window.location.href='/admin/order/${c.id}/confirm'|}" type="button"
 									class="btn btn-success timer">Duyệt</button>
 								<button th:onclick="@{|window.location.href='/admin/order/${c.id}/show'|}" type="button"

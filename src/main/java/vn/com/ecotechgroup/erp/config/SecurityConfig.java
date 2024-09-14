@@ -153,6 +153,8 @@ public class SecurityConfig {
 				.authorizeHttpRequests()
 				.requestMatchers("/order/**", "/customer/**",
 						"/payment-type/**").hasAnyRole("ADMIN", "USER")
+				// Define permission for confirmation
+				.requestMatchers("/admin/order/*/confirm").hasAuthority("order:confirm")
 
 				.requestMatchers("/admin/**").hasAnyAuthority("admin:read", "order:read", "customer:read", "payment-type:read", "role:read", "region:read", "product:read", "user:read", "ROLE_ADMIN")
 

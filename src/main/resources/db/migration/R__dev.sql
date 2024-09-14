@@ -17,3 +17,9 @@ DO $$
         END IF;
     END;
 $$;
+
+INSERT INTO ecotechgroup_erp.permission(name, description)
+SELECT 'order:confirm', 'Đặt hàng - duyệt đơn'
+    WHERE NOT EXISTS (
+    SELECT 1 FROM ecotechgroup_erp.permission WHERE name = 'order:confirm'
+);

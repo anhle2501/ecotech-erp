@@ -215,7 +215,7 @@
 
 		</div>
 
-<div th:fragment="update-order">
+<div th:fragment="update-order" xmlns:sec="http://www.w3.org/1999/xhtml">
 	
 				<form th:action="@{  ${id} ? '/admin/order/' + ${id} : '/admin/order' }" method="POST" th:object="${order}">
 				<h3 class="d-inline">Cập nhật đơn hàng</h3><span th:class="${ (order.isConfirm == true ) ? 'badge text-bg-success m-2 ' : 'badge text-bg-secondary m-2 '}" th:text="${ (order.isConfirm == true) ? 'Đã duyệt' : 'Chưa duyệt'} "> </span>
@@ -355,7 +355,7 @@
 								</div>
 
 						</div>
-						<div class="form-check form-switch">
+						<div class="form-check form-switch" sec:authorize="hasAuthority('order:confirm') or hasRole('ADMIN')">
 						  <input th:class="${ (order.isConfirm == true) ? 'form-check-input disabled': 'form-check-input'}" type="checkbox" role="switch" id="flexSwitchCheckDefault" th:field="${order.isConfirm}" value="${order.isConfirm}">
 						  <label class="form-check-label" for="flexSwitchCheckDefault">Phê duyệt</label>
 						</div>

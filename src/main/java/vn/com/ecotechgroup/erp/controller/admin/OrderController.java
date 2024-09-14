@@ -7,17 +7,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
 import jakarta.transaction.Transactional;
@@ -188,7 +184,7 @@ public class OrderController {
 
 			// if confirm update user who conform
 			if (order.getIsConfirm() == true) {
-				orderService.confirmOrder(order.getId(), user);
+				confirmOrderWrapper(order.getId(), user);
 			} else {
 				orderService.save(order);
 			}
@@ -196,6 +192,12 @@ public class OrderController {
 			return showOrderList(model, default_page, default_page_size, null);
 		}
 	}
+
+	@PreAuthorize("hasAuthority('order:confirm')")
+	private void confirmOrderWrapper(long order, User user) {
+		orderService.confirmOrder(order, user);
+	}
+
 
 	@Autowired
 	private OrderProductRepository opRep;
@@ -284,9 +286,11 @@ public class OrderController {
 		return showOrderList(model, default_page, default_page_size, null);
 	}
 
+	@PreAuthorize("hasAuthority('order:confirm')")
 	@GetMapping("/{id}/confirm")
 	public String confirmOrder(Model model, @PathVariable("id") long id,
 			@AuthenticationPrincipal User user) {
+		if (user == null) return "redirect:/login";
 		orderService.confirmOrder(id, user);
 		model.addAttribute("isList", true);
 		return showOrderList(model, default_page, default_page_size, null);
