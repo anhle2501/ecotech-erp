@@ -41,7 +41,7 @@ public class UserTest {
 
 	@Test
 	void get_info_attribute() {
-		assertThat(user.getUsername()).isEqualTo("nhutanh");
+		assertThat(user.getUsername()).isEqualTo("nhutanh99");
 		assertThat(user.getDescription()).isEqualTo("mô tả");
 		assertThat(user.getMobilePhone()).isEqualTo("12345678");
 		assertThat(user.getLastName()).isEqualTo("anh");
