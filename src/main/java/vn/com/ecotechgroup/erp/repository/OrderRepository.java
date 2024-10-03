@@ -29,20 +29,25 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 //		+ "GROUP BY o.id ;"
 //		, nativeQuery = true )
 
-@Query("SELECT o FROM Order o " +
-		"LEFT JOIN o.orderProduct oo " +
-		"LEFT JOIN oo.product op " +
-		"WHERE (:searchTerm is null OR :searchTerm = '' )" +
-		"OR LOWER(o.description) LIKE %:searchTerm%  " +
-		"OR LOWER(o.customer.code) LIKE %:searchTerm% " +
-		"OR LOWER(o.customer.name) LIKE %:searchTerm% " +
-		"OR LOWER(o.paymentType.name) LIKE %:searchTerm% " +
-		"OR oo is null " +
-		"OR (oo is not null and LOWER(op.name) LIKE %:searchTerm% )" +
-		"OR (oo is not null and LOWER(op.code) LIKE %:searchTerm% )" +
-		"OR LOWER(o.userOrdered.userName) LIKE %:searchTerm% " +
-		"OR LOWER(o.userOrdered.fullName) LIKE %:searchTerm% "
-		)
+	@Query("SELECT DISTINCT o FROM Order o " +
+			"LEFT JOIN o.customer oc "+
+			"LEFT JOIN o.userOrdered uso "+
+			"LEFT JOIN o.orderProduct oo " +
+			"LEFT JOIN oo.product op " +
+			"WHERE (:searchTerm IS NULL OR :searchTerm = '') " +
+			"OR LOWER(o.description) LIKE CONCAT('%', :searchTerm, '%') " +
+			"OR LOWER(o.customer.code) LIKE CONCAT('%', :searchTerm, '%') " +
+			"OR LOWER(o.customer.name) LIKE CONCAT('%', :searchTerm, '%') " +
+			"OR LOWER(o.paymentType.name) LIKE CONCAT('%', :searchTerm, '%') " +
+			"OR LOWER(o.userOrdered.userName) LIKE CONCAT('%', :searchTerm, '%') " +
+			"OR LOWER(o.userOrdered.fullName) LIKE CONCAT('%', :searchTerm, '%')" +
+			"OR oo IS NULL " +
+			"OR EXISTS (SELECT 1 FROM OrderProduct oo2 " +
+				"JOIN oo2.product op2 " +
+				"WHERE oo2 MEMBER OF o.orderProduct " +
+				"AND (LOWER(op2.name) LIKE CONCAT('%', :searchTerm, '%') " +
+				"OR LOWER(op2.code) LIKE CONCAT('%', :searchTerm, '%')))")
+
 	Page<Order> orderSearchList(Pageable pageable,
 			@Param("searchTerm") String searchTerm);
 
@@ -66,6 +71,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 //			)
 
 	@Query("SELECT o FROM Order o " + "LEFT JOIN o.userOrdered ou "
+			+ "LEFT JOIN o.customer oc "
+			+ "LEFT JOIN o.userOrdered uso "
 			+ "LEFT JOIN o.orderProduct oo "
 			+ "LEFT JOIN oo.product op "
 			+ "WHERE o.userOrdered.id = :user_id " + "AND "
