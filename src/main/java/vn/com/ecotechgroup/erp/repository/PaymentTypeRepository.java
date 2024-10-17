@@ -15,8 +15,8 @@ public interface PaymentTypeRepository
 
 	@Query("SELECT p FROM PaymentType p WHERE " +
 			"( :searchTerm IS NULL OR :searchTerm = '' " +
-			"OR p.name LIKE %:searchTerm% " +
-			"OR p.description LIKE %:searchTerm% )")
+			"OR lower(p.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+			"OR lower(p.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')) )")
 	Page<PaymentType> paymentTypeSearchList(Pageable pageable,
 			@Param("searchTerm") String searchTerm);
 

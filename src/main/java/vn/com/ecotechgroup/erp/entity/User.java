@@ -28,6 +28,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import vn.com.ecotechgroup.erp.annotation.UniqueField;
+
+import vn.com.ecotechgroup.erp.repository.UserRepository;
 
 import static java.util.Collections.sort;
 
@@ -48,6 +51,7 @@ public class User implements UserDetails, Serializable{
 	private long id;
 
 	@Column(length = 45, unique = true, nullable = false)
+	@UniqueField(repository = UserRepository.class, fieldName = "userName")
 	@NotBlank(message = "Không để trống!")
 	@Length(max = 45, message = "Ít hơn 45 ký tự!")
 	private String userName;

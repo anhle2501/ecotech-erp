@@ -13,12 +13,14 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+	boolean existsByUserName(String code);
+
 	User findByUserName(String username);
 
 	@Query("SELECT u FROM User u " + "WHERE u.userName LIKE %:searchTerm% "
-			+ "OR u.fullName LIKE %:searchTerm% "
-			+ "OR u.mobilePhone LIKE %:searchTerm% "
-			+ "OR u.description LIKE %:searchTerm% " + "order by :orderBy")
+			+ "OR lower(u.fullName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
+			+ "OR lower(u.mobilePhone) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
+			+ "OR lower(u.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " + "order by :orderBy")
 	Page<User> userSearchList(Pageable pageable, String searchTerm,
 			String orderBy);
 

@@ -2,7 +2,10 @@ package vn.com.ecotechgroup.erp.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
+
+import vn.com.ecotechgroup.erp.annotation.UniqueField;
+
+import vn.com.ecotechgroup.erp.repository.RegionRepository;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -25,6 +28,7 @@ public class Region implements Comparable<Region> {
     private long id;
 
     @Column(length = 50, nullable = false, unique = true)
+    @UniqueField(repository = RegionRepository.class, fieldName = "name")
     private String name;
 
     @Column(length = 1000)

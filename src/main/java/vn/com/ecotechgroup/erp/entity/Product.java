@@ -3,20 +3,15 @@ package vn.com.ecotechgroup.erp.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Pattern;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import vn.com.ecotechgroup.erp.annotation.UniqueField;
 import vn.com.ecotechgroup.erp.audit.AuditableData;
+import vn.com.ecotechgroup.erp.repository.ProductRepository;
 
 //@EntityListeners(AuditingEntityListener.class)
 @Data
@@ -36,11 +31,13 @@ public class Product extends AuditableData implements Serializable {
 
 	@Column(length = 100, unique = true)
 	@Size(max = 100, message = "Độ dài quá 45 ký tự !")
+	@UniqueField(repository = ProductRepository.class, fieldName = "code")
 //	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Mã có định dạng liên tục !")
 	private String code;
 
 	@Size(min = 5, max = 500, message = "Độ dài từ 5-100 ký tự !")
 	@Column(length = 500, unique = true)
+	@UniqueField(repository = ProductRepository.class, fieldName = "name")
 	private String name;
 
 	@Column(length = 1000)

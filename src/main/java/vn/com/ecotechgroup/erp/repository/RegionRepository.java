@@ -13,9 +13,10 @@ import vn.com.ecotechgroup.erp.entity.Region;
 @Repository
 public interface RegionRepository extends JpaRepository<Region, Long> {
 
+    boolean existsByName(String code);
     // for admin page
-    @Query("SELECT r FROM Region r " + "WHERE r.name LIKE %:searchTerm% "
-            + "OR r.description LIKE %:searchTerm% ")
+    @Query("SELECT r FROM Region r " + "WHERE lower(r.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
+            + "OR lower(r.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')) ")
     Page<Region> regionSearchList(Pageable pageable,
                                             @Param("searchTerm") String searchTerm);
 

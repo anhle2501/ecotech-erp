@@ -10,7 +10,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import vn.com.ecotechgroup.erp.annotation.UniqueField;
 import vn.com.ecotechgroup.erp.audit.AuditableData;
+import vn.com.ecotechgroup.erp.repository.CustomerRepository;
 
 @Builder
 @NoArgsConstructor
@@ -31,9 +33,11 @@ public class Customer extends AuditableData implements Serializable {
 	@Size(max = 45, message = "Độ dài quá 45 ký tự !")
 //	@Pattern(regexp = "(\\b(\\w)+\\b)", message = "Mã có định dạng liên tục !")
 	@Column(length = 45, unique = true, updatable = false, nullable = false)
+	@UniqueField(repository = CustomerRepository.class, fieldName = "code")
 	private String code;
 
 	@NotBlank(message = "Không được để trống !")
+	@UniqueField(repository = CustomerRepository.class, fieldName = "name")
 	@Size(min = 5, max = 200, message = "Độ dài từ 5-200 ký tự !")
 	@Column(length = 200, unique = true)
 	private String name;

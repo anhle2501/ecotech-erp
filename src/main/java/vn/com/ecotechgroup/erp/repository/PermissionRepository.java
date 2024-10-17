@@ -23,8 +23,8 @@ public interface PermissionRepository extends JpaRepository<Permission, Long> {
 
 	@Query("SELECT p FROM Permission p WHERE " +
 			"( :searchTerm IS NULL OR :searchTerm = '' " +
-			"OR p.name LIKE %:searchTerm% " +
-			"OR p.description LIKE %:searchTerm% )")
+			"OR lower(p.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))" +
+			"OR lower(p.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')) )")
 	Page<Permission> permissionSearchList(Pageable pageable,
 							  @Param("searchTerm") String searchTerm);
 }

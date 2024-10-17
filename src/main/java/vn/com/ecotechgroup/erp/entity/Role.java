@@ -23,6 +23,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.ToString;
+import vn.com.ecotechgroup.erp.annotation.UniqueField;
+
+import vn.com.ecotechgroup.erp.repository.RoleRepository;
 
 @Entity
 @Table(name = "role", schema = "ecotechgroup_erp")
@@ -37,6 +40,7 @@ public class Role implements Serializable {
 
 	@Column(length = 45, unique = true, nullable = false)
 	@NotBlank(message = "Không được để trống !")
+	@UniqueField(repository = RoleRepository.class, fieldName = "name")
 	private String name;
 
 	@Column(length = 1000)
