@@ -28,7 +28,7 @@ public class Region implements Comparable<Region> {
     private long id;
 
     @Column(length = 50, nullable = false, unique = true)
-    @UniqueField(repository = RegionRepository.class, fieldName = "name")
+//    @UniqueField(repository = RegionRepository.class, fieldName = "name")
     private String name;
 
     @Column(length = 1000)
