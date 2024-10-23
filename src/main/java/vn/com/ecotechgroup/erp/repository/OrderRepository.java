@@ -35,18 +35,18 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 			"LEFT JOIN o.orderProduct oo " +
 			"LEFT JOIN oo.product op " +
 			"WHERE (:searchTerm IS NULL OR :searchTerm = '') " +
-			"OR LOWER(o.description) LIKE CONCAT('%', :searchTerm, '%') " +
-			"OR LOWER(o.customer.code) LIKE CONCAT('%', :searchTerm, '%') " +
-			"OR LOWER(o.customer.name) LIKE CONCAT('%', :searchTerm, '%') " +
-			"OR LOWER(o.paymentType.name) LIKE CONCAT('%', :searchTerm, '%') " +
-			"OR LOWER(o.userOrdered.userName) LIKE CONCAT('%', :searchTerm, '%') " +
-			"OR LOWER(o.userOrdered.fullName) LIKE CONCAT('%', :searchTerm, '%')" +
+			"OR LOWER(o.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+			"OR LOWER(o.customer.code) LIKE LOWER(CONCAT('%', :searchTerm, '%'))  " +
+			"OR LOWER(o.customer.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))  " +
+			"OR LOWER(o.paymentType.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))  " +
+			"OR LOWER(o.userOrdered.userName) LIKE LOWER(CONCAT('%', :searchTerm, '%'))  " +
+			"OR LOWER(o.userOrdered.fullName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
 			"OR oo IS NULL " +
 			"OR EXISTS (SELECT 1 FROM OrderProduct oo2 " +
 				"JOIN oo2.product op2 " +
 				"WHERE oo2 MEMBER OF o.orderProduct " +
-				"AND (LOWER(op2.name) LIKE CONCAT('%', :searchTerm, '%') " +
-				"OR LOWER(op2.code) LIKE CONCAT('%', :searchTerm, '%')))")
+				"AND (LOWER(op2.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+				"OR LOWER(op2.code) LIKE LOWER(CONCAT('%', :searchTerm, '%'))))")
 
 	Page<Order> orderSearchList(Pageable pageable,
 			@Param("searchTerm") String searchTerm);
@@ -77,14 +77,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 			+ "LEFT JOIN oo.product op "
 			+ "WHERE o.userOrdered.id = :user_id " + "AND "
 			+ "( :searchTerm is null " + "OR :searchTerm = '' "
-			+ "OR LOWER(o.description) LIKE %:searchTerm%  "
-			+ "OR LOWER(o.customer.name) LIKE %:searchTerm% "
-			+ "OR LOWER(o.paymentType.name) LIKE %:searchTerm% "
+			+ "OR LOWER(o.description) LIKE LOWER(CONCAT('%', :searchTerm, '%'))   "
+			+ "OR LOWER(o.customer.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))  "
+			+ "OR LOWER(o.paymentType.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))  "
 			+ "OR oo is null " +
-			"OR (oo is not null and LOWER(op.name) LIKE %:searchTerm% )"
-			+ "OR (oo is not null and LOWER(op.code) LIKE %:searchTerm% )"
-			+ "OR LOWER(o.userOrdered.userName) LIKE %:searchTerm% "
-			+ "OR LOWER(o.userOrdered.fullName) LIKE %:searchTerm% "
+			"OR (oo is not null and LOWER(op.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))  )"
+			+ "OR (oo is not null and LOWER(op.code) LIKE LOWER(CONCAT('%', :searchTerm, '%'))  )"
+			+ "OR LOWER(o.userOrdered.userName) LIKE LOWER(CONCAT('%', :searchTerm, '%'))  "
+			+ "OR LOWER(o.userOrdered.fullName) LIKE LOWER(CONCAT('%', :searchTerm, '%'))  "
 			+ ")")
 	Page<Order> orderSearchListUser(Pageable pageable,
 			@Param("user_id") Long user_id,

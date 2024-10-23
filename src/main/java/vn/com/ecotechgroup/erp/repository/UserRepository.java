@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	User findByUserName(String username);
 
-	@Query("SELECT u FROM User u " + "WHERE u.userName LIKE %:searchTerm% "
+	@Query("SELECT u FROM User u " + "WHERE lower(u.userName) LIKE LOWER(CONCAT('%', :searchTerm, '%'))  "
 			+ "OR lower(u.fullName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
 			+ "OR lower(u.mobilePhone) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
 			+ "OR lower(u.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " + "order by :orderBy")

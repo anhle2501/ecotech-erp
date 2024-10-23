@@ -24,7 +24,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	List<Customer> getCustomerByCreatedByOrderByName(User user);
 
 	@Query("SELECT c FROM Customer c " + "INNER JOIN c.createdBy cc " + "WHERE "
-			+ "(:searchTerm is null " + "OR lower(c.name) LIKE %:searchTerm% "
+			+ "(:searchTerm is null " + "OR lower(c.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
 			+ "OR lower(c.code) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
 			+ "OR lower(c.address) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
 			+ "OR c.phone LIKE LOWER(CONCAT('%', :searchTerm, '%'))"
